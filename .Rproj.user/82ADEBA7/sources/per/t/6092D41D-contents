@@ -1,0 +1,16 @@
+Package: ChangepointDetection
+Type: Package
+Title: Multivariate Changepoint Detection using MKWP and DWBS algorithms
+Version: 0.1.0
+Author: Adeeb Rouhani. Kelly Ramsay
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports: Rcpp (>= 1.0.12)
+LinkingTo: Rcpp, RcppArmadillo
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

@@ -1,0 +1,62 @@
+[
+    {
+        "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+        "file_last_write": 1718819717.0,
+        "definitions": [
+            {
+                "usr": "c:@F@mySeq#i#i#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "mySeq(unsigned int, unsigned int)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 16,
+                "column": 12
+            },
+            {
+                "usr": "c:@F@cost_cpp#i#i#$@N@arma@S@Row>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "cost_cpp(unsigned int, unsigned int, arma::rowvec)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 30,
+                "column": 8
+            },
+            {
+                "usr": "c:@F@updateR#$@N@arma@S@Col>#I#$@N@arma@S@Row>#d#d#d#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "updateR(arma::uvec, arma::rowvec, double, double, double, double)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 78,
+                "column": 12
+            },
+            {
+                "usr": "c:@F@PELT#$@N@arma@S@Row>#d#I#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "PELT(arma::rowvec, int, double, double)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 110,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@getOnes#$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "getOnes(arma::mat)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 185,
+                "column": 5
+            },
+            {
+                "usr": "c:@F@PELT_NL#$@N@arma@S@Row>#d#I#d#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "PELT_NL(arma::rowvec, int, double, int)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 197,
+                "column": 11
+            }
+        ]
+    }
+]

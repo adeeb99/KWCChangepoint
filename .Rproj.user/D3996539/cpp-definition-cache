@@ -1,0 +1,62 @@
+[
+    {
+        "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+        "file_last_write": 1718819717.0,
+        "definitions": [
+            {
+                "usr": "c:@F@mySeq#i#i#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "mySeq(unsigned int, unsigned int)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 16,
+                "column": 12
+            },
+            {
+                "usr": "c:@F@cost_cpp#i#i#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "cost_cpp(unsigned int, unsigned int, int)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 30,
+                "column": 8
+            },
+            {
+                "usr": "c:@F@updateR#I#I#d#d#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "updateR(int, int, double, double, double, double)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 78,
+                "column": 12
+            },
+            {
+                "usr": "c:@F@PELT#I#I#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "PELT(int, int, double, double)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 110,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@getOnes#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "getOnes(int)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 185,
+                "column": 5
+            },
+            {
+                "usr": "c:@F@PELT_NL#I#I#d#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "PELT_NL(int, int, double, int)",
+                "file": "C:/Users/Adeeb Rouhani/Documents/ChangepointDetection/src/PELT_CPP.cpp",
+                "line": 197,
+                "column": 11
+            }
+        ]
+    }
+]

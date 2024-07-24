@@ -1,0 +1,9 @@
+{
+    "args": [
+        "-nostdinc"
+    ],
+    "pch": "RcppArmadillo",
+    "is_cpp": true,
+    "hash": "1720634915",
+    "compiler": "14695981039346656037"
+}
