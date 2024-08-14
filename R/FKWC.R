@@ -42,7 +42,7 @@ RPDd=function(data,derivs){
 #fundata_test = fda.usc::fdata(data_test$mdata,data_test$argvals)
 
 
-FuncDataDepth = function(funcdata,
+FKWC = function(funcdata,
                          warpF=F,
                          warp_all=F,
                          warp_sigma=1,
@@ -58,7 +58,7 @@ FuncDataDepth = function(funcdata,
          'FM_depth_d', or 'RPD_depth_d' ")
   }
 
-  rownames(funcdata$data) = as.character(1:(2*N1))
+  rownames(funcdata$data) = as.character(1:(2*nrow(funcdata$data)))
 
   if (depth == "FM_depth"){
     depths = fda.usc::depth.FM(funcdata)$dep

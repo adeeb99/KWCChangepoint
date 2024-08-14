@@ -11,7 +11,7 @@ library(ddalpha)
 # Additions to previous version:
 # 1) Allow user to specify custom depth function
 
-MKWP.Changepoints = function(data, depth = "Mahalanobis", beta = 10, custom_depth_function = NULL){
+MKWP = function(data, depth = "Mahalanobis", beta = 10, custom_depth_function = NULL){
   if (!is.matrix(data)){
     stop("Data must be in matrix form.")
   }
