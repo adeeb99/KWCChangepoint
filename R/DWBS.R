@@ -8,7 +8,7 @@ DWBS = function(data,
   e_test <- nrow(data)
 
   #get intervals
-  intervals <- getIntervals(1:e_test, numInt) ## AR: Generate numInt subintervals in (1:e_test)
+  intervals <- getIntervals(1:e_test, numInt) ## Generate numInt subintervals in (1:e_test)
 
   #get test stats
   Xtilde = apply(intervals,
@@ -20,7 +20,7 @@ DWBS = function(data,
   #runWBS
   cp <- WBS(intervals , 2, e_test, thresh, data, depth, Xtilde)
 
-  return(cp)
+  return(sort(cp[,1]))
 }
 
 
@@ -32,13 +32,13 @@ WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
   else{
     #intervals contained in s,e
     Mes <- which(apply(intervals, 1, checkIfSubInterval, super = c(s, e)))
-    ## AR: Get subintervals in (s,e); returns index of intervals matrix that is in (s,e)
+    ## Get subintervals in (s,e); returns index of intervals matrix that is in (s,e)
 
     Xtilde.abs <- Xtilde[Mes]
 
     if (length(Mes) > 1) {
 
-      ## AR: get testStat(range = intervals[Mes, ], data, depth)
+      ## get testStat(range = intervals[Mes, ], data, depth)
       ## which in turn calculates:
       ## The data depths of then data in the interval intervals[Mes, ]
 
@@ -80,7 +80,7 @@ WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
 
   }
 
-  if (maxX > threshold) { ##AR: if point b0 has CUMSUM value maxX greater than the threshold
+  if (maxX > threshold) { ## if point b0 has CUMSUM value maxX greater than the threshold
     return(rbind(
       c(b0, maxX),
       WBS(intervals, s, b0, threshold, data,depth,Xtilde),
@@ -98,21 +98,19 @@ WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
 
 
 #------------------------------------------
-#DWBS(rbind(data1,data2))
+
 
 
 #packages
-#library(fMultivar)
+library(fMultivar)
 library(MASS)
-#library(depth)
-#library(rrcov)
-#library(mrfDepth)
+library(depth)
+library(rrcov)
+library(mrfDepth)
 library(ddalpha)
 
 
-##wild binary segmentation
-#calculate the test statistic
-#spat, hs, mahal,mahal75 are the depth parameters
+
 testStat <- function(range, data, depth) {
   if (depth == "spat") {
     ts = testStatSpat(range, data)
@@ -135,7 +133,7 @@ testStat <- function(range, data, depth) {
 }
 
 #test cusum from depth values
-getStatFromDepths <- function(depths, N) { ### AR: takes depth values, returns CUMSUM
+getStatFromDepths <- function(depths, N) {
   ranks <- rank(depths, ties.method = "random")
   expected.val <- (N - 1) / 2
   std.dev <- sqrt((N ^ 2 - 1) / 12)
@@ -197,7 +195,7 @@ getIntervals <- function(indices, M) {
   ints <- t(replicate(M, sort(sample(indices, 2))))
   diffs <- (ints[, 2] - ints[, 1]) == 1
   if (any(diffs)) {
-    ints[diffs, ] = getIntervals(indices, sum(diffs)) ### AR: Question for Prof. Is this so that the minimum interval length is 2?
+    ints[diffs, ] = getIntervals(indices, sum(diffs))
     return(ints)
   }
   else{
@@ -212,20 +210,10 @@ checkIfSubInterval <- function(sub, super) { ### AR: Returns true or false
 
 
 
+#let the set of intervals be a matrix with 2 columns
 
 
-
-
-
-
-
-#set.seed(440)
-#test_data=rbind(replicate(2,rnorm(200)),replicate(2,rnorm(200,5)),replicate(2,rnorm(200,0.2)))
-
-
-
-#thresh=2
-#DWBS(test_data, N=nrow(test_data), d=2, numInt=100, thresh = thresh, depth = "spat")
-
-
-
+## intervals: the randomly generated interval matrix
+## s: start
+## e: end
+## etc.

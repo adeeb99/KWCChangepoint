@@ -29,26 +29,13 @@ RPDd=function(data,derivs){
 }
 
 
-#N1 = 10
-#N2 = N1
-#grid=seq( 0, 1, length.out = 100 )
-#k1=function(t1,t2){k_exp(t1,t2,.5,.05)}
-#c1=getCov(grid,k1)
-#k2=function(t1,t2){k_exp(t1,t2,10,.5)}
-#c2=getCov(grid,k2)
-
-#data_test = gfd(Cov1 = c1, Cov2 = c2)
-
-#fundata_test = fda.usc::fdata(data_test$mdata,data_test$argvals)
-
-
-FuncDataDepth = function(funcdata,
-                         warpF=F,
-                         warp_all=F,
-                         warp_sigma=1,
-                         outlier_type=0,
-                         depth = "FM_depth",
-                         beta = 10){
+FKWC = function(funcdata,
+                warpF=F,
+                warp_all=F,
+                warp_sigma=1,
+                outlier_type=0,
+                depth = "FM_depth",
+                beta = 10){
 
   if (!fda.usc::is.fdata(funcdata)){
     stop("Data must be in fdata form.")
@@ -58,7 +45,7 @@ FuncDataDepth = function(funcdata,
          'FM_depth_d', or 'RPD_depth_d' ")
   }
 
-  rownames(funcdata$data) = as.character(1:(2*N1))
+  rownames(funcdata$data) = as.character(1:(nrow(funcdata$data)))
 
   if (depth == "FM_depth"){
     depths = fda.usc::depth.FM(funcdata)$dep
@@ -83,8 +70,3 @@ FuncDataDepth = function(funcdata,
   }
 }
 
-
-
-
-#FuncDataDepth(funcdata = fundata_test, depth = "FM_depth", beta = 100)
-#FuncDataDepth(funcdata = fundata_test, depth = "FM_depth", beta = 10)
