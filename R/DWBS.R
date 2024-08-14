@@ -104,7 +104,7 @@ WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
 #packages
 library(fMultivar)
 library(MASS)
-library(depth)
+# library(depth)
 library(rrcov)
 library(mrfDepth)
 library(ddalpha)
