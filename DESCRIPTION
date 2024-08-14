@@ -1,4 +1,4 @@
-Package: KWC-Changepoint
+Package: KWCChangepoint
 Type: Package
 Title: User-friendly functional and multivariate changepoint detection
 Version: 0.1.0
