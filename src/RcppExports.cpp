@@ -13,7 +13,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // mySeq
 arma::uvec mySeq(unsigned int s, unsigned int e);
-RcppExport SEXP _ChangepointDetection_mySeq(SEXP sSEXP, SEXP eSEXP) {
+RcppExport SEXP _KWCChangepoint_mySeq(SEXP sSEXP, SEXP eSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,7 +25,7 @@ END_RCPP
 }
 // cost_cpp
 double cost_cpp(unsigned int s, unsigned int e, arma::rowvec data);
-RcppExport SEXP _ChangepointDetection_cost_cpp(SEXP sSEXP, SEXP eSEXP, SEXP dataSEXP) {
+RcppExport SEXP _KWCChangepoint_cost_cpp(SEXP sSEXP, SEXP eSEXP, SEXP dataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -38,7 +38,7 @@ END_RCPP
 }
 // updateR
 arma::uvec updateR(arma::uvec R1, arma::rowvec obj, double F_tau_star, double beta, double K, double tau_star);
-RcppExport SEXP _ChangepointDetection_updateR(SEXP R1SEXP, SEXP objSEXP, SEXP F_tau_starSEXP, SEXP betaSEXP, SEXP KSEXP, SEXP tau_starSEXP) {
+RcppExport SEXP _KWCChangepoint_updateR(SEXP R1SEXP, SEXP objSEXP, SEXP F_tau_starSEXP, SEXP betaSEXP, SEXP KSEXP, SEXP tau_starSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -54,7 +54,7 @@ END_RCPP
 }
 // PELT
 arma::mat PELT(arma::rowvec data, int N, double beta, double K);
-RcppExport SEXP _ChangepointDetection_PELT(SEXP dataSEXP, SEXP NSEXP, SEXP betaSEXP, SEXP KSEXP) {
+RcppExport SEXP _KWCChangepoint_PELT(SEXP dataSEXP, SEXP NSEXP, SEXP betaSEXP, SEXP KSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -68,7 +68,7 @@ END_RCPP
 }
 // getOnes
 int getOnes(arma::mat vec);
-RcppExport SEXP _ChangepointDetection_getOnes(SEXP vecSEXP) {
+RcppExport SEXP _KWCChangepoint_getOnes(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -79,7 +79,7 @@ END_RCPP
 }
 // PELT_NL
 arma::mat PELT_NL(arma::rowvec data, int N, double c2, int m0);
-RcppExport SEXP _ChangepointDetection_PELT_NL(SEXP dataSEXP, SEXP NSEXP, SEXP c2SEXP, SEXP m0SEXP) {
+RcppExport SEXP _KWCChangepoint_PELT_NL(SEXP dataSEXP, SEXP NSEXP, SEXP c2SEXP, SEXP m0SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -93,16 +93,16 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_ChangepointDetection_mySeq", (DL_FUNC) &_ChangepointDetection_mySeq, 2},
-    {"_ChangepointDetection_cost_cpp", (DL_FUNC) &_ChangepointDetection_cost_cpp, 3},
-    {"_ChangepointDetection_updateR", (DL_FUNC) &_ChangepointDetection_updateR, 6},
-    {"_ChangepointDetection_PELT", (DL_FUNC) &_ChangepointDetection_PELT, 4},
-    {"_ChangepointDetection_getOnes", (DL_FUNC) &_ChangepointDetection_getOnes, 1},
-    {"_ChangepointDetection_PELT_NL", (DL_FUNC) &_ChangepointDetection_PELT_NL, 4},
+    {"_KWCChangepoint_mySeq", (DL_FUNC) &_KWCChangepoint_mySeq, 2},
+    {"_KWCChangepoint_cost_cpp", (DL_FUNC) &_KWCChangepoint_cost_cpp, 3},
+    {"_KWCChangepoint_updateR", (DL_FUNC) &_KWCChangepoint_updateR, 6},
+    {"_KWCChangepoint_PELT", (DL_FUNC) &_KWCChangepoint_PELT, 4},
+    {"_KWCChangepoint_getOnes", (DL_FUNC) &_KWCChangepoint_getOnes, 1},
+    {"_KWCChangepoint_PELT_NL", (DL_FUNC) &_KWCChangepoint_PELT_NL, 4},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_ChangepointDetection(DllInfo *dll) {
+RcppExport void R_init_KWCChangepoint(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
