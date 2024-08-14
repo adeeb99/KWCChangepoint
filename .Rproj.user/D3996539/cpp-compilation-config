@@ -1,9 +1,15 @@
 {
     "args": [
-        "-nostdinc"
+        "-nostdinc",
+        "-IC:/Users/ADEEBR~1/AppData/Local/R/WIN-LI~1/4.4/Rcpp/include",
+        "-IC:/Users/ADEEBR~1/AppData/Local/R/WIN-LI~1/4.4/RCPPAR~1/include",
+        "-std=gnu++17",
+        "-IC:/PROGRA~1/R/R-44~1.0/include",
+        "-DNDEBUG",
+        "-IC:/rtools44/x86_64-w64-mingw32.static.posix/include"
     ],
     "pch": "RcppArmadillo",
     "is_cpp": true,
-    "hash": "1720634915",
-    "compiler": "14695981039346656037"
+    "hash": "1723599524",
+    "compiler": "9381606054783649534"
 }
