@@ -203,9 +203,9 @@ uniMean = function(data, beta = 10){
   }
 }
 
-uniMean_test = c(rnorm(n = 50), rnorm(n = 50, mean = 3), rnorm(n = 50, mean = 5))
+#uniMean_test = c(rnorm(n = 50), rnorm(n = 50, mean = 3), rnorm(n = 50, mean = 5))
 
-uniMean(uniMean_test)
+#uniMean(uniMean_test)
 
 uniScale = function(data, beta = 10){
   ranks = rank(abs(data - mean(data)))
@@ -217,5 +217,5 @@ uniScale = function(data, beta = 10){
   }
 }
 
-uniScale_test = c(rnorm(n = 50), rnorm(n = 50, sd = 5), rnorm(n = 50, sd = 0.1))
-uniScale(uniScale_test)
+#uniScale_test = c(rnorm(n = 50), rnorm(n = 50, sd = 5), rnorm(n = 50, sd = 0.1))
+#uniScale(uniScale_test)

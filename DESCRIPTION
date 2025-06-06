@@ -8,8 +8,19 @@ Description: The package mainly focuses on changepoint detection in the context 
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-Imports: Rcpp (>= 1.0.12), RcppArmadillo (>= 14.0.0)
+Imports: 
+    ddalpha,
+    fda.usc,
+    fMultivar,
+    MASS,
+    mrfDepth,
+    mvtnorm,
+    numDeriv,
+    Rcpp (>= 1.0.12),
+    RcppArmadillo (>= 14.0.0),
+    rrcov
 LinkingTo: Rcpp, RcppArmadillo
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+RoxygenNote: 7.3.2

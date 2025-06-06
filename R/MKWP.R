@@ -1,7 +1,7 @@
 #Rcpp::sourceCpp('src/PELT_CPP.cpp') #Line 75 in FKWC_Changepoint
                                 #Takes ~10 seconds to load
 #library(mvtnorm)
-library(ddalpha)
+#library(ddalpha)
 
 
 
@@ -41,7 +41,7 @@ MKWP = function(data, depth = "Mahalanobis", beta = 10, custom_depth_function = 
     if (depth == "Mahalanobis") {
       depth.values = ddalpha::depth.Mahalanobis(x = data, data = data)
     } else if (depth == "Spatial") {
-      depth.values = ddalpha::epth.spatial(x = data, data = data)
+      depth.values = ddalpha::depth.spatial(x = data, data = data)
     } else if (depth == "Halfspace") {
       depth.values = ddalpha::depth.halfspace(x = data, data = data)
     }

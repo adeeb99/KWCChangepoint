@@ -56,10 +56,10 @@ FKWC = function(funcdata,
   } else if (depth == "FM_depth_d"){
     derivs = MFHD::derivcurves(funcdata$data)
     depths = FMp(funcdata$data,derivs)
-  } else if (depth == "RPD_depth_d"){
-    derivs = MFHD::derivcurves(funcdata$data)
-    depths = RPDd(funcdata$data,derivs)
-  }
+  } #else if (depth == "RPD_depth_d"){
+    #derivs = MFHD::derivcurves(funcdata$data)
+    #depths = RPDd(funcdata$data,derivs)
+  #}
   ranks = rank(depths)
   cp = which(PELT(ranks,length(ranks),beta)==1)-1 #includes the changepoint 0
 
