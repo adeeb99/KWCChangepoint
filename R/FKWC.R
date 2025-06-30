@@ -29,6 +29,20 @@ RPDd=function(data,derivs){
 }
 
 
+#' Find changepoints using functional Kruskall-Wallis for covariance algorithm
+#'
+#' @param funcdata Data in fdata form
+#' @param warpF
+#' @param warp_all
+#' @param warp_sigma
+#' @param outlier_type
+#' @param depth Depth function of choice
+#' @param beta Numeric penalty constant passed to PELT
+#'
+#' @returns A list of changepoints
+#' @export
+#'
+#' @examples
 FKWC = function(funcdata,
                 warpF=F,
                 warp_all=F,

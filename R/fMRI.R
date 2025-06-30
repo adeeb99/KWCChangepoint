@@ -2,7 +2,19 @@
 
 # Takes a 4 dimensional input image array - 4th dimension is time
 # M is the number of unit vectors - see the paper.
-get_4D_changepoints=function(imag_array,M=100,C1=0.3,C2=3.74){
+
+#' Detect changepoints in an fMRI
+#'
+#' @param imag_array A 4D object
+#' @param M
+#' @param C1
+#' @param C2
+#'
+#' @returns A list of changepoints
+#' @export
+#'
+#' @examples
+get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
 
   DIM1=dim(imag_array)[1]
   DIM2=dim(imag_array)[2]

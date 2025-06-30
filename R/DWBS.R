@@ -1,3 +1,16 @@
+#' Find changepoints using depth-based wild binary segmentation
+#'
+#' @param data
+#' @param N
+#' @param d
+#' @param numInt Number of subintervals to be generated
+#' @param thresh
+#' @param depth Depth function of choice
+#'
+#' @returns A list of changepoints
+#' @export
+#'
+#' @examples
 DWBS = function(data,
                 N,
                 d,

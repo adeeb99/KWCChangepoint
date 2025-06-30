@@ -14,6 +14,17 @@
 # Additions to previous version:
 # 1) Allow user to specify custom depth function
 
+#' Find changepoints using multivariate Kruskal-Wallis PELT
+#'
+#' @param data Matrix of data
+#' @param depth Depth function of choice (Mahalanobis, Spatial, or Halfspace)
+#' @param beta Numeric penalty constant passed to PELT
+#' @param custom_depth_function Use your own custom depth function (NULL by default)
+#'
+#' @returns A list of changepoints
+#' @export
+#'
+#' @examples
 MKWP = function(data, depth = "Mahalanobis", beta = 10, custom_depth_function = NULL){
   if (!is.matrix(data)){
     stop("Data must be in matrix form.")

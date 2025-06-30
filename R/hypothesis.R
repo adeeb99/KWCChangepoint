@@ -47,6 +47,15 @@ maximize_bb=function(bi){
 
 
 
+#' Rank multivariate data on depth values
+#'
+#' @param data Matrix of data
+#' @param depth Depth function of choice
+#'
+#' @returns A list of ranks for each observation
+#' @export
+#'
+#' @examples
 getRanks = function(data, depth = 'spat'){
   if (depth == "spat") {
     ranks = rank(ddalpha::depth.spatial(data, data))
@@ -71,6 +80,18 @@ getRanks = function(data, depth = 'spat'){
 #testranks = getRanks(Multivariate_test, 'mahal')
 
 
+#' Conduct an AMOC (at most one changepoint) hypothesis test
+#'
+#' @param data Data in matrix form
+#' @param ranks Optional if data is already ranked
+#' @param useRank FALSE by defalut, set to TRUE to use your ranks
+#' @param setDepth Depth function of choice
+#' @param boundary
+#'
+#' @returns An estimated changepoint with a p-value
+#' @export
+#'
+#' @examples
 AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', boundary = 1){
   if (useRank){
     if (is.null(ranks)){
@@ -124,6 +145,17 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', bou
 
 
 
+#' Test for an epidemic period in data
+#'
+#' @param data Matrix of data
+#' @param ranks Optional if data is already ranked
+#' @param useRank FALSE by defalut, set to TRUE to use your ranks
+#' @param setDepth Depth function of choice
+#'
+#' @returns Estimated start and end of epidemic period with p-value
+#' @export
+#'
+#' @examples
 Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat'){
   if (useRank){
     if (is.null(ranks)){
@@ -193,6 +225,15 @@ Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat')
 # Epidemic_test(Multivariate_test, setDepth = 'mahal')
 # Epidemic_test(ranks = testranks, useRank = T)
 
+#' Find changepoint in univariate data based on mean
+#'
+#' @param data Univariate data
+#' @param beta Numeric penalty constant passed to PELT
+#'
+#' @returns List of changepoints
+#' @export
+#'
+#' @examples
 uniMean = function(data, beta = 10){
   ranks = rank(data)
   cp = which(PELT(ranks,length(ranks),beta)==1)-1 #includes the changepoint 0
@@ -207,6 +248,15 @@ uniMean = function(data, beta = 10){
 
 #uniMean(uniMean_test)
 
+#' Find changepoints in univariate data based on scale
+#'
+#' @param data Univariate data
+#' @param beta Numeric penalty constant passed to PELT
+#'
+#' @returns List of changepoints
+#' @export
+#'
+#' @examples
 uniScale = function(data, beta = 10){
   ranks = rank(abs(data - mean(data)))
   cp = which(PELT(ranks,length(ranks),beta)==1)-1 #includes the changepoint 0
