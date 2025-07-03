@@ -4,15 +4,7 @@
 \alias{FKWC}
 \title{Find changepoints using functional Kruskall-Wallis for covariance algorithm}
 \usage{
-FKWC(
-  funcdata,
-  warpF = F,
-  warp_all = F,
-  warp_sigma = 1,
-  outlier_type = 0,
-  depth = "FM_depth",
-  beta = 10
-)
+FKWC(funcdata, depth = "FM_depth", beta = 10)
 }
 \arguments{
 \item{funcdata}{Data in fdata form}
