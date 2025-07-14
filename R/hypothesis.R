@@ -1,51 +1,3 @@
-####################### AMOC #######################
-
-#estimate cdf of BB cdf
-
-#ll=-1000:1000
-#cdf<-function(q){sum(((-1)^ll)*exp(-2*ll^2*q^2))}
-#qBB<-function(p){return(uniroot(function(q){cdf(q)-p},c(1,1.5))$root)}
-#thresh=qBB(0.95)
-#thresh
-
-
-
-####################### Epidemic #######################
-
-#estimate cdf
-
-# gridd = 100
-# bridges=replicate(10000,sde::BBridge(x=0, y=0, t0=0, T=1, N=gridd))
-# dim(bridges)
-
-
-
-maximize_bb=function(bi){
-  print(bi)
-  bridge_fn=Vectorize(function(k1,k2,bi=1){
-
-    ((1-k2/gridd+k1/gridd)^(-1)+(k2/gridd-k1/gridd)^(-1))*(bridges[k2,bi]-bridges[k1,bi])^2
-
-  },vectorize.args = c('k1','k2'))
-
-  tst=outer(2:gridd,2:gridd,bridge_fn,bi=bi)
-  tst[lower.tri(tst,T)]=-gridd
-  tst2=unlist(tst)
-  tst2[is.nan(tst2)]=-gridd
-  # max(tst2)
-  val=max(tst2)
-  print(val)
-  return(val)
-}
-
-# maxes=sapply(1:10000,maximize_bb)
-# quantile(maxes,.95)
-# 20.4
-
-# ecdf_maxes = ecdf(maxes)
-
-
-
 
 #' Rank multivariate data on depth values
 #'
@@ -110,6 +62,8 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', bou
       k=(boundary:(n-boundary))[k1]
       Znt=Zns[k1]
       #return(c(Znt,k))
+      ll <- -1000:1000
+      cdf <- function(q){sum(((-1)^ll)*exp(-2*ll^2*q^2))}
       print(paste0("The estimated changepoint is ", k,
                    " with a p-value: ", 1 - cdf(Znt)))
       return(k)
@@ -133,6 +87,8 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', bou
       k=(boundary:(n-boundary))[k1]
       Znt=Zns[k1]
       #return(c(Znt,k))
+      ll <- -1000:1000
+      cdf <- function(q){sum(((-1)^ll)*exp(-2*ll^2*q^2))}
       print(paste0("The estimated changepoint is ", k,
                    " with a p-value: ", 1 - cdf(Znt)))
       return(k)
@@ -184,7 +140,7 @@ Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat')
 
       #return(c(Znt,k)) #Test stat, then pair of changepoints - [1] 130.4072 202.0000 405.0000
       print(paste("The estimated changepoint pair is ", k[1], " and ", k[2],
-                  " with a p-value: ", 1 - ecdf_maxes(Znt)))
+                  " with a p-value: ", 1 - mean(maxes>=Znt)))
       return(k)
     }
   }
@@ -216,7 +172,7 @@ Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat')
 
       #return(c(Znt,k)) #Test stat, then pair of changepoints - [1] 130.4072 202.0000 405.0000
       print(paste("The estimated changepoint pair is ", k[1], " and ", k[2],
-                  " with a p-value: ", 1 - ecdf_maxes(Znt)))
+                  " with a p-value: ", 1 - mean(maxes>=Znt)))
       return(k)
     }
   }
