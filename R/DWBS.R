@@ -1,8 +1,6 @@
-#' Find changepoints using depth-based wild binary segmentation
+#' Find Changepoints Using Depth-Based Wild Binary Segmentation
 #'
 #' @param data
-#' @param N
-#' @param d
 #' @param numInt Number of subintervals to be generated
 #' @param thresh
 #' @param depth Depth function of choice
@@ -11,9 +9,7 @@
 #' @export
 #'
 #' @examples
-DWBS = function(data,
-                N,
-                d,
+DWBS <- function(data,
                 numInt = 10,
                 thresh = 1.3584,
                 depth = "hs") {
@@ -106,21 +102,6 @@ WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
 }
 
 
-
-
-
-
-#------------------------------------------
-
-
-
-#packages
-#library(fMultivar)
-#library(MASS)
-# library(depth)
-#library(rrcov)
-#library(mrfDepth)
-#library(ddalpha)
 
 
 

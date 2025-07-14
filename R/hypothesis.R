@@ -1,5 +1,5 @@
 
-#' Rank multivariate data on depth values
+#' Rank Multivariate Data on Depth Values
 #'
 #' @param data Matrix of data
 #' @param depth Depth function of choice
@@ -29,10 +29,10 @@ getRanks = function(data, depth = 'spat'){
   return(ranks)
 }
 
-#testranks = getRanks(Multivariate_test, 'mahal')
 
 
-#' Conduct an AMOC (at most one changepoint) hypothesis test
+
+#' Conduct an AMOC (At Most 0ne Changepoint) Hypothesis Test
 #'
 #' @param data Data in matrix form
 #' @param ranks Optional if data is already ranked
@@ -96,12 +96,8 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', bou
   }
 }
 
-# AMOC_test(Multivariate_test, setDepth = 'mahal')
-# AMOC_test(ranks = testranks, useRank = T)
 
-
-
-#' Test for an epidemic period in data
+#' Test For an Epidemic Period in Data
 #'
 #' @param data Matrix of data
 #' @param ranks Optional if data is already ranked
@@ -140,7 +136,7 @@ Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat')
 
       #return(c(Znt,k)) #Test stat, then pair of changepoints - [1] 130.4072 202.0000 405.0000
       print(paste("The estimated changepoint pair is ", k[1], " and ", k[2],
-                  " with a p-value: ", 1 - mean(maxes>=Znt)))
+                  " with a p-value: ", mean(maxes>=Znt)))
       return(k)
     }
   }
@@ -172,16 +168,13 @@ Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat')
 
       #return(c(Znt,k)) #Test stat, then pair of changepoints - [1] 130.4072 202.0000 405.0000
       print(paste("The estimated changepoint pair is ", k[1], " and ", k[2],
-                  " with a p-value: ", 1 - mean(maxes>=Znt)))
+                  " with a p-value: ", mean(maxes>=Znt)))
       return(k)
     }
   }
 }
 
-# Epidemic_test(Multivariate_test, setDepth = 'mahal')
-# Epidemic_test(ranks = testranks, useRank = T)
-
-#' Find changepoint in univariate data based on mean
+#' Find Changepoint in Univariate Data Based on Mean
 #'
 #' @param data Univariate data
 #' @param beta Numeric penalty constant passed to PELT
@@ -200,14 +193,11 @@ uniMean = function(data, beta = 10){
   }
 }
 
-#uniMean_test = c(rnorm(n = 50), rnorm(n = 50, mean = 3), rnorm(n = 50, mean = 5))
 
-#uniMean(uniMean_test)
-
-#' Find changepoints in univariate data based on scale
+#' Find Changepoints in Univariate Data Based on Scale
 #'
 #' @param data Univariate data
-#' @param beta Numeric penalty constant passed to PELT
+#' @param beta Numeric penalty constant passed to PELT, 10 by default
 #'
 #' @returns List of changepoints
 #' @export
@@ -223,5 +213,3 @@ uniScale = function(data, beta = 10){
   }
 }
 
-#uniScale_test = c(rnorm(n = 50), rnorm(n = 50, sd = 5), rnorm(n = 50, sd = 0.1))
-#uniScale(uniScale_test)

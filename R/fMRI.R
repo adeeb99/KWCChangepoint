@@ -6,7 +6,7 @@
 #' Detect changepoints in an fMRI
 #'
 #' @param imag_array A 4D object
-#' @param M
+#' @param M Number of random vector projections
 #' @param C1
 #' @param C2
 #'

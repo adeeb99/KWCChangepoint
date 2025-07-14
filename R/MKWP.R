@@ -1,20 +1,5 @@
-#Rcpp::sourceCpp('src/PELT_CPP.cpp') #Line 75 in FKWC_Changepoint
-                                #Takes ~10 seconds to load
-#library(mvtnorm)
-#library(ddalpha)
 
-
-
-
-#--------------------- CONSTRUCTING FUNCTION FOR MKWP (v3) -------------------
-
-# Additions to previous version:
-# 1) Allow user to specify custom depth function
-
-# Additions to previous version:
-# 1) Allow user to specify custom depth function
-
-#' Find changepoints using multivariate Kruskal-Wallis PELT
+#' Find Changepoints Using Multivariate Kruskal-Wallis PELT
 #'
 #' @param data Matrix of data
 #' @param depth Depth function of choice (Mahalanobis, Spatial, or Halfspace)

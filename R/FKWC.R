@@ -29,7 +29,7 @@ RPDd=function(data,derivs){
 }
 
 
-#' Find changepoints using functional Kruskall-Wallis for covariance algorithm
+#' Find Changepoints Using Functional Kruskall-Wallis for Covariance Algorithm
 #'
 #' @param funcdata Data in fdata form
 #' @param depth Depth function of choice
@@ -44,9 +44,9 @@ FKWC <- function(funcdata, depth = "FM_depth", beta = 10){
   if (!fda.usc::is.fdata(funcdata)){
     stop("Data must be in fdata form.")
   }
-  if (!depth %in% c("FM_depth","RPD_depth","LTR_depth","FM_depth_d","RPD_depth_d")) {
-    stop("Invalid depth function. Please choose 'FM_depth', 'RPD_depth', 'LTR_depth',
-         'FM_depth_d', or 'RPD_depth_d' ")
+  if (!depth %in% c("FM_depth","RPD_depth","LTR_depth","FM_depth_d")) {
+    stop("Invalid depth function. Please choose 'FM_depth', 'RPD_depth', 'LTR_depth', or
+         'FM_depth_d'")
   }
 
   rownames(funcdata$data) = as.character(1:(nrow(funcdata$data)))
