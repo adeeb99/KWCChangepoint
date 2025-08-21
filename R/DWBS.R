@@ -32,6 +32,140 @@ DWBS <- function(data,
   return(sort(cp[,1]))
 }
 
+#schwartz criteria for choosing the threshold
+#returns all the different models which are the selected change-points and the sigmahatsquared value
+#(see paper, section on choosing threshold)
+getScwartzCriterias <- function(cp, data, depth) {
+
+  #get indidvidual criteria for a set of cp
+
+
+
+  sqhat <- getsqhat(NULL, data, depth)
+
+  abc <- list("cp" = NULL, "sigSq" = sqhat)
+
+  models = list(abc)
+
+  for (i in 1:length(cp)) {
+    sqhat <- getsqhat(cp[1:i], data, depth)
+
+    abc$cp = cp[1:i]
+    abc$sigSq = sqhat
+
+    models = append(models, list(abc))
+  }
+
+  return(models)
+
+}
+
+getsqhat <- function(cp, data, depth) {
+  depths <- rank(getDepths(data, depth), ties.method = "random")
+  # depths<-getDepths(data,depth)
+
+  #if at least 1 cp
+  if (length(cp) >= 1) {
+    N <- length(depths)
+    indicies <- cbind(c(1, sort(cp)), c(sort(cp), N + 1))
+
+    getGroups <- function(vec, dat) {
+      return(dat[vec[1]:(vec[2] - 1)])
+    }
+
+    breaks <- apply(indicies, 1, getGroups, dat = depths)
+
+    absSum <- lapply(breaks, function(x) {
+      sum((x - mean(x)) ^ 2)
+    })
+    sighatSq <- sum(unlist(absSum)) / N
+
+
+    return(sighatSq)
+  }
+  else{
+    N <- length(depths)
+    sighatSq <- mean((depths - mean(depths)) ^ 2)
+    return(sighatSq)
+
+
+  }
+
+}
+
+#get indidvidual criteria for a set of cp
+getsSic2<-function(cp,sighatSq,alpha,N){
+
+
+  #if at least 1 cp
+  if(length(cp)>=1){
+
+    sSic<-(N/2)*log(sighatSq)+length(cp)*(log(N))^alpha
+  }
+  else{
+    sSic<-(N/2)*log(sighatSq)
+  }
+
+  return(sSic)
+}
+
+
+
+applySCH<-function(models,alpha,N){
+
+  #get SIC for all amounts of cp
+  sSic<-getsSic2(models[[1]]$cp,models[[1]]$sigSq,alpha,N)
+
+
+  if(length(models)>1){
+    for(j in 2:length(models)){
+
+      SIC_j=getsSic2(models[[j]]$cp,models[[j]]$sigSq,alpha,N)
+      sSic<-c(sSic,SIC_j)
+
+    }
+  }
+  minVal<-which.min(sSic)
+
+  return(models[[minVal]]$cp)
+
+}
+
+
+
+
+DWBS_DDT = function(data,
+                    N,
+                    d,
+                    numInt = 10,
+                    thresh = 1.3584,
+                    alpha=1,
+                    depth = "hs") {
+  s_test <- 1
+  e_test <- nrow(data)
+
+  #get intervals
+  intervals <- getIntervals(1:e_test, numInt)
+
+  #runWBS
+  cp <- WBS(intervals , 2, e_test, thresh, data,depth)
+
+  ## Schwartz modification
+  # get the possible models, select one with minimum GSC after
+  # This computes the sigma sq hats
+  if (!is.null(cp))
+    cp2 <- getScwartzCriterias(cp[order(cp[, 2], decreasing = T), 1], data, depth)
+
+  else
+    cp2 <- list(list("cp" = NULL, "sigSq" = 1))
+
+
+  cp3=applySCH(cp2,alpha,N)
+
+
+  return(cp3)
+}
+
 
 
 WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
