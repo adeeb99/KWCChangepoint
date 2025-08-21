@@ -351,3 +351,25 @@ checkIfSubInterval <- function(sub, super) { ### AR: Returns true or false
 ## s: start
 ## e: end
 ## etc.
+
+
+getDepths <- function(data, depth) {
+  if (depth == "spat") {
+    ts = ddalpha::depth.spatial(data, data)
+  }
+  else if (depth == "hs") {
+    ts = ddalpha::depth.halfspace(data, data)
+  }
+  else if (depth == "mahal") {
+    ts = ddalpha::depth.Mahalanobis(data, data)
+  }
+  else if (depth == "mahal75") {
+    ts = ddalpha::depth.Mahalanobis(data, data, "MCD")
+  }
+  else{
+    ts = NULL
+    print("bad depth specification")
+  }
+
+  return(ts)
+}
