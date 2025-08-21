@@ -135,7 +135,6 @@ applySCH<-function(models,alpha,N){
 
 
 DWBS_DDT = function(data,
-                    N,
                     d,
                     numInt = 10,
                     thresh = 1.3584,
