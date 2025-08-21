@@ -147,8 +147,14 @@ DWBS_DDT = function(data,
   #get intervals
   intervals <- getIntervals(1:e_test, numInt)
 
+  Xtilde = apply(intervals,
+                 1,
+                 testStat,
+                 data = data,
+                 depth = depth)
+
   #runWBS
-  cp <- WBS(intervals , 2, e_test, thresh, data,depth)
+  cp <- WBS(intervals , 2, e_test, thresh, data, depth, Xtilde)
 
   ## Schwartz modification
   # get the possible models, select one with minimum GSC after
