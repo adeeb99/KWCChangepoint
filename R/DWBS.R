@@ -165,7 +165,7 @@ DWBS_DDT = function(data,
     cp2 <- list(list("cp" = NULL, "sigSq" = 1))
 
 
-  cp3=applySCH(cp2,alpha,N)
+  cp3=applySCH(cp2,alpha,N = nrow(data))
 
 
   return(cp3)
