@@ -60,6 +60,7 @@ getScwartzCriterias <- function(cp, data, depth) {
 
 }
 
+#' @keywords internal
 getsqhat <- function(cp, data, depth) {
   depths <- rank(getDepths(data, depth), ties.method = "random")
   # depths<-getDepths(data,depth)
@@ -94,6 +95,7 @@ getsqhat <- function(cp, data, depth) {
 }
 
 #get indidvidual criteria for a set of cp
+#' @keywords internal
 getsSic2<-function(cp,sighatSq,alpha,N){
 
 
@@ -110,7 +112,7 @@ getsSic2<-function(cp,sighatSq,alpha,N){
 }
 
 
-
+#' @keywords internal
 applySCH<-function(models,alpha,N){
 
   #get SIC for all amounts of cp
@@ -172,7 +174,7 @@ DWBS_DDT = function(data,
 }
 
 
-
+#' @keywords internal
 WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
   if ((e - s) < 1)
     return(NULL)
@@ -274,6 +276,7 @@ getStatFromDepths <- function(depths, N) {
   return(abs(cusum)[1:(length(cusum) - 1)])
 }
 
+#' @keywords internal
 testStatHs <- function(range, data) {
   if ((range[2] - range[1]) > (ncol(data) + 1)) {
     range <- range[1]:range[2]
@@ -285,6 +288,7 @@ testStatHs <- function(range, data) {
     return(-10)
 }
 
+#' @keywords internal
 testStatSpat <- function(range, data) {
   if ((range[2] - range[1]) > (ncol(data) + 1)) {
     range <- range[1]:range[2]
@@ -297,6 +301,7 @@ testStatSpat <- function(range, data) {
     return(-10)
 }
 
+#' @keywords internal
 testStatMahal75 <- function(range, data) {
   if ((range[2] - range[1]) > (ncol(data) * 2)) {
     range <- range[1]:range[2]
@@ -310,6 +315,7 @@ testStatMahal75 <- function(range, data) {
     return(-10)
 }
 
+#' @keywords internal
 testStatMahal <- function(range, data) {
   if ((range[2] - range[1]) > (ncol(data) * 2)) {
     range <- range[1]:range[2]
@@ -324,6 +330,7 @@ testStatMahal <- function(range, data) {
 
 
 #returns indices of the intervals selected, M is the number of intervals
+#' @keywords internal
 getIntervals <- function(indices, M) {
   ints <- t(replicate(M, sort(sample(indices, 2))))
   diffs <- (ints[, 2] - ints[, 1]) == 1
@@ -337,6 +344,7 @@ getIntervals <- function(indices, M) {
 }
 
 #checks if an interval is a sub of another
+#' @keywords internal
 checkIfSubInterval <- function(sub, super) { ### AR: Returns true or false
   return(sub[1] >= super[1] && sub[2] <= super[2])
 }

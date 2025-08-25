@@ -1,3 +1,4 @@
+#' @keywords internal
 RPD=function(data){
   gen_direction=replicate(20,rnorm(100))
   gen_direction=apply(gen_direction,2,function(x){x/sqrt(sum(x^2))})
@@ -11,11 +12,13 @@ RPD=function(data){
   return(rowMeans(bd))
 }
 
+#' @keywords internal
 FMp=function(data,derivs){
   dp=sapply(1:100,function(x){ddalpha::depth.halfspace(cbind( data[,x],derivs[,x]),cbind( data[,x],derivs[,x]),num.directions =100)   })
   return(rowMeans(dp))
 }
 
+#' @keywords internal
 RPDd=function(data,derivs){
   gen_direction=replicate(20,rnorm(100))
   gen_direction=apply(gen_direction,2,function(x){x/sqrt(sum(x^2))})
