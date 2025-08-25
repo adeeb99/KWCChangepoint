@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{getRanks}
 \alias{getRanks}
-\title{Rank multivariate data on depth values}
+\title{Rank Multivariate Data on Depth Values}
 \usage{
 getRanks(data, depth = "spat")
 }
@@ -15,5 +15,5 @@ getRanks(data, depth = "spat")
 A list of ranks for each observation
 }
 \description{
-Rank multivariate data on depth values
+Rank Multivariate Data on Depth Values
 }

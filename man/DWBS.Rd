@@ -2,9 +2,9 @@
 % Please edit documentation in R/DWBS.R
 \name{DWBS}
 \alias{DWBS}
-\title{Find changepoints using depth-based wild binary segmentation}
+\title{Find Changepoints Using Depth-Based Wild Binary Segmentation}
 \usage{
-DWBS(data, N, d, numInt = 10, thresh = 1.3584, depth = "hs")
+DWBS(data, numInt = 10, thresh = 1.3584, depth = "hs")
 }
 \arguments{
 \item{numInt}{Number of subintervals to be generated}
@@ -15,5 +15,5 @@ DWBS(data, N, d, numInt = 10, thresh = 1.3584, depth = "hs")
 A list of changepoints
 }
 \description{
-Find changepoints using depth-based wild binary segmentation
+Find Changepoints Using Depth-Based Wild Binary Segmentation
 }

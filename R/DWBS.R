@@ -168,7 +168,7 @@ DWBS_DDT = function(data,
   cp3=applySCH(cp2,alpha,N = nrow(data))
 
 
-  return(cp3)
+  return(sort(cp3))
 }
 
 
@@ -259,7 +259,7 @@ testStat <- function(range, data, depth) {
   }
   else{
     ts = NULL
-    print("bad depth specification")
+    stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal75' for Mahalanobis MCD, 'spat' for Spatial, or 'hs' for Halfspace")
   }
 
   return(ts)
@@ -367,7 +367,7 @@ getDepths <- function(data, depth) {
   }
   else{
     ts = NULL
-    print("bad depth specification")
+    stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal75' for Mahalanobis MCD, 'spat' for Spatial, or 'hs' for Halfspace")
   }
 
   return(ts)

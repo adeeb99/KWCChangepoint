@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{Epidemic_test}
 \alias{Epidemic_test}
-\title{Test for an epidemic period in data}
+\title{Test For an Epidemic Period in Data}
 \usage{
 Epidemic_test(data, ranks = NULL, useRank = FALSE, setDepth = "spat")
 }
@@ -19,5 +19,5 @@ Epidemic_test(data, ranks = NULL, useRank = FALSE, setDepth = "spat")
 Estimated start and end of epidemic period with p-value
 }
 \description{
-Test for an epidemic period in data
+Test For an Epidemic Period in Data
 }

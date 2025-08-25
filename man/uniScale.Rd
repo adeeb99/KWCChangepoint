@@ -2,18 +2,18 @@
 % Please edit documentation in R/hypothesis.R
 \name{uniScale}
 \alias{uniScale}
-\title{Find changepoints in univariate data based on scale}
+\title{Find Changepoints in Univariate Data Based on Scale}
 \usage{
 uniScale(data, beta = 10)
 }
 \arguments{
 \item{data}{Univariate data}
 
-\item{beta}{Numeric penalty constant passed to PELT}
+\item{beta}{Numeric penalty constant passed to PELT, 10 by default}
 }
 \value{
 List of changepoints
 }
 \description{
-Find changepoints in univariate data based on scale
+Find Changepoints in Univariate Data Based on Scale
 }

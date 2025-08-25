@@ -2,7 +2,7 @@
 % Please edit documentation in R/FKWC.R
 \name{FKWC}
 \alias{FKWC}
-\title{Find changepoints using functional Kruskall-Wallis for covariance algorithm}
+\title{Find Changepoints Using Functional Kruskall-Wallis for Covariance Algorithm}
 \usage{
 FKWC(funcdata, depth = "FM_depth", beta = 10)
 }
@@ -17,5 +17,5 @@ FKWC(funcdata, depth = "FM_depth", beta = 10)
 A list of changepoints
 }
 \description{
-Find changepoints using functional Kruskall-Wallis for covariance algorithm
+Find Changepoints Using Functional Kruskall-Wallis for Covariance Algorithm
 }

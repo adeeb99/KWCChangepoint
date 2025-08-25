@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{uniMean}
 \alias{uniMean}
-\title{Find changepoint in univariate data based on mean}
+\title{Find Changepoint in Univariate Data Based on Mean}
 \usage{
 uniMean(data, beta = 10)
 }
@@ -15,5 +15,5 @@ uniMean(data, beta = 10)
 List of changepoints
 }
 \description{
-Find changepoint in univariate data based on mean
+Find Changepoint in Univariate Data Based on Mean
 }

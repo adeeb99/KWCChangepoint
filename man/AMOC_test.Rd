@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{AMOC_test}
 \alias{AMOC_test}
-\title{Conduct an AMOC (at most one changepoint) hypothesis test}
+\title{Conduct an AMOC (At Most 0ne Changepoint) Hypothesis Test}
 \usage{
 AMOC_test(data, ranks = NULL, useRank = FALSE, setDepth = "spat", boundary = 1)
 }
@@ -21,5 +21,5 @@ AMOC_test(data, ranks = NULL, useRank = FALSE, setDepth = "spat", boundary = 1)
 An estimated changepoint with a p-value
 }
 \description{
-Conduct an AMOC (at most one changepoint) hypothesis test
+Conduct an AMOC (At Most 0ne Changepoint) Hypothesis Test
 }

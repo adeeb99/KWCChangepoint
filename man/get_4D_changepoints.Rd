@@ -9,6 +9,8 @@ get_4D_changepoints(imag_array, M = 100, C1 = 0.3, C2 = 3.74)
 \arguments{
 \item{imag_array}{A 4D object}
 
+\item{M}{Number of random vector projections}
+
 \item{C2}{}
 }
 \value{

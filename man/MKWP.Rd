@@ -2,14 +2,14 @@
 % Please edit documentation in R/MKWP.R
 \name{MKWP}
 \alias{MKWP}
-\title{Find changepoints using multivariate Kruskal-Wallis PELT}
+\title{Find Changepoints Using Multivariate Kruskal-Wallis PELT}
 \usage{
-MKWP(data, depth = "Mahalanobis", beta = 10, custom_depth_function = NULL)
+MKWP(data, depth = "mahal", beta = 10, custom_depth_function = NULL)
 }
 \arguments{
 \item{data}{Matrix of data}
 
-\item{depth}{Depth function of choice (Mahalanobis, Spatial, or Halfspace)}
+\item{depth}{Depth function of choice}
 
 \item{beta}{Numeric penalty constant passed to PELT}
 
@@ -19,5 +19,5 @@ MKWP(data, depth = "Mahalanobis", beta = 10, custom_depth_function = NULL)
 A list of changepoints
 }
 \description{
-Find changepoints using multivariate Kruskal-Wallis PELT
+Find Changepoints Using Multivariate Kruskal-Wallis PELT
 }

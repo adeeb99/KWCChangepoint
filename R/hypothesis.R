@@ -23,7 +23,7 @@ getRanks = function(data, depth = 'spat'){
   }
   else{
     ranks = NULL
-    stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal175' for Mahalanobis175, 'spat' for Spatial, or 'hs' for Halfspace")
+    stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal75' for Mahalanobis MCD, 'spat' for Spatial, or 'hs' for Halfspace")
   }
 
   return(ranks)

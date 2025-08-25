@@ -2,7 +2,7 @@
 #' Find Changepoints Using Multivariate Kruskal-Wallis PELT
 #'
 #' @param data Matrix of data
-#' @param depth Depth function of choice (Mahalanobis, Spatial, or Halfspace)
+#' @param depth Depth function of choice
 #' @param beta Numeric penalty constant passed to PELT
 #' @param custom_depth_function Use your own custom depth function (NULL by default)
 #'
@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-MKWP = function(data, depth = "Mahalanobis", beta = 10, custom_depth_function = NULL){
+MKWP = function(data, depth = "mahal", beta = 10, custom_depth_function = NULL){
   if (!is.matrix(data)){
     stop("Data must be in matrix form.")
   }
@@ -29,16 +29,18 @@ MKWP = function(data, depth = "Mahalanobis", beta = 10, custom_depth_function = 
       stop("The custom depth function must return a numeric vector of the same length as the number of observations in data.")
     }
   } else {
-    if (!depth %in% c("Mahalanobis", "Spatial", "Halfspace")) {
-      stop("Invalid depth function. Please choose 'Mahalanobis', 'Spatial', or 'Halfspace'")
+    if (!depth %in% c("mahal", "mahal75", "spat", "hs")) {
+      stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal75' for Mahalanobis MCD, 'spat' for Spatial, or 'hs' for Halfspace")
     }
 
 
-    if (depth == "Mahalanobis") {
+    if (depth == "mahal") {
       depth.values = ddalpha::depth.Mahalanobis(x = data, data = data)
-    } else if (depth == "Spatial") {
+    } else if (depth == "mahal75") {
+      depth.values = ddalpha::depth.spatial(x = data, data = data, "MCD")
+    } else if (depth == "spat") {
       depth.values = ddalpha::depth.spatial(x = data, data = data)
-    } else if (depth == "Halfspace") {
+    } else if (depth == "hs") {
       depth.values = ddalpha::depth.halfspace(x = data, data = data)
     }
   }
