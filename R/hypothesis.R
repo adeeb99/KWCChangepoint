@@ -1,8 +1,11 @@
 
 #' Rank Multivariate Data on Depth Values
 #'
-#' @param data Matrix of data
-#' @param depth Depth function of choice
+#' @param data A matrix or dataframe, where each row is an observation and each
+#'   column is a dimension.
+#' @param depth Depth function of choice. It is 'spat' for spatial depth by
+#'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
+#'   Mahalanobis MCD, or 'hs' for halfspace depth.
 #'
 #' @returns A list of ranks for each observation
 #' @export
@@ -32,19 +35,19 @@ getRanks = function(data, depth = 'spat'){
 
 
 
-#' Conduct an AMOC (At Most 0ne Changepoint) Hypothesis Test
+#' Conduct an AMOC (At Most One Changepoint) Hypothesis Test
 #'
 #' @param data Data in matrix form
 #' @param ranks Optional if data is already ranked
 #' @param useRank FALSE by defalut, set to TRUE to use your ranks
-#' @param setDepth Depth function of choice
+#' @param depth Depth function of choice
 #' @param boundary
 #'
 #' @returns An estimated changepoint with a p-value
 #' @export
 #'
 #' @examples
-AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', boundary = 1){
+AMOC_test = function(data, ranks = NULL, useRank = FALSE, depth = 'spat', boundary = 1){
   if (useRank){
     if (is.null(ranks)){
       stop("Must provide ranks.")
@@ -64,8 +67,8 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', bou
       #return(c(Znt,k))
       ll <- -1000:1000
       cdf <- function(q){sum(((-1)^ll)*exp(-2*ll^2*q^2))}
-      print(paste0("The estimated changepoint is ", k,
-                   " with a p-value: ", 1 - cdf(Znt)))
+      print(paste0("Estimated changepoint is ", k,
+                   " with a p-value: ", round(1 - cdf(Znt),5) ))
       return(k)
     }
   }
@@ -74,7 +77,7 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', bou
       stop("Must provide data.")
     }
     else {
-      ranks = getRanks(data, depth = setDepth)
+      ranks = getRanks(data, depth = depth)
       n = length(ranks)
       Znk=function(kk){
 
@@ -89,8 +92,8 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', bou
       #return(c(Znt,k))
       ll <- -1000:1000
       cdf <- function(q){sum(((-1)^ll)*exp(-2*ll^2*q^2))}
-      print(paste0("The estimated changepoint is ", k,
-                   " with a p-value: ", 1 - cdf(Znt)))
+      print(paste0("Estimated changepoint is ", k,
+                   " with a p-value: ", round(1 - cdf(Znt),5) ))
       return(k)
     }
   }
@@ -102,13 +105,13 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat', bou
 #' @param data Matrix of data
 #' @param ranks Optional if data is already ranked
 #' @param useRank FALSE by defalut, set to TRUE to use your ranks
-#' @param setDepth Depth function of choice
+#' @param depth Depth function of choice
 #'
 #' @returns Estimated start and end of epidemic period with p-value
 #' @export
 #'
 #' @examples
-Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat'){
+Epidemic_test = function(data, ranks = NULL, useRank = FALSE, depth = 'spat'){
   if (useRank){
     if (is.null(ranks)){
       stop("Must provide ranks.")
@@ -145,7 +148,7 @@ Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat')
       stop("Must provide data.")
     }
     else {
-      ranks = getRanks(data, depth = setDepth)
+      ranks = getRanks(data, depth = depth)
       n=length(ranks)
       sign=12/((n)*(n+1))
       mn=3*(n+1)
@@ -167,8 +170,8 @@ Epidemic_test = function(data, ranks = NULL, useRank = FALSE, setDepth = 'spat')
       Znt=Zns[ks]
 
       #return(c(Znt,k)) #Test stat, then pair of changepoints - [1] 130.4072 202.0000 405.0000
-      print(paste("The estimated changepoint pair is ", k[1], " and ", k[2],
-                  " with a p-value: ", mean(maxes>=Znt)))
+      print(paste("Estimated changepoint pair is ", k[1], " and ", k[2],
+                  " with a p-value: ", round(mean(maxes>=Znt),5) ))
       return(k)
     }
   }

@@ -7,9 +7,12 @@
 getRanks(data, depth = "spat")
 }
 \arguments{
-\item{data}{Matrix of data}
+\item{data}{A matrix or dataframe, where each row is an observation and each
+column is a dimension.}
 
-\item{depth}{Depth function of choice}
+\item{depth}{Depth function of choice. It is 'spat' for spatial depth by
+default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
+Mahalanobis MCD, or 'hs' for halfspace depth.}
 }
 \value{
 A list of ranks for each observation

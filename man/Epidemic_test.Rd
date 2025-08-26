@@ -4,7 +4,7 @@
 \alias{Epidemic_test}
 \title{Test For an Epidemic Period in Data}
 \usage{
-Epidemic_test(data, ranks = NULL, useRank = FALSE, setDepth = "spat")
+Epidemic_test(data, ranks = NULL, useRank = FALSE, depth = "spat")
 }
 \arguments{
 \item{data}{Matrix of data}
@@ -13,7 +13,7 @@ Epidemic_test(data, ranks = NULL, useRank = FALSE, setDepth = "spat")
 
 \item{useRank}{FALSE by defalut, set to TRUE to use your ranks}
 
-\item{setDepth}{Depth function of choice}
+\item{depth}{Depth function of choice}
 }
 \value{
 Estimated start and end of epidemic period with p-value

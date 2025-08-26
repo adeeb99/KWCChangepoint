@@ -7,9 +7,14 @@
 DWBS(data, numInt = 10, thresh = 1.3584, depth = "hs")
 }
 \arguments{
+\item{data}{A matrix or dataframe, where each row is an observation and each
+column is a dimension.}
+
 \item{numInt}{Number of subintervals to be generated}
 
-\item{depth}{Depth function of choice}
+\item{depth}{Depth function of choice. It is 'hs' for halfspace depth by
+default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
+Mahalanobis MCD, 'spat' for spatial depth.}
 }
 \value{
 A list of changepoints

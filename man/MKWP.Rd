@@ -7,13 +7,17 @@
 MKWP(data, depth = "mahal", beta = 10, custom_depth_function = NULL)
 }
 \arguments{
-\item{data}{Matrix of data}
+\item{data}{A matrix or dataframe, where each row is an observation and each
+column is a dimension.}
 
-\item{depth}{Depth function of choice}
+\item{depth}{Depth function of choice. It is 'mahal' for Mahalanobis depth by
+default. User can also choose 'mahal75' for Mahalanobis MCD, 'hs' for
+halfspace, or 'spat' for spatial depth.}
 
 \item{beta}{Numeric penalty constant passed to PELT}
 
-\item{custom_depth_function}{Use your own custom depth function (NULL by default)}
+\item{custom_depth_function}{Use your own custom depth function (NULL by
+default)}
 }
 \value{
 A list of changepoints

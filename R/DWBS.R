@@ -1,9 +1,12 @@
 #' Find Changepoints Using Depth-Based Wild Binary Segmentation
 #'
-#' @param data
+#' @param data A matrix or dataframe, where each row is an observation and each
+#'   column is a dimension.
 #' @param numInt Number of subintervals to be generated
 #' @param thresh
-#' @param depth Depth function of choice
+#' @param depth Depth function of choice. It is 'hs' for halfspace depth by
+#'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
+#'   Mahalanobis MCD, 'spat' for spatial depth.
 #'
 #' @returns A list of changepoints
 #' @export

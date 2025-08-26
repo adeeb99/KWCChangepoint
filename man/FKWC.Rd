@@ -7,7 +7,8 @@
 FKWC(funcdata, depth = "FM_depth", beta = 10)
 }
 \arguments{
-\item{funcdata}{Data in fdata form}
+\item{funcdata}{Data in fdata, where each row is an observation and each
+column is a dimension.}
 
 \item{depth}{Depth function of choice}
 

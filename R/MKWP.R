@@ -1,10 +1,14 @@
 
 #' Find Changepoints Using Multivariate Kruskal-Wallis PELT
 #'
-#' @param data Matrix of data
-#' @param depth Depth function of choice
+#' @param data A matrix or dataframe, where each row is an observation and each
+#'   column is a dimension.
+#' @param depth Depth function of choice. It is 'mahal' for Mahalanobis depth by
+#'   default. User can also choose 'mahal75' for Mahalanobis MCD, 'hs' for
+#'   halfspace, or 'spat' for spatial depth.
 #' @param beta Numeric penalty constant passed to PELT
-#' @param custom_depth_function Use your own custom depth function (NULL by default)
+#' @param custom_depth_function Use your own custom depth function (NULL by
+#'   default)
 #'
 #' @returns A list of changepoints
 #' @export

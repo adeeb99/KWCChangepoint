@@ -34,7 +34,8 @@ RPDd=function(data,derivs){
 
 #' Find Changepoints Using Functional Kruskall-Wallis for Covariance Algorithm
 #'
-#' @param funcdata Data in fdata form
+#' @param funcdata Data in fdata, where each row is an observation and each
+#'   column is a dimension.
 #' @param depth Depth function of choice
 #' @param beta Numeric penalty constant passed to PELT
 #'
