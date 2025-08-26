@@ -37,10 +37,13 @@ getRanks = function(data, depth = 'spat'){
 
 #' Conduct an AMOC (At Most One Changepoint) Hypothesis Test
 #'
-#' @param data Data in matrix form
+#' @param data A matrix or dataframe, where each row is an observation and each
+#'   column is a dimension.
 #' @param ranks Optional if data is already ranked
 #' @param useRank FALSE by defalut, set to TRUE to use your ranks
-#' @param depth Depth function of choice
+#' @param depth Depth function of choice. It is 'spat' for spatial depth by
+#'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
+#'   Mahalanobis MCD, or 'hs' for halfspace depth.
 #' @param boundary
 #'
 #' @returns An estimated changepoint with a p-value
@@ -102,10 +105,13 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, depth = 'spat', bounda
 
 #' Test For an Epidemic Period in Data
 #'
-#' @param data Matrix of data
+#' @param data A matrix or dataframe, where each row is an observation and each
+#'   column is a dimension.
 #' @param ranks Optional if data is already ranked
 #' @param useRank FALSE by defalut, set to TRUE to use your ranks
-#' @param depth Depth function of choice
+#' @param depth Depth function of choice. It is 'spat' for spatial depth by
+#'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
+#'   Mahalanobis MCD, or 'hs' for halfspace depth.
 #'
 #' @returns Estimated start and end of epidemic period with p-value
 #' @export
