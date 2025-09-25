@@ -6,7 +6,7 @@
 #' @param depth Depth function of choice. It is 'mahal' for Mahalanobis depth by
 #'   default. User can also choose 'mahal75' for Mahalanobis MCD, 'hs' for
 #'   halfspace, or 'spat' for spatial depth.
-#' @param beta Numeric penalty constant passed to PELT
+#' @param k Part of numeric penalty constant passed to PELT
 #' @param custom_depth_function Use your own custom depth function (NULL by
 #'   default)
 #'
@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @examples
-MKWP = function(data, depth = "mahal", beta = 10, custom_depth_function = NULL){
+MKWP = function(data, depth = "mahal", k = 0.2, custom_depth_function = NULL){
   if (!is.matrix(data)){
     stop("Data must be in matrix form.")
   }
@@ -49,6 +49,7 @@ MKWP = function(data, depth = "mahal", beta = 10, custom_depth_function = NULL){
     }
   }
   ranks = rank(depth.values)
+  beta = 3.74 + k*sqrt(length(ranks))
   cp = which(PELT(ranks,length(ranks),beta)==1)-1 #includes the changepoint 0
   if (length(cp) == 1){ #Since first value in cp is 0
     return("No changepoint detected")

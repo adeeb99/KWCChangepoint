@@ -37,13 +37,13 @@ RPDd=function(data,derivs){
 #' @param funcdata Data in fdata, where each row is an observation and each
 #'   column is a dimension.
 #' @param depth Depth function of choice
-#' @param beta Numeric penalty constant passed to PELT
+#' @param k Part of penalty constant passed to PELT
 #'
 #' @returns A list of changepoints
 #' @export
 #'
 #' @examples
-FKWC <- function(funcdata, depth = "FM_depth", beta = 10){
+FKWC <- function(funcdata, depth = "FM_depth", k = 0.25){
 
   if (!fda.usc::is.fdata(funcdata)){
     stop("Data must be in fdata form.")
@@ -69,6 +69,7 @@ FKWC <- function(funcdata, depth = "FM_depth", beta = 10){
     #depths = RPDd(funcdata$data,derivs)
   #}
   ranks = rank(depths)
+  beta = 3.74 + k*sqrt(length(ranks))
   cp = which(PELT(ranks,length(ranks),beta)==1)-1 #includes the changepoint 0
 
   if (length(cp) == 1){ #Since first value in cp is 0
