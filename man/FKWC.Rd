@@ -2,21 +2,23 @@
 % Please edit documentation in R/FKWC.R
 \name{FKWC}
 \alias{FKWC}
-\title{Find Changepoints Using Functional Kruskall-Wallis for Covariance Algorithm}
+\title{Find Changepoints Using Functional Kruskall-Wallis Tests for Covariance
+Algorithm}
 \usage{
-FKWC(funcdata, depth = "FM_depth", beta = 10)
+FKWC(funcdata, depth = "FM_depth", k = 0.25)
 }
 \arguments{
-\item{funcdata}{Data in fdata, where each row is an observation and each
-column is a dimension.}
+\item{funcdata}{Functional data in fdata form, where each row is an
+observation and each column is a dimension.}
 
 \item{depth}{Depth function of choice}
 
-\item{beta}{Numeric penalty constant passed to PELT}
+\item{k}{Part of penalty constant passed to PELT}
 }
 \value{
 A list of changepoints
 }
 \description{
-Find Changepoints Using Functional Kruskall-Wallis for Covariance Algorithm
+Find Changepoints Using Functional Kruskall-Wallis Tests for Covariance
+Algorithm
 }

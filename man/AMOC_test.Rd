@@ -7,13 +7,16 @@
 AMOC_test(data, ranks = NULL, useRank = FALSE, depth = "spat", boundary = 1)
 }
 \arguments{
-\item{data}{Data in matrix form}
+\item{data}{A matrix or dataframe, where each row is an observation and each
+column is a dimension.}
 
 \item{ranks}{Optional if data is already ranked}
 
 \item{useRank}{FALSE by defalut, set to TRUE to use your ranks}
 
-\item{depth}{Depth function of choice}
+\item{depth}{Depth function of choice. It is 'spat' for spatial depth by
+default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
+Mahalanobis MCD, or 'hs' for halfspace depth.}
 
 \item{boundary}{}
 }

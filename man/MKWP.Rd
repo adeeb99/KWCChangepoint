@@ -4,7 +4,7 @@
 \alias{MKWP}
 \title{Find Changepoints Using Multivariate Kruskal-Wallis PELT}
 \usage{
-MKWP(data, depth = "mahal", beta = 10, custom_depth_function = NULL)
+MKWP(data, depth = "mahal", k = 0.2, custom_depth_function = NULL)
 }
 \arguments{
 \item{data}{A matrix or dataframe, where each row is an observation and each
@@ -14,7 +14,7 @@ column is a dimension.}
 default. User can also choose 'mahal75' for Mahalanobis MCD, 'hs' for
 halfspace, or 'spat' for spatial depth.}
 
-\item{beta}{Numeric penalty constant passed to PELT}
+\item{k}{Part of numeric penalty constant passed to PELT}
 
 \item{custom_depth_function}{Use your own custom depth function (NULL by
 default)}
