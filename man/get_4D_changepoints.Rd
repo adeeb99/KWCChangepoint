@@ -2,20 +2,31 @@
 % Please edit documentation in R/fMRI.R
 \name{get_4D_changepoints}
 \alias{get_4D_changepoints}
-\title{Detect changepoints in an fMRI}
+\title{Detect changepoints in a resting state fMRI scan}
 \usage{
-get_4D_changepoints(imag_array, M = 100, C1 = 0.3, C2 = 3.74)
+get_4D_changepoints(data, p = 100, k = 0.3)
 }
 \arguments{
-\item{imag_array}{A 4D object}
+\item{data}{A four dimensional array, where the fourth dimension is each time stamp.}
 
-\item{M}{Number of random vector projections}
+\item{p}{Number of random vector projections, set to 100 by default}
 
-\item{C2}{}
+\item{k}{Part of penalty constant passed to pruned exact linear time algorithm.}
 }
 \value{
 A list of changepoints
 }
 \description{
-Detect changepoints in an fMRI
+Detect changepoints in a resting state fMRI scan
+}
+\note{
+The penalty is of the form \deqn{3.74 + k*\sqrt{n}} where \eqn{n} is the
+number of observations. In the case that there is potentially correlated
+observations, the parameter could be set to \eqn{k=1}. More information could
+be found in the reference.
+}
+\references{
+Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
+  in the variability of multivariate functional data. Journal of
+  Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 }

@@ -1,35 +1,43 @@
 
 
 # Takes a 4 dimensional input image array - 4th dimension is time
-# M is the number of unit vectors - see the paper.
+# p is the number of unit vectors - see the paper.
 
-#' Detect changepoints in an fMRI
+#' Detect changepoints in a resting state fMRI scan
 #'
-#' @param imag_array A 4D object
-#' @param M Number of random vector projections
-#' @param C1
-#' @param C2
+#' @param data A four dimensional array, where the fourth dimension is each time stamp.
+#' @param p Number of random vector projections, set to 100 by default
+#' @param k Part of penalty constant passed to pruned exact linear time algorithm.
 #'
 #' @returns A list of changepoints
 #' @export
 #'
-#' @examples
-get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
+#' @note
+#'
+#' The penalty is of the form \deqn{3.74 + k*\sqrt{n}} where \eqn{n} is the
+#' number of observations. In the case that there is potentially correlated
+#' observations, the parameter could be set to \eqn{k=1}. More information could
+#' be found in the reference.
+#'
+#' @references Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
+#'   in the variability of multivariate functional data. Journal of
+#'   Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
+get_4D_changepoints <- function(data, p = 100, k = 0.3){
 
-  DIM1=dim(imag_array)[1]
-  DIM2=dim(imag_array)[2]
-  DIM3=dim(imag_array)[3]
+  DIM1=dim(data)[1]
+  DIM2=dim(data)[2]
+  DIM3=dim(data)[3]
 
 
-  dim_img=dim(imag_array)[1:3]
+  dim_img=dim(data)[1:3]
   # prod(dim_img)
-  random_directions=array(0,dim=c(dim_img,M))
+  random_directions=array(0,dim=c(dim_img,p))
 
   #lets try multiplying together
 
-  d1=fda.usc::rproc2fdata( M,t = seq(0,1,l=DIM1),norm = TRUE)
-  d2=fda.usc::rproc2fdata( M,t = seq(0,1,l=DIM2),norm = TRUE)
-  d3=fda.usc::rproc2fdata( M,t = seq(0,1,l=DIM3),norm = TRUE)
+  d1=fda.usc::rproc2fdata(p, t = seq(0,1,l=DIM1),norm = TRUE)
+  d2=fda.usc::rproc2fdata(p, t = seq(0,1,l=DIM2),norm = TRUE)
+  d3=fda.usc::rproc2fdata(p, t = seq(0,1,l=DIM3),norm = TRUE)
 
   #Now combine into one function
   for(i in 1:DIM1){
@@ -42,7 +50,7 @@ get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
 
 
   #normalize
-  for(i in 1:M){
+  for(i in 1:p){
     random_directions[,,,i]= random_directions[,,,i]/sqrt(sum(c(random_directions[,,,i])^2))
   }
 
@@ -55,9 +63,9 @@ get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
   }
 
   #compute projections of regular data
-  projections=sapply(1:M,function(rd){apply(imag_array,4,function(x){project(random_directions[,,,rd],x)})}); projections
+  projections=sapply(1:p,function(rd){apply(data,4,function(x){project(random_directions[,,,rd],x)})}); projections
 
-  print("Done computing projections of regular data")
+  #print("Done computing projections of regular data")
 
   #compute derivatives and their projections
   pic=function(x,pic_num=1){
@@ -80,13 +88,12 @@ get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
       yy=DIM2
 
 
-    return(imag_array[xx,yy,zz,pic_num] )
+    return(data[xx,yy,zz,pic_num] )
 
   }
 
-  print("Done computing derivatives and their projections") # all good until here
   all_pnts=expand.grid((1:DIM1)/DIM1,(1:DIM2)/DIM2,(1:DIM3)/DIM3)
-  print("Done all_pnts")
+  #print("Done all_pnts")
 
   all_pnts2=expand.grid((1:DIM1),(1:DIM2),(1:DIM3))
   print("Done all_pnts2")
@@ -98,7 +105,7 @@ get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
                                                        method.args = list(eps=0.01,d=.1)
                                                        ,pic_num=pic_num)})
 
-    dxx=dyy=dzz=imag_array[,,,pic_num]
+    dxx=dyy=dzz=data[,,,pic_num]
 
     for(x in 1:nrow(all_pnts2)){
       y=unlist(all_pnts2[x,], use.names=FALSE);
@@ -112,7 +119,7 @@ get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
   }
   #print("Defined get_derviatives")
 
-  num_scans=dim(imag_array)[4]
+  num_scans=dim(data)[4]
   derivs=sapply(1:num_scans,get_derivatives)
 
   #print("Applied get_derivatives")
@@ -120,20 +127,20 @@ get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
 
 
   # Compute derivatives
-  derivsx2=imag_array
-  derivsy2=imag_array
-  derivsz2=imag_array
+  derivsx2 <- data
+  derivsy2 <- data
+  derivsz2 <- data
 
-  for(i in 1:(dim(imag_array)[4])){
-    derivsx2[,,,i]=derivs[1,i][[1]]
-    derivsy2[,,,i]=derivs[2,i][[1]]
-    derivsz2[,,,i]=derivs[3,i][[1]]
+  for(i in 1:(dim(data)[4])){
+    derivsx2[,,,i] <- derivs[1,i][[1]]
+    derivsy2[,,,i] <- derivs[2,i][[1]]
+    derivsz2[,,,i] <- derivs[3,i][[1]]
   }
   #print("Done computing derivs_2")
 
-  projections_derivative_x=sapply(1:M,function(rd){apply(derivsx2,4,function(x){project(random_directions[,,,rd],x)})}); #projections_derivative_x
-  projections_derivative_y=sapply(1:M,function(rd){apply(derivsy2,4,function(x){project(random_directions[,,,rd],x)})}); #projections_derivative_y
-  projections_derivative_z=sapply(1:M,function(rd){apply(derivsz2,4,function(x){project(random_directions[,,,rd],x)})}); #projections_derivative_z
+  projections_derivative_x=sapply(1:p,function(rd){apply(derivsx2,4,function(x){project(random_directions[,,,rd],x)})}); #projections_derivative_x
+  projections_derivative_y=sapply(1:p,function(rd){apply(derivsy2,4,function(x){project(random_directions[,,,rd],x)})}); #projections_derivative_y
+  projections_derivative_z=sapply(1:p,function(rd){apply(derivsz2,4,function(x){project(random_directions[,,,rd],x)})}); #projections_derivative_z
 
 
 
@@ -143,7 +150,7 @@ get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
 
 
   # for with derivatives, d_vals is depth values
-  d_vals=sapply(1:M,function(x){ddalpha::depth.halfspace(cbind(projections[,x],projections_derivative_x[,x],projections_derivative_y[,x],projections_derivative_z[,x]),
+  d_vals=sapply(1:p,function(x){ddalpha::depth.halfspace(cbind(projections[,x],projections_derivative_x[,x],projections_derivative_y[,x],projections_derivative_z[,x]),
                                                          cbind(projections[,x],projections_derivative_x[,x],projections_derivative_y[,x],projections_derivative_z[,x])) })
 
   #print("Done depth values")
@@ -153,14 +160,12 @@ get_4D_changepoints <- function(imag_array,M=100,C1=0.3,C2=3.74){
 
   #print("Done ordering ranks")
 
-  cp = which(PELT(ranks, length(ranks), beta = C1*length(ranks)+C2)==1)-1
+  cp = which(PELT(ranks, length(ranks), beta = k*length(ranks)+3.74)==1)-1
 
   if (length(cp) == 1){ #Since first value in cp is 0
     return("No changepoint detected")
   } else {
     return(cp[-c(1)])
   }
-
 }
 
-# get_4D_changepoints(image_array, M = 14)

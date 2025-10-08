@@ -1,4 +1,4 @@
-#' Find Changepoints Using Depth-Based Wild Binary Segmentation
+#' Find changepoints using depth-based wild binary segmentation
 #'
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
@@ -38,17 +38,16 @@ DWBS <- function(data,
 #schwartz criteria for choosing the threshold
 #returns all the different models which are the selected change-points and the sigmahatsquared value
 #(see paper, section on choosing threshold)
+
+#' @noRd
 getScwartzCriterias <- function(cp, data, depth) {
 
   #get indidvidual criteria for a set of cp
-
-
-
   sqhat <- getsqhat(NULL, data, depth)
 
   abc <- list("cp" = NULL, "sigSq" = sqhat)
 
-  models = list(abc)
+  models <- list(abc)
 
   for (i in 1:length(cp)) {
     sqhat <- getsqhat(cp[1:i], data, depth)
@@ -64,6 +63,7 @@ getScwartzCriterias <- function(cp, data, depth) {
 }
 
 #' @keywords internal
+#' @noRd
 getsqhat <- function(cp, data, depth) {
   depths <- rank(getDepths(data, depth), ties.method = "random")
   # depths<-getDepths(data,depth)
@@ -99,6 +99,7 @@ getsqhat <- function(cp, data, depth) {
 
 #get indidvidual criteria for a set of cp
 #' @keywords internal
+#' @noRd
 getsSic2<-function(cp,sighatSq,alpha,N){
 
 
@@ -116,6 +117,7 @@ getsSic2<-function(cp,sighatSq,alpha,N){
 
 
 #' @keywords internal
+#' @noRd
 applySCH<-function(models,alpha,N){
 
   #get SIC for all amounts of cp
@@ -139,6 +141,23 @@ applySCH<-function(models,alpha,N){
 
 
 
+#' Find changepoints using data-driven depth-based wild binary segmentation
+#'
+#' @param data A matrix or dataframe, where each row is an observation and each
+#'   column is a dimension.
+#' @param numInt Number of subintervals to be generated.
+#' @param thresh Threshold to set for wild binary segmentation, which is 1.3584
+#'   by default.
+#' @param depth Depth function of choice. It is 'hs' for halfspace depth by
+#'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
+#'   Mahalanobis MCD, 'spat' for spatial depth.
+#'
+#' @returns A list of changepoints
+#' @export
+#'
+#' @references Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
+#'   changepoint detection for multivariate variability. Econometrics and
+#'   Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 DWBS_DDT = function(data,
                     d,
                     numInt = 10,
@@ -178,6 +197,7 @@ DWBS_DDT = function(data,
 
 
 #' @keywords internal
+#' @noRd
 WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
   if ((e - s) < 1)
     return(NULL)
@@ -248,7 +268,8 @@ WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
 
 
 
-
+#' @keywords internal
+#' @noRd
 testStat <- function(range, data, depth) {
   if (depth == "spat") {
     ts = testStatSpat(range, data)
@@ -271,6 +292,7 @@ testStat <- function(range, data, depth) {
 }
 
 #test cusum from depth values
+#' @noRd
 getStatFromDepths <- function(depths, N) {
   ranks <- rank(depths, ties.method = "random")
   expected.val <- (N - 1) / 2
@@ -280,6 +302,7 @@ getStatFromDepths <- function(depths, N) {
 }
 
 #' @keywords internal
+#' @noRd
 testStatHs <- function(range, data) {
   if ((range[2] - range[1]) > (ncol(data) + 1)) {
     range <- range[1]:range[2]
@@ -292,6 +315,7 @@ testStatHs <- function(range, data) {
 }
 
 #' @keywords internal
+#' @noRd
 testStatSpat <- function(range, data) {
   if ((range[2] - range[1]) > (ncol(data) + 1)) {
     range <- range[1]:range[2]
@@ -305,6 +329,7 @@ testStatSpat <- function(range, data) {
 }
 
 #' @keywords internal
+#' @noRd
 testStatMahal75 <- function(range, data) {
   if ((range[2] - range[1]) > (ncol(data) * 2)) {
     range <- range[1]:range[2]
@@ -319,6 +344,7 @@ testStatMahal75 <- function(range, data) {
 }
 
 #' @keywords internal
+#' @noRd
 testStatMahal <- function(range, data) {
   if ((range[2] - range[1]) > (ncol(data) * 2)) {
     range <- range[1]:range[2]
@@ -334,6 +360,7 @@ testStatMahal <- function(range, data) {
 
 #returns indices of the intervals selected, M is the number of intervals
 #' @keywords internal
+#' @noRd
 getIntervals <- function(indices, M) {
   ints <- t(replicate(M, sort(sample(indices, 2))))
   diffs <- (ints[, 2] - ints[, 1]) == 1
@@ -348,6 +375,7 @@ getIntervals <- function(indices, M) {
 
 #checks if an interval is a sub of another
 #' @keywords internal
+#' @noRd
 checkIfSubInterval <- function(sub, super) { ### AR: Returns true or false
   return(sub[1] >= super[1] && sub[2] <= super[2])
 }
@@ -362,7 +390,7 @@ checkIfSubInterval <- function(sub, super) { ### AR: Returns true or false
 ## e: end
 ## etc.
 
-
+#' @noRd
 getDepths <- function(data, depth) {
   if (depth == "spat") {
     ts = ddalpha::depth.spatial(data, data)

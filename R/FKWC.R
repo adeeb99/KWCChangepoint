@@ -1,4 +1,5 @@
 #' @keywords internal
+#' @noRd
 RPD=function(data){
   gen_direction=replicate(20,rnorm(100))
   gen_direction=apply(gen_direction,2,function(x){x/sqrt(sum(x^2))})
@@ -13,6 +14,7 @@ RPD=function(data){
 }
 
 #' @keywords internal
+#' @noRd
 FMp=function(data,derivs){
   dp=sapply(1:100,function(x){ddalpha::depth.halfspace(cbind( data[,x],derivs[,x]),cbind( data[,x],derivs[,x]),num.directions =100)   })
   return(rowMeans(dp))
@@ -20,18 +22,28 @@ FMp=function(data,derivs){
 
 
 
-#' Find Changepoints Using Functional Kruskall-Wallis Tests for Covariance
-#' Algorithm
+#' Find changepoints using functional Kruskall-Wallis tests for covariance
+#' algorithm
 #'
 #' @param funcdata Functional data in fdata form, where each row is an
 #'   observation and each column is a dimension.
-#' @param depth Depth function of choice
-#' @param k Part of penalty constant passed to PELT
+#' @param depth Depth function of choice.
+#' @param k Part of penalty constant passed to pruned exact linear time
+#'   algorithm.
 #'
 #' @returns A list of changepoints
 #' @export
 #'
-#' @examples
+#' @note
+#'
+#' The penalty is of the form \deqn{3.74 + k*\sqrt{n}} where \eqn{n} is the
+#' number of observations. In the case that there is potentially correlated
+#' observations, the parameter could be set to \eqn{k=1}. More information could
+#' be found in the reference.
+#'
+#' @references Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
+#'   in the variability of multivariate functional data. Journal of
+#'   Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 FKWC <- function(funcdata, depth = "FM_depth", k = 0.25){
 
   if (!fda.usc::is.fdata(funcdata)){
@@ -69,6 +81,7 @@ FKWC <- function(funcdata, depth = "FM_depth", k = 0.25){
 }
 
 #' @keywords internal
+#' @noRd
 RPDd <- function(data, derivs, p = 20,
                   depth_fun = ddalpha::depth.simplicial) {
   X <- as.matrix(data)
@@ -103,7 +116,10 @@ RPDd <- function(data, derivs, p = 20,
 #' @returns A list containing the test statistic and the p-value.
 #' @export
 #'
-#' @examples
+#' @references Ramsay, K., & Chenouri, S. (2024). Robust nonparametric
+#'   hypothesis tests for differences in the covariance structure of functional
+#'   data. Canadian Journal of Statistics, 52 (1), 43–78.
+#'   https://doi.org/10.1002/cjs.11767
 FKWC_multisample <- function(data, derivs, g, p = 20){
   depths <- RPDd2(data = data, derivs = derivs, p = p)
   ranks <- rank(depths)
@@ -127,7 +143,10 @@ FKWC_multisample <- function(data, derivs, g, p = 20){
 #'   correction applied.
 #' @export
 #'
-#' @examples
+#' @references Ramsay, K., & Chenouri, S. (2024). Robust nonparametric
+#'   hypothesis tests for differences in the covariance structure of functional
+#'   data. Canadian Journal of Statistics, 52 (1), 43–78.
+#'   https://doi.org/10.1002/cjs.11767
 FKWC_posthoc <- function(data, derivs, g, p = 20){
   all_pairs <- combn(levels(g), m = 2) # Get all possible pairs
   result_matrix <- diag(NA_real_, nrow = nlevels(g))

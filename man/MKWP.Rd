@@ -2,7 +2,8 @@
 % Please edit documentation in R/MKWP.R
 \name{MKWP}
 \alias{MKWP}
-\title{Find Changepoints Using Multivariate Kruskal-Wallis PELT}
+\title{Find changepoints in multivariate data using multivariate Kruskal-Wallis
+PELT.}
 \usage{
 MKWP(data, depth = "mahal", k = 0.2, custom_depth_function = NULL)
 }
@@ -23,5 +24,11 @@ default)}
 A list of changepoints
 }
 \description{
-Find Changepoints Using Multivariate Kruskal-Wallis PELT
+Find changepoints in multivariate data using multivariate Kruskal-Wallis
+PELT.
+}
+\references{
+Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
+  changepoint detection for multivariate variability. Econometrics and
+  Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 }

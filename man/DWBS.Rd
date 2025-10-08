@@ -2,7 +2,7 @@
 % Please edit documentation in R/DWBS.R
 \name{DWBS}
 \alias{DWBS}
-\title{Find Changepoints Using Depth-Based Wild Binary Segmentation}
+\title{Find changepoints using depth-based wild binary segmentation}
 \usage{
 DWBS(data, numInt = 10, thresh = 1.3584, depth = "hs")
 }
@@ -20,5 +20,5 @@ Mahalanobis MCD, 'spat' for spatial depth.}
 A list of changepoints
 }
 \description{
-Find Changepoints Using Depth-Based Wild Binary Segmentation
+Find changepoints using depth-based wild binary segmentation
 }

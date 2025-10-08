@@ -26,3 +26,9 @@ A list containing the test statistic and the p-value.
 Multisample hypothesis test for differences in covariance operators using
 Functional Kruskal–Wallis Tests for Covariance.
 }
+\references{
+Ramsay, K., & Chenouri, S. (2024). Robust nonparametric
+  hypothesis tests for differences in the covariance structure of functional
+  data. Canadian Journal of Statistics, 52 (1), 43–78.
+  https://doi.org/10.1002/cjs.11767
+}

@@ -2,8 +2,8 @@
 % Please edit documentation in R/FKWC.R
 \name{FKWC}
 \alias{FKWC}
-\title{Find Changepoints Using Functional Kruskall-Wallis Tests for Covariance
-Algorithm}
+\title{Find changepoints using functional Kruskall-Wallis tests for covariance
+algorithm}
 \usage{
 FKWC(funcdata, depth = "FM_depth", k = 0.25)
 }
@@ -11,14 +11,26 @@ FKWC(funcdata, depth = "FM_depth", k = 0.25)
 \item{funcdata}{Functional data in fdata form, where each row is an
 observation and each column is a dimension.}
 
-\item{depth}{Depth function of choice}
+\item{depth}{Depth function of choice.}
 
-\item{k}{Part of penalty constant passed to PELT}
+\item{k}{Part of penalty constant passed to pruned exact linear time
+algorithm.}
 }
 \value{
 A list of changepoints
 }
 \description{
-Find Changepoints Using Functional Kruskall-Wallis Tests for Covariance
-Algorithm
+Find changepoints using functional Kruskall-Wallis tests for covariance
+algorithm
+}
+\note{
+The penalty is of the form \deqn{3.74 + k*\sqrt{n}} where \eqn{n} is the
+number of observations. In the case that there is potentially correlated
+observations, the parameter could be set to \eqn{k=1}. More information could
+be found in the reference.
+}
+\references{
+Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
+  in the variability of multivariate functional data. Journal of
+  Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 }

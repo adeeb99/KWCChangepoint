@@ -1,5 +1,6 @@
 
-#' Find Changepoints Using Multivariate Kruskal-Wallis PELT
+#' Find changepoints in multivariate data using multivariate Kruskal-Wallis
+#' PELT.
 #'
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
@@ -13,7 +14,9 @@
 #' @returns A list of changepoints
 #' @export
 #'
-#' @examples
+#' @references Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
+#'   changepoint detection for multivariate variability. Econometrics and
+#'   Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 MKWP = function(data, depth = "mahal", k = 0.2, custom_depth_function = NULL){
   if (!is.matrix(data)){
     stop("Data must be in matrix form.")
