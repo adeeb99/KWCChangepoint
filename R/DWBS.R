@@ -2,16 +2,22 @@
 #'
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
-#' @param numInt Number of subintervals to be generated
+#' @param numInt Number of subintervals to be generated.
 #' @param thresh
 #' @param depth Depth function of choice. It is 'hs' for halfspace depth by
 #'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 #'   Mahalanobis MCD, 'spat' for spatial depth.
 #'
-#' @returns A list of changepoints
+#' @returns A list of changepoints.
 #' @export
 #'
 #' @examples
+#'
+#' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+#'   of Changepoints With a Linear Computational Cost.” Journal of the American
+#'   Statistical Association 107, no. 500 (2012): 1590–98.
+#'   https://doi.org/10.1080/01621459.2012.737745.
+
 DWBS <- function(data,
                 numInt = 10,
                 thresh = 1.3584,
@@ -148,14 +154,31 @@ applySCH<-function(models,alpha,N){
 #' @param numInt Number of subintervals to be generated.
 #' @param thresh Threshold to set for wild binary segmentation, which is 1.3584
 #'   by default.
+<<<<<<< HEAD
+=======
+#' @param alpha Set as 1 by default, applying a standard SIC penalty. Set to a
+#'   number larger than 1 for a strengthened SIC.
+>>>>>>> 6ae0005 (Added references, added notes on parameter selection)
 #' @param depth Depth function of choice. It is 'hs' for halfspace depth by
 #'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 #'   Mahalanobis MCD, 'spat' for spatial depth.
 #'
+<<<<<<< HEAD
 #' @returns A list of changepoints
 #' @export
 #'
 #' @references Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
+=======
+#' @returns A list of changepoints.
+#' @export
+#'
+#' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+#'   of Changepoints With a Linear Computational Cost.” Journal of the American
+#'   Statistical Association 107, no. 500 (2012): 1590–98.
+#'   https://doi.org/10.1080/01621459.2012.737745.
+#'
+#'   Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
+>>>>>>> 6ae0005 (Added references, added notes on parameter selection)
 #'   changepoint detection for multivariate variability. Econometrics and
 #'   Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 DWBS_DDT = function(data,

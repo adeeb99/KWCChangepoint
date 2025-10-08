@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{getRanks}
 \alias{getRanks}
-\title{Rank Multivariate Data on Depth Values}
+\title{Rank multivariate data according to depth values}
 \usage{
 getRanks(data, depth = "spat")
 }
@@ -15,8 +15,8 @@ default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 Mahalanobis MCD, or 'hs' for halfspace depth.}
 }
 \value{
-A list of ranks for each observation
+A list of ranks for each observation.
 }
 \description{
-Rank Multivariate Data on Depth Values
+Rank multivariate data according to depth values
 }

@@ -2,18 +2,25 @@
 % Please edit documentation in R/hypothesis.R
 \name{uniMean}
 \alias{uniMean}
-\title{Find Changepoint in Univariate Data Based on Mean}
+\title{Find changepoint in univariate data based on mean}
 \usage{
 uniMean(data, beta = 10)
 }
 \arguments{
-\item{data}{Univariate data}
+\item{data}{Univariate data.}
 
-\item{beta}{Numeric penalty constant passed to PELT}
+\item{beta}{Numeric penalty constant passed to pruned exact linear time
+algorithm.}
 }
 \value{
-List of changepoints
+List of changepoints.
 }
 \description{
-Find Changepoint in Univariate Data Based on Mean
+Find changepoint in univariate data based on mean
+}
+\references{
+Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+  of Changepoints With a Linear Computational Cost.” Journal of the American
+  Statistical Association 107, no. 500 (2012): 1590–98.
+  https://doi.org/10.1080/01621459.2012.737745.
 }

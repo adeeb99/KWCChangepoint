@@ -1,5 +1,5 @@
 
-#' Rank Multivariate Data on Depth Values
+#' Rank multivariate data according to depth values
 #'
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
@@ -7,7 +7,7 @@
 #'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 #'   Mahalanobis MCD, or 'hs' for halfspace depth.
 #'
-#' @returns A list of ranks for each observation
+#' @returns A list of ranks for each observation.
 #' @export
 #'
 #' @examples
@@ -35,7 +35,7 @@ getRanks = function(data, depth = 'spat'){
 
 
 
-#' Conduct an AMOC (At Most One Changepoint) Hypothesis Test
+#' Conduct an AMOC (at most one changepoint) hypothesis test
 #'
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
@@ -46,7 +46,7 @@ getRanks = function(data, depth = 'spat'){
 #'   Mahalanobis MCD, or 'hs' for halfspace depth.
 #' @param boundary
 #'
-#' @returns An estimated changepoint with a p-value
+#' @returns An estimated changepoint with a p-value.
 #' @export
 #'
 #' @examples
@@ -103,17 +103,17 @@ AMOC_test = function(data, ranks = NULL, useRank = FALSE, depth = 'spat', bounda
 }
 
 
-#' Test For an Epidemic Period in Data
+#' Test for an epidemic period in data
 #'
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
-#' @param ranks Optional if data is already ranked
+#' @param ranks Optional if data is already ranked.
 #' @param useRank FALSE by defalut, set to TRUE to use your ranks
 #' @param depth Depth function of choice. It is 'spat' for spatial depth by
 #'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 #'   Mahalanobis MCD, or 'hs' for halfspace depth.
 #'
-#' @returns Estimated start and end of epidemic period with p-value
+#' @returns Estimated start and end of epidemic period with p-value.
 #' @export
 #'
 #' @examples
@@ -183,13 +183,19 @@ Epidemic_test = function(data, ranks = NULL, useRank = FALSE, depth = 'spat'){
   }
 }
 
-#' Find Changepoint in Univariate Data Based on Mean
+#' Find changepoint in univariate data based on mean
 #'
-#' @param data Univariate data
-#' @param beta Numeric penalty constant passed to PELT
+#' @param data Univariate data.
+#' @param beta Numeric penalty constant passed to pruned exact linear time
+#'   algorithm.
 #'
-#' @returns List of changepoints
+#' @returns List of changepoints.
 #' @export
+#'
+#' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+#'   of Changepoints With a Linear Computational Cost.” Journal of the American
+#'   Statistical Association 107, no. 500 (2012): 1590–98.
+#'   https://doi.org/10.1080/01621459.2012.737745.
 #'
 #' @examples
 uniMean = function(data, beta = 10){
@@ -203,12 +209,13 @@ uniMean = function(data, beta = 10){
 }
 
 
-#' Find Changepoints in Univariate Data Based on Scale
+#' Find changepoints in univariate data based on scale
 #'
-#' @param data Univariate data
-#' @param beta Numeric penalty constant passed to PELT, 10 by default
+#' @param data Univariate data.
+#' @param beta Numeric penalty constant passed to pruned exact linear time
+#'   algorithm, 10 by default.
 #'
-#' @returns List of changepoints
+#' @returns List of changepoints.
 #' @export
 #'
 #' @examples

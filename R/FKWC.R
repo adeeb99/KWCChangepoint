@@ -31,7 +31,7 @@ FMp=function(data,derivs){
 #' @param k Part of penalty constant passed to pruned exact linear time
 #'   algorithm.
 #'
-#' @returns A list of changepoints
+#' @returns A list of changepoints.
 #' @export
 #'
 #' @note
@@ -41,9 +41,20 @@ FMp=function(data,derivs){
 #' observations, the parameter could be set to \eqn{k=1}. More information could
 #' be found in the reference.
 #'
+<<<<<<< HEAD
 #' @references Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
 #'   in the variability of multivariate functional data. Journal of
 #'   Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
+=======
+#' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+#'   of Changepoints With a Linear Computational Cost.” Journal of the American
+#'   Statistical Association 107, no. 500 (2012): 1590–98.
+#'   https://doi.org/10.1080/01621459.2012.737745.
+#'
+#'   Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection in the
+#'   variability of multivariate functional data. Journal of Nonparametric
+#'   Statistics. https://doi.org/10.1080/10485252.2025.2503891
+>>>>>>> 6ae0005 (Added references, added notes on parameter selection)
 FKWC <- function(funcdata, depth = "FM_depth", k = 0.25){
 
   if (!fda.usc::is.fdata(funcdata)){
@@ -103,7 +114,7 @@ RPDd <- function(data, derivs, p = 20,
 
 
 #' Multisample hypothesis test for differences in covariance operators using
-#' Functional Kruskal–Wallis Tests for Covariance.
+#' Functional Kruskal–Wallis Tests for Covariance
 #'
 #' @param data Functional data in fdata form, where each row is an observation
 #'   and each column is a dimension.
@@ -121,7 +132,7 @@ RPDd <- function(data, derivs, p = 20,
 #'   data. Canadian Journal of Statistics, 52 (1), 43–78.
 #'   https://doi.org/10.1002/cjs.11767
 FKWC_multisample <- function(data, derivs, g, p = 20){
-  depths <- RPDd2(data = data, derivs = derivs, p = p)
+  depths <- RPDd(data = data, derivs = derivs, p = p)
   ranks <- rank(depths)
   kw <- kruskal.test(ranks, g = g)
   list(statistic = as.numeric(kw$statistic), p.value = kw$p.value)

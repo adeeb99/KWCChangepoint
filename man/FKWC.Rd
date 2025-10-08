@@ -17,7 +17,7 @@ observation and each column is a dimension.}
 algorithm.}
 }
 \value{
-A list of changepoints
+A list of changepoints.
 }
 \description{
 Find changepoints using functional Kruskall-Wallis tests for covariance
@@ -30,7 +30,12 @@ observations, the parameter could be set to \eqn{k=1}. More information could
 be found in the reference.
 }
 \references{
-Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
-  in the variability of multivariate functional data. Journal of
-  Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
+Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+  of Changepoints With a Linear Computational Cost.” Journal of the American
+  Statistical Association 107, no. 500 (2012): 1590–98.
+  https://doi.org/10.1080/01621459.2012.737745.
+
+  Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection in the
+  variability of multivariate functional data. Journal of Nonparametric
+  Statistics. https://doi.org/10.1080/10485252.2025.2503891
 }

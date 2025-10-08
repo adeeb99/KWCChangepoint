@@ -10,15 +10,21 @@ DWBS(data, numInt = 10, thresh = 1.3584, depth = "hs")
 \item{data}{A matrix or dataframe, where each row is an observation and each
 column is a dimension.}
 
-\item{numInt}{Number of subintervals to be generated}
+\item{numInt}{Number of subintervals to be generated.}
 
 \item{depth}{Depth function of choice. It is 'hs' for halfspace depth by
 default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 Mahalanobis MCD, 'spat' for spatial depth.}
 }
 \value{
-A list of changepoints
+A list of changepoints.
 }
 \description{
 Find changepoints using depth-based wild binary segmentation
+}
+\references{
+Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+  of Changepoints With a Linear Computational Cost.” Journal of the American
+  Statistical Association 107, no. 500 (2012): 1590–98.
+  https://doi.org/10.1080/01621459.2012.737745.
 }

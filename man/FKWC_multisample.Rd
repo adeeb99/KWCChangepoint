@@ -3,7 +3,7 @@
 \name{FKWC_multisample}
 \alias{FKWC_multisample}
 \title{Multisample hypothesis test for differences in covariance operators using
-Functional Kruskal–Wallis Tests for Covariance.}
+Functional Kruskal–Wallis Tests for Covariance}
 \usage{
 FKWC_multisample(data, derivs, g, p = 20)
 }
@@ -24,7 +24,13 @@ A list containing the test statistic and the p-value.
 }
 \description{
 Multisample hypothesis test for differences in covariance operators using
-Functional Kruskal–Wallis Tests for Covariance.
+Functional Kruskal–Wallis Tests for Covariance
+}
+\references{
+Ramsay, K., & Chenouri, S. (2024). Robust nonparametric
+  hypothesis tests for differences in the covariance structure of functional
+  data. Canadian Journal of Statistics, 52 (1), 43–78.
+  https://doi.org/10.1002/cjs.11767
 }
 \references{
 Ramsay, K., & Chenouri, S. (2024). Robust nonparametric

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{AMOC_test}
 \alias{AMOC_test}
-\title{Conduct an AMOC (At Most One Changepoint) Hypothesis Test}
+\title{Conduct an AMOC (at most one changepoint) hypothesis test}
 \usage{
 AMOC_test(data, ranks = NULL, useRank = FALSE, depth = "spat", boundary = 1)
 }
@@ -21,8 +21,8 @@ Mahalanobis MCD, or 'hs' for halfspace depth.}
 \item{boundary}{}
 }
 \value{
-An estimated changepoint with a p-value
+An estimated changepoint with a p-value.
 }
 \description{
-Conduct an AMOC (At Most One Changepoint) Hypothesis Test
+Conduct an AMOC (at most one changepoint) hypothesis test
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{Epidemic_test}
 \alias{Epidemic_test}
-\title{Test For an Epidemic Period in Data}
+\title{Test for an epidemic period in data}
 \usage{
 Epidemic_test(data, ranks = NULL, useRank = FALSE, depth = "spat")
 }
@@ -10,7 +10,7 @@ Epidemic_test(data, ranks = NULL, useRank = FALSE, depth = "spat")
 \item{data}{A matrix or dataframe, where each row is an observation and each
 column is a dimension.}
 
-\item{ranks}{Optional if data is already ranked}
+\item{ranks}{Optional if data is already ranked.}
 
 \item{useRank}{FALSE by defalut, set to TRUE to use your ranks}
 
@@ -19,8 +19,8 @@ default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 Mahalanobis MCD, or 'hs' for halfspace depth.}
 }
 \value{
-Estimated start and end of epidemic period with p-value
+Estimated start and end of epidemic period with p-value.
 }
 \description{
-Test For an Epidemic Period in Data
+Test for an epidemic period in data
 }
