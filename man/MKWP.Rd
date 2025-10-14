@@ -2,7 +2,8 @@
 % Please edit documentation in R/MKWP.R
 \name{MKWP}
 \alias{MKWP}
-\title{Find changepoints in multivariate data using multivariate Kruskal-Wallis PELT}
+\title{Find changepoints in multivariate data using multivariate Kruskal-Wallis
+PELT.}
 \usage{
 MKWP(data, depth = "mahal", k = 0.2, custom_depth_function = NULL)
 }
@@ -14,30 +15,20 @@ column is a dimension.}
 default. User can also choose 'mahal75' for Mahalanobis MCD, 'hs' for
 halfspace, or 'spat' for spatial depth.}
 
-\item{k}{Part of numeric penalty constant passed to PELT.}
+\item{k}{Part of numeric penalty constant passed to PELT}
 
 \item{custom_depth_function}{Use your own custom depth function (NULL by
-default).}
+default)}
 }
 \value{
-A list of changepoints.
+A list of changepoints
 }
 \description{
-Find changepoints in multivariate data using multivariate Kruskal-Wallis PELT
-}
-\note{
-The penalty is of the form \deqn{3.74 + k*\sqrt{n}} where \eqn{n} is the
-number of observations. In the case that there is potentially correlated
-observations, the parameter could be set to \eqn{k=1}. More information could
-be found in the reference.
+Find changepoints in multivariate data using multivariate Kruskal-Wallis
+PELT.
 }
 \references{
-Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
-  of Changepoints With a Linear Computational Cost.” Journal of the American
-  Statistical Association 107, no. 500 (2012): 1590–98.
-  https://doi.org/10.1080/01621459.2012.737745.
-
-  Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
+Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
   changepoint detection for multivariate variability. Econometrics and
   Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 }

@@ -41,11 +41,6 @@ FMp=function(data,derivs){
 #' observations, the parameter could be set to \eqn{k=1}. More information could
 #' be found in the reference.
 #'
-<<<<<<< HEAD
-#' @references Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
-#'   in the variability of multivariate functional data. Journal of
-#'   Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
-=======
 #' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
 #'   of Changepoints With a Linear Computational Cost.” Journal of the American
 #'   Statistical Association 107, no. 500 (2012): 1590–98.
@@ -54,7 +49,6 @@ FMp=function(data,derivs){
 #'   Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection in the
 #'   variability of multivariate functional data. Journal of Nonparametric
 #'   Statistics. https://doi.org/10.1080/10485252.2025.2503891
->>>>>>> 6ae0005 (Added references, added notes on parameter selection)
 FKWC <- function(funcdata, depth = "FM_depth", k = 0.25){
 
   if (!fda.usc::is.fdata(funcdata)){
