@@ -1,4 +1,3 @@
-
 #' Find changepoints in multivariate data using multivariate Kruskal-Wallis
 #' PELT.
 #'
@@ -17,12 +16,9 @@
 #' @references Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
 #'   changepoint detection for multivariate variability. Econometrics and
 #'   Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
-MKWP = function(data, depth = "mahal", k = 0.2, custom_depth_function = NULL){
-  if (!is.matrix(data)){
+MKWP <- function(data, depth = "mahal", k = 0.2, custom_depth_function = NULL) {
+  if (!is.matrix(data)) {
     stop("Data must be in matrix form.")
-  }
-  if (!is.numeric(beta)){
-    stop("Parameter 'beta' must be numeric.")
   }
 
   if (!is.null(custom_depth_function)) {
@@ -42,24 +38,21 @@ MKWP = function(data, depth = "mahal", k = 0.2, custom_depth_function = NULL){
 
 
     if (depth == "mahal") {
-      depth.values = ddalpha::depth.Mahalanobis(x = data, data = data)
+      depth.values <- ddalpha::depth.Mahalanobis(x = data, data = data)
     } else if (depth == "mahal75") {
-      depth.values = ddalpha::depth.spatial(x = data, data = data, "MCD")
+      depth.values <- ddalpha::depth.spatial(x = data, data = data, "MCD")
     } else if (depth == "spat") {
-      depth.values = ddalpha::depth.spatial(x = data, data = data)
+      depth.values <- ddalpha::depth.spatial(x = data, data = data)
     } else if (depth == "hs") {
-      depth.values = ddalpha::depth.halfspace(x = data, data = data)
+      depth.values <- ddalpha::depth.halfspace(x = data, data = data)
     }
   }
-  ranks = rank(depth.values)
-  beta = 3.74 + k*sqrt(length(ranks))
-  cp = which(PELT(ranks,length(ranks),beta)==1)-1 #includes the changepoint 0
-  if (length(cp) == 1){ #Since first value in cp is 0
+  ranks <- rank(depth.values)
+  beta <- 3.74 + k * sqrt(length(ranks))
+  cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1 # includes the changepoint 0
+  if (length(cp) == 1) { # Since first value in cp is 0
     return("No changepoint detected")
   } else {
     return(cp[-c(1)])
   }
 }
-
-
-
