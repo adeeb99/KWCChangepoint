@@ -21,6 +21,9 @@ DWBS <- function(data,
                  numInt = 10,
                  thresh = 1.3584,
                  depth = "hs") {
+  if (!is.matrix(data) & !is.data.frame(data)) {
+    stop("Data must be in matrix or data frame form.")
+  }
   s_test <- 1
   e_test <- nrow(data)
 
@@ -147,6 +150,10 @@ applySCH <- function(models, alpha, N) {
 #' @returns A list of changepoints.
 #' @export
 #'
+#' @examples
+#' exdata <- rbind(replicate(5,rnorm(100,mean=0)),replicate(5,rnorm(100,mean=10)))
+#' DWBS_DDT(data = exdata)
+#'
 #' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
 #'   of Changepoints With a Linear Computational Cost.” Journal of the American
 #'   Statistical Association 107, no. 500 (2012): 1590–98.
@@ -156,11 +163,13 @@ applySCH <- function(models, alpha, N) {
 #'   changepoint detection for multivariate variability. Econometrics and
 #'   Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 DWBS_DDT <- function(data,
-                     d,
                      numInt = 10,
                      thresh = 1.3584,
                      alpha = 1,
                      depth = "hs") {
+  if (!is.matrix(data) & !is.data.frame(data)) {
+    stop("Data must be in matrix or data frame form.")
+  }
   s_test <- 1
   e_test <- nrow(data)
 

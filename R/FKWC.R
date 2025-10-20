@@ -54,9 +54,13 @@ FMp <- function(data, derivs) {
 #'   variability of multivariate functional data. Journal of Nonparametric
 #'   Statistics. https://doi.org/10.1080/10485252.2025.2503891
 FKWC <- function(funcdata, depth = "FM_depth", k = 0.25) {
-  if (!fda.usc::is.fdata(funcdata)) {
-    stop("Data must be in fdata form.")
+  if (!is.matrix(fdata) & !is.data.frame(fdata)) {
+    stop("Data must be in matrix or data frame form.")
   }
+
+  # if (!fda.usc::is.fdata(funcdata)) {
+  #   stop("Data must be in fdata form.")
+  # }
   if (!depth %in% c("FM_depth", "RPD_depth", "LTR_depth", "FM_depth_d")) {
     stop("Invalid depth function. Please choose 'FM_depth', 'RPD_depth', 'LTR_depth', or
          'FM_depth_d'")
@@ -129,6 +133,18 @@ RPDd <- function(data, derivs, p = 20,
 #'   data. Canadian Journal of Statistics, 52 (1), 43–78.
 #'   https://doi.org/10.1002/cjs.11767
 FKWC_multisample <- function(data, derivs, g, p = 20) {
+  if (!(is.matrix(data) || is.data.frame(data))) {
+    stop("Argument `data` must be a matrix or data frame.", call. = FALSE)
+  }
+  if (!(is.matrix(derivs) || is.data.frame(derivs))) {
+    stop("Argument `derivs` must be a matrix or data frame.", call. = FALSE)
+  }
+  if (!identical(dim(data), dim(derivs))) {
+    stop("Arguments `data` and `derivs` must have the same dimensions.", call. = FALSE)
+  }
+  if (nrow(data) != length(g)) {
+    stop("Argument `g` must have length equal to number of observations (rows) in `data`.", call. = FALSE)
+  }
   depths <- RPDd(data = data, derivs = derivs, p = p)
   ranks <- rank(depths)
   kw <- kruskal.test(ranks, g = g)
@@ -156,6 +172,21 @@ FKWC_multisample <- function(data, derivs, g, p = 20) {
 #'   data. Canadian Journal of Statistics, 52 (1), 43–78.
 #'   https://doi.org/10.1002/cjs.11767
 FKWC_posthoc <- function(data, derivs, g, p = 20) {
+  if (!(is.matrix(data) || is.data.frame(data))) {
+    stop("Argument `data` must be a matrix or data frame.", call. = FALSE)
+  }
+  if (!(is.matrix(derivs) || is.data.frame(derivs))) {
+    stop("Argument `derivs` must be a matrix or data frame.", call. = FALSE)
+  }
+  if (!identical(dim(data), dim(derivs))) {
+    stop("Arguments `data` and `derivs` must have the same dimensions.", call. = FALSE)
+  }
+  if (nrow(data) != length(g)) {
+    stop("Argument `g` must have length equal to number of observations (rows) in `data`.", call. = FALSE)
+  }
+  if (!is.factor(g)) {
+    stop("Argument 'g' must be a factor.", call. = FALSE)
+  }
   all_pairs <- combn(levels(g), m = 2) # Get all possible pairs
   result_matrix <- diag(NA_real_, nrow = nlevels(g))
   rownames(result_matrix) <- levels(g)

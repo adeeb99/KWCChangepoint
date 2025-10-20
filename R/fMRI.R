@@ -5,11 +5,11 @@
 #'
 #' @param data A four dimensional array, where the fourth dimension is each time
 #'   stamp.
-#' @param p Number of random vector projections, set to 100 by default
+#' @param p Number of random vector projections, set to 100 by default.
 #' @param k Part of penalty constant passed to pruned exact linear time
 #'   algorithm.
 #'
-#' @returns A list of changepoints
+#' @returns A list of changepoints.
 #' @export
 #'
 #' @note
@@ -23,6 +23,9 @@
 #'   in the variability of multivariate functional data. Journal of
 #'   Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 get_4D_changepoints <- function(data, p = 100, k = 0.3) {
+  if (k <= 0 || !is.numeric(k)){
+    stop("Argeument 'k' must be a nonnegative number")
+  }
   DIM1 <- dim(data)[1]
   DIM2 <- dim(data)[2]
   DIM3 <- dim(data)[3]

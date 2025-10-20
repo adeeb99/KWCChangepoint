@@ -17,8 +17,11 @@
 #'   changepoint detection for multivariate variability. Econometrics and
 #'   Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 MKWP <- function(data, depth = "mahal", k = 0.2, custom_depth_function = NULL) {
-  if (!is.matrix(data)) {
-    stop("Data must be in matrix form.")
+  if (!(is.matrix(data) || is.data.frame(data))) {
+    stop("`data` must be a matrix or data frame.", call. = FALSE)
+  }
+  if (is.data.frame(data) && !all(vapply(data, is.numeric, logical(1)))) {
+    stop("All columns of `data` must be numeric.", call. = FALSE)
   }
 
   if (!is.null(custom_depth_function)) {
@@ -35,17 +38,17 @@ MKWP <- function(data, depth = "mahal", k = 0.2, custom_depth_function = NULL) {
     if (!depth %in% c("mahal", "mahal75", "spat", "hs")) {
       stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal75' for Mahalanobis MCD, 'spat' for Spatial, or 'hs' for Halfspace")
     }
+    depth.values <- getDepths(data = data, depth = depth)
 
-
-    if (depth == "mahal") {
-      depth.values <- ddalpha::depth.Mahalanobis(x = data, data = data)
-    } else if (depth == "mahal75") {
-      depth.values <- ddalpha::depth.spatial(x = data, data = data, "MCD")
-    } else if (depth == "spat") {
-      depth.values <- ddalpha::depth.spatial(x = data, data = data)
-    } else if (depth == "hs") {
-      depth.values <- ddalpha::depth.halfspace(x = data, data = data)
-    }
+    # if (depth == "mahal") {
+    #   depth.values <- ddalpha::depth.Mahalanobis(x = data, data = data)
+    # } else if (depth == "mahal75") {
+    #   depth.values <- ddalpha::depth.spatial(x = data, data = data, "MCD")
+    # } else if (depth == "spat") {
+    #   depth.values <- ddalpha::depth.spatial(x = data, data = data)
+    # } else if (depth == "hs") {
+    #   depth.values <- ddalpha::depth.halfspace(x = data, data = data)
+    # }
   }
   ranks <- rank(depth.values)
   beta <- 3.74 + k * sqrt(length(ranks))
