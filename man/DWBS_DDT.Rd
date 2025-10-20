@@ -4,7 +4,7 @@
 \alias{DWBS_DDT}
 \title{Find changepoints using data-driven depth-based wild binary segmentation}
 \usage{
-DWBS_DDT(data, d, numInt = 10, thresh = 1.3584, alpha = 1, depth = "hs")
+DWBS_DDT(data, numInt = 10, thresh = 1.3584, alpha = 1, depth = "hs")
 }
 \arguments{
 \item{data}{A matrix or dataframe, where each row is an observation and each
@@ -27,6 +27,11 @@ A list of changepoints.
 }
 \description{
 Find changepoints using data-driven depth-based wild binary segmentation
+}
+\examples{
+exdata <- rbind(replicate(5,rnorm(100,mean=0)),replicate(5,rnorm(100,mean=10)))
+DWBS_DDT(data = exdata)
+
 }
 \references{
 Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection

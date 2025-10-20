@@ -7,14 +7,16 @@
 get_4D_changepoints(data, p = 100, k = 0.3)
 }
 \arguments{
-\item{data}{A four dimensional array, where the fourth dimension is each time stamp.}
+\item{data}{A four dimensional array, where the fourth dimension is each time
+stamp.}
 
-\item{p}{Number of random vector projections, set to 100 by default}
+\item{p}{Number of random vector projections, set to 100 by default.}
 
-\item{k}{Part of penalty constant passed to pruned exact linear time algorithm.}
+\item{k}{Part of penalty constant passed to pruned exact linear time
+algorithm.}
 }
 \value{
-A list of changepoints
+A list of changepoints.
 }
 \description{
 Detect changepoints in a resting state fMRI scan
