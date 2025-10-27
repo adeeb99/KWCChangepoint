@@ -3,7 +3,8 @@
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
 #' @param numInt Number of subintervals to be generated.
-#' @param thresh
+#' @param thresh Numeric scalar; detection threshold. Larger values make
+#'   detection more conservative.
 #' @param depth Depth function of choice. It is 'hs' for halfspace depth by
 #'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 #'   Mahalanobis MCD, 'spat' for spatial depth.
@@ -139,8 +140,8 @@ applySCH <- function(models, alpha, N) {
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
 #' @param numInt Number of subintervals to be generated.
-#' @param thresh Threshold to set for wild binary segmentation, which is 1.3584
-#'   by default.
+#' @param thresh Numeric scalar; detection threshold. Larger values make
+#'   detection more conservative.
 #' @param alpha Set as 1 by default, applying a standard SIC penalty. Set to a
 #'   number larger than 1 for a strengthened SIC.
 #' @param depth Depth function of choice. It is 'hs' for halfspace depth by

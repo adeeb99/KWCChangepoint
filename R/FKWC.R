@@ -1,7 +1,7 @@
 #' @keywords internal
 #' @noRd
 RPD <- function(data) {
-  gen_direction <- replicate(20, rnorm(100))
+  gen_direction <- replicate(20, stats::rnorm(100))
   gen_direction <- apply(gen_direction, 2, function(x) {
     x / sqrt(sum(x^2))
   })
@@ -29,7 +29,7 @@ FMp <- function(data, derivs) {
 #' Find changepoints using functional Kruskall-Wallis tests for covariance
 #' algorithm
 #'
-#' @param funcdata Functional data in fdata form, where each row is an
+#' @param data Functional data in fdata form, where each row is an
 #'   observation and each column is a dimension.
 #' @param depth Depth function of choice.
 #' @param k Part of penalty constant passed to pruned exact linear time
@@ -53,33 +53,36 @@ FMp <- function(data, derivs) {
 #'   Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection in the
 #'   variability of multivariate functional data. Journal of Nonparametric
 #'   Statistics. https://doi.org/10.1080/10485252.2025.2503891
-FKWC <- function(funcdata, depth = "FM_depth", k = 0.25) {
-  if (!is.matrix(fdata) & !is.data.frame(fdata)) {
+FKWC <- function(data, depth = "FM_depth", k = 0.25) {
+  if (!is.matrix(data) & !is.data.frame(data)) {
     stop("Data must be in matrix or data frame form.")
   }
 
   # if (!fda.usc::is.fdata(funcdata)) {
   #   stop("Data must be in fdata form.")
   # }
-  if (!depth %in% c("FM_depth", "RPD_depth", "LTR_depth", "FM_depth_d")) {
-    stop("Invalid depth function. Please choose 'FM_depth', 'RPD_depth', 'LTR_depth', or
-         'FM_depth_d'")
+  # if (!depth %in% c("FM_depth", "RPD_depth", "LTR_depth", "FM_depth_d")) {
+  #   stop("Invalid depth function. Please choose 'FM_depth', 'RPD_depth', 'LTR_depth', or
+  #        'FM_depth_d'")
+  # }
+  if (!depth %in% c("FM_depth", "RPD_depth", "LTR_depth")) {
+    stop("Invalid depth function. Please choose 'FM_depth', 'RPD_depth', or 'LTR_depth'")
   }
 
-  rownames(funcdata$data) <- as.character(1:(nrow(funcdata$data)))
+  rownames(data$data) <- as.character(1:(nrow(data$data)))
 
   if (depth == "FM_depth") {
-    depths <- fda.usc::depth.FM(funcdata)$dep
+    depths <- fda.usc::depth.FM(data)$dep
   } else if (depth == "RPD_depth") {
-    depths <- RPD(funcdata$data)
+    depths <- RPD(data$data)
   } else if (depth == "LTR_depth") {
-    depths <- c(fda.usc::norm.fdata(funcdata))
-  } else if (depth == "FM_depth_d") {
-    derivs <- MFHD::derivcurves(funcdata$data)
-    depths <- FMp(funcdata$data, derivs)
-  } else if (depth == "RPD_depth_d") {
-    derivs <- MFHD::derivcurves(funcdata$data)
-    depths <- RPDd(funcdata$data, derivs)
+    depths <- c(fda.usc::norm.fdata(data))
+  # } else if (depth == "FM_depth_d") {
+  #   derivs <- MFHD::derivcurves(data$data)
+  #   depths <- FMp(data$data, derivs)
+  # } else if (depth == "RPD_depth_d") {
+  #   derivs <- MFHD::derivcurves(data$data)
+  #   depths <- RPDd(data$data, derivs)
   }
   ranks <- rank(depths)
   beta <- 3.74 + k * sqrt(length(ranks))
@@ -101,7 +104,7 @@ RPDd <- function(data, derivs, p = 20,
   n <- nrow(X)
   m <- ncol(X)
   # Generate p random directions
-  U <- replicate(p, rnorm(m))
+  U <- replicate(p, stats::rnorm(m))
   U <- apply(U, 2, function(v) v / sqrt(sum(v^2)))
   # For each direction u_k, compute 2D projections (x·u_k, x'·u_k),
   # then take depth of the n points w.r.t. themselves
@@ -147,7 +150,7 @@ FKWC_multisample <- function(data, derivs, g, p = 20) {
   }
   depths <- RPDd(data = data, derivs = derivs, p = p)
   ranks <- rank(depths)
-  kw <- kruskal.test(ranks, g = g)
+  kw <- stats::kruskal.test(ranks, g = g)
   list(statistic = as.numeric(kw$statistic), p.value = kw$p.value)
 }
 
@@ -187,7 +190,7 @@ FKWC_posthoc <- function(data, derivs, g, p = 20) {
   if (!is.factor(g)) {
     stop("Argument 'g' must be a factor.", call. = FALSE)
   }
-  all_pairs <- combn(levels(g), m = 2) # Get all possible pairs
+  all_pairs <- utils::combn(levels(g), m = 2) # Get all possible pairs
   result_matrix <- diag(NA_real_, nrow = nlevels(g))
   rownames(result_matrix) <- levels(g)
   colnames(result_matrix) <- levels(g)

@@ -20,7 +20,7 @@ Find changepoint in univariate data based on mean
 }
 \references{
 Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
-  of Changepoints With a Linear Computational Cost.” Journal of the American
-  Statistical Association 107, no. 500 (2012): 1590–98.
-  https://doi.org/10.1080/01621459.2012.737745.
+of Changepoints With a Linear Computational Cost.” Journal of the American
+Statistical Association 107, no. 500 (2012): 1590–98.
+https://doi.org/10.1080/01621459.2012.737745.
 }

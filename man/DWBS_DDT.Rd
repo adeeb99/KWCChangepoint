@@ -12,8 +12,8 @@ column is a dimension.}
 
 \item{numInt}{Number of subintervals to be generated.}
 
-\item{thresh}{Threshold to set for wild binary segmentation, which is 1.3584
-by default.}
+\item{thresh}{Numeric scalar; detection threshold. Larger values make
+detection more conservative.}
 
 \item{alpha}{Set as 1 by default, applying a standard SIC penalty. Set to a
 number larger than 1 for a strengthened SIC.}
@@ -35,11 +35,11 @@ DWBS_DDT(data = exdata)
 }
 \references{
 Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
-  of Changepoints With a Linear Computational Cost.” Journal of the American
-  Statistical Association 107, no. 500 (2012): 1590–98.
-  https://doi.org/10.1080/01621459.2012.737745.
+of Changepoints With a Linear Computational Cost.” Journal of the American
+Statistical Association 107, no. 500 (2012): 1590–98.
+https://doi.org/10.1080/01621459.2012.737745.
 
-  Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
-  changepoint detection for multivariate variability. Econometrics and
-  Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
+Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
+changepoint detection for multivariate variability. Econometrics and
+Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 }

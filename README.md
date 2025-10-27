@@ -1,4 +1,8 @@
 # KWCChangepoint
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/adeeb99/KWCChangepoint/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/adeeb99/KWCChangepoint/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 
 A user-friendly R package for functional and multivariate changepoint detection.
 

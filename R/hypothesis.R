@@ -127,14 +127,14 @@ Epidemic_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat") {
         -sign * (cost_cpp(0, n - k2 + k1 - 1, ranks[c(1:(k1 - 1), k2:n)]) + cost_cpp(0, k2 - k1 - 1, ranks[k1:(k2 - 1)])) - mn
       }
 
-      pairs <- apply(combn(n, 2), 2, sort)
+      pairs <- apply(utils::combn(n, 2), 2, sort)
 
       Zns <- apply(pairs, 2, Wk)
       ks <- which.max(Zns)
       k <- pairs[, ks]
       Znt <- Zns[ks]
 
-      # return(c(Znt,k)) #Test stat, then pair of changepoints - [1] 130.4072 202.0000 405.0000
+
       print(paste(
         "The estimated changepoint pair is ", k[1], " and ", k[2],
         " with a p-value: ", mean(maxes >= Znt)
@@ -157,14 +157,14 @@ Epidemic_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat") {
         -sign * (cost_cpp(0, n - k2 + k1 - 1, ranks[c(1:(k1 - 1), k2:n)]) + cost_cpp(0, k2 - k1 - 1, ranks[k1:(k2 - 1)])) - mn
       }
 
-      pairs <- apply(combn(n, 2), 2, sort)
+      pairs <- apply(utils::combn(n, 2), 2, sort)
 
       Zns <- apply(pairs, 2, Wk)
       ks <- which.max(Zns)
       k <- pairs[, ks]
       Znt <- Zns[ks]
 
-      # return(c(Znt,k)) #Test stat, then pair of changepoints - [1] 130.4072 202.0000 405.0000
+
       print(paste(
         "Estimated changepoint pair is ", k[1], " and ", k[2],
         " with a p-value: ", round(mean(maxes >= Znt), 5)

@@ -29,6 +29,6 @@ be found in the reference.
 }
 \references{
 Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
-  in the variability of multivariate functional data. Journal of
-  Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
+in the variability of multivariate functional data. Journal of
+Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 }

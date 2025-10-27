@@ -5,10 +5,10 @@
 \title{Find changepoints using functional Kruskall-Wallis tests for covariance
 algorithm}
 \usage{
-FKWC(funcdata, depth = "FM_depth", k = 0.25)
+FKWC(data, depth = "FM_depth", k = 0.25)
 }
 \arguments{
-\item{funcdata}{Functional data in fdata form, where each row is an
+\item{data}{Functional data in fdata form, where each row is an
 observation and each column is a dimension.}
 
 \item{depth}{Depth function of choice.}
@@ -31,11 +31,11 @@ be found in the reference.
 }
 \references{
 Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
-  of Changepoints With a Linear Computational Cost.” Journal of the American
-  Statistical Association 107, no. 500 (2012): 1590–98.
-  https://doi.org/10.1080/01621459.2012.737745.
+of Changepoints With a Linear Computational Cost.” Journal of the American
+Statistical Association 107, no. 500 (2012): 1590–98.
+https://doi.org/10.1080/01621459.2012.737745.
 
-  Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection in the
-  variability of multivariate functional data. Journal of Nonparametric
-  Statistics. https://doi.org/10.1080/10485252.2025.2503891
+Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection in the
+variability of multivariate functional data. Journal of Nonparametric
+Statistics. https://doi.org/10.1080/10485252.2025.2503891
 }

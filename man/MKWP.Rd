@@ -29,6 +29,6 @@ PELT.
 }
 \references{
 Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
-  changepoint detection for multivariate variability. Econometrics and
-  Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
+changepoint detection for multivariate variability. Econometrics and
+Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
 }

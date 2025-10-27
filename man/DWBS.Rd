@@ -12,6 +12,9 @@ column is a dimension.}
 
 \item{numInt}{Number of subintervals to be generated.}
 
+\item{thresh}{Numeric scalar; detection threshold. Larger values make
+detection more conservative.}
+
 \item{depth}{Depth function of choice. It is 'hs' for halfspace depth by
 default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 Mahalanobis MCD, 'spat' for spatial depth.}
@@ -24,7 +27,7 @@ Find changepoints using depth-based wild binary segmentation
 }
 \references{
 Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
-  of Changepoints With a Linear Computational Cost.” Journal of the American
-  Statistical Association 107, no. 500 (2012): 1590–98.
-  https://doi.org/10.1080/01621459.2012.737745.
+of Changepoints With a Linear Computational Cost.” Journal of the American
+Statistical Association 107, no. 500 (2012): 1590–98.
+https://doi.org/10.1080/01621459.2012.737745.
 }
