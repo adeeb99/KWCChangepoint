@@ -221,12 +221,7 @@ WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
       ## which in turn calculates:
       ## The data depths of then data in the interval intervals[Mes, ]
 
-      # weird bug where x tilde comes back as matrix
       if (!is.null(dim(Xtilde.abs))) {
-        if (dim(Xtilde.abs)[2] > 2) {
-          print("dim ")
-          print(dim(Xtilde.abs))
-        }
         Xtilde.absT <- Xtilde.abs
         Xtilde.abs <- list()
         for (i in 1:dim(Xtilde.absT)[2]) {

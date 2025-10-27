@@ -4,7 +4,7 @@ Title: User-friendly functional and multivariate changepoint detection
 Version: 0.1.1
 Authors@R: 
     c(
-      person("Adeeb", "Rouhani", email = "adeeb.rouhani@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0009-0007-5294-2226")),
+      person("Adeeb", "Rouhani", email = "adeeb.rouhani@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0009-0007-5294-2226")),
       person("Kelly", "Ramsay", role = "aut", comment = c(ORCID = "0000-0001-5615-2052"))
     )
 Description: The package mainly focuses on changepoint detection in the context of multivariate or functional data.

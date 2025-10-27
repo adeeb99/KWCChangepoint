@@ -216,5 +216,5 @@ FKWC_posthoc <- function(data, derivs, g, p = 20) {
   upper <- upper.tri(result_matrix)
   result_matrix[upper] <- pmin(1, 1 - (1 - result_matrix[upper])^m)
   result_matrix[lower.tri(result_matrix)] <- t(result_matrix)[lower.tri(result_matrix)]
-  print(result_matrix)
+  return(result_matrix)
 }

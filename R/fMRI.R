@@ -24,7 +24,7 @@
 #'   Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 get_4D_changepoints <- function(data, p = 100, k = 0.3) {
   if (k <= 0 || !is.numeric(k)){
-    stop("Argeument 'k' must be a nonnegative number")
+    stop("Argeument 'k' must be a non-negative number")
   }
   DIM1 <- dim(data)[1]
   DIM2 <- dim(data)[2]

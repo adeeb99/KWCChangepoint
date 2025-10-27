@@ -87,11 +87,14 @@ AMOC_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat", bound
       cdf <- function(q) {
         sum(((-1)^ll) * exp(-2 * ll^2 * q^2))
       }
-      print(paste0(
-        "Estimated changepoint is ", k,
-        " with a p-value: ", round(1 - cdf(Znt), 5)
-      ))
-      return(k)
+      # print(paste0(
+      #   "Estimated changepoint is ", k,
+      #   " with a p-value: ", round(1 - cdf(Znt), 5)
+      # ))
+      # return(k)
+      list(changepoint = as.integer(k),
+           p.value = as.numeric(round(1 - cdf(Znt), 5)),
+           method = "AMOC test (KWCChangepoint)")
     }
   }
 }
@@ -165,11 +168,14 @@ Epidemic_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat") {
       Znt <- Zns[ks]
 
 
-      print(paste(
-        "Estimated changepoint pair is ", k[1], " and ", k[2],
-        " with a p-value: ", round(mean(maxes >= Znt), 5)
-      ))
-      return(k)
+      # print(paste(
+      #   "Estimated changepoint pair is ", k[1], " and ", k[2],
+      #   " with a p-value: ", round(mean(maxes >= Znt), 5)
+      # ))
+      # return(k)
+      list(changepoints = as.integer(k),
+           p.value = as.numeric(round(mean(maxes >= Znt), 5)),
+           method = "Epidemic test (KWCChangepoint)")
     }
   }
 }
