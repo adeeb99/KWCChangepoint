@@ -1,6 +1,8 @@
 # KWCChangepoint
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/adeeb99/KWCChangepoint/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/adeeb99/KWCChangepoint/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check (no Suggests)](https://github.com/adeeb99/KWCChangepoint/actions/workflows/check-no-suggests.yaml/badge.svg)](https://github.com/adeeb99/KWCChangepoint/actions/workflows/check-no-suggests.yaml)
+
 <!-- badges: end -->
 
 

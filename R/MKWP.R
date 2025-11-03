@@ -6,50 +6,32 @@
 #' @param depth Depth function of choice. It is 'mahal' for Mahalanobis depth by
 #'   default. User can also choose 'mahal75' for Mahalanobis MCD, 'hs' for
 #'   halfspace, or 'spat' for spatial depth.
-#' @param k Part of numeric penalty constant passed to PELT
-#' @param custom_depth_function Use your own custom depth function (NULL by
-#'   default)
+#' @param k Penalty constant passed to pruned exact linear time algorithm.
 #'
-#' @returns A list of changepoints
+#' @returns A list of changepoints.
 #' @export
 #'
 #' @references Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
 #'   changepoint detection for multivariate variability. Econometrics and
 #'   Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
-MKWP <- function(data, depth = "mahal", k = 0.2, custom_depth_function = NULL) {
+#' @examples
+#' set.seed(111)
+#' multi_data <-rbind(replicate(3,rnorm(200)),
+#'                    replicate(3,rnorm(200,10)),
+#'                    replicate(3,rnorm(200,0.2)))
+#' mkwp(multi_data)
+#'
+mkwp <- function(data,
+                 depth = c("mahal", "mahal75", "spat", "hs"),
+                 k = 0.2) {
+  depth = match.arg(depth)
   if (!(is.matrix(data) || is.data.frame(data))) {
     stop("`data` must be a matrix or data frame.", call. = FALSE)
   }
   if (is.data.frame(data) && !all(vapply(data, is.numeric, logical(1)))) {
     stop("All columns of `data` must be numeric.", call. = FALSE)
   }
-
-  if (!is.null(custom_depth_function)) {
-    if (!is.function(custom_depth_function)) {
-      stop("custom_depth_function must be a valid function.")
-    }
-
-    depth.values <- custom_depth_function(data)
-
-    if (!is.numeric(depth.values) || length(depth.values) != length(data)) {
-      stop("The custom depth function must return a numeric vector of the same length as the number of observations in data.")
-    }
-  } else {
-    if (!depth %in% c("mahal", "mahal75", "spat", "hs")) {
-      stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal75' for Mahalanobis MCD, 'spat' for Spatial, or 'hs' for Halfspace")
-    }
-    depth.values <- getDepths(data = data, depth = depth)
-
-    # if (depth == "mahal") {
-    #   depth.values <- ddalpha::depth.Mahalanobis(x = data, data = data)
-    # } else if (depth == "mahal75") {
-    #   depth.values <- ddalpha::depth.spatial(x = data, data = data, "MCD")
-    # } else if (depth == "spat") {
-    #   depth.values <- ddalpha::depth.spatial(x = data, data = data)
-    # } else if (depth == "hs") {
-    #   depth.values <- ddalpha::depth.halfspace(x = data, data = data)
-    # }
-  }
+  depth.values <- getDepths(data = data, depth = depth)
   ranks <- rank(depth.values)
   beta <- 3.74 + k * sqrt(length(ranks))
   cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1 # includes the changepoint 0

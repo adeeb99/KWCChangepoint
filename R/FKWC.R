@@ -1,49 +1,29 @@
-#' @keywords internal
-#' @noRd
-RPD <- function(data) {
-  gen_direction <- replicate(20, stats::rnorm(100))
-  gen_direction <- apply(gen_direction, 2, function(x) {
-    x / sqrt(sum(x^2))
-  })
-
-  # data is n by m
-  # dim(data)
-  bd <- apply(gen_direction, 2, function(u) {
-    bdd <- data %*% u
-    rnk <- rank(bdd)
-    rnk * (length(bdd) - rnk)
-  })
-  return(rowMeans(bd))
-}
-
-#' @keywords internal
-#' @noRd
-FMp <- function(data, derivs) {
-  dp <- sapply(1:100, function(x) {
-    ddalpha::depth.halfspace(cbind(data[, x], derivs[, x]), cbind(data[, x], derivs[, x]), num.directions = 100)
-  })
-  return(rowMeans(dp))
-}
-
-
 #' Find changepoints using functional Kruskall-Wallis tests for covariance
 #' algorithm
 #'
 #' @param data Functional data in fdata form, where each row is an
 #'   observation and each column is a dimension.
 #' @param depth Depth function of choice.
-#' @param k Part of penalty constant passed to pruned exact linear time
-#'   algorithm.
+#' @param k Penalty constant passed to pruned exact linear time algorithm.
 #'
 #' @returns A list of changepoints.
 #' @export
 #'
 #' @note
+#' The `depth` arguments are as follows:
+#'
+#' * `FM`: Frainman-Muniz depth
+#' * `RPD`: Random projection depth
+#' * `LTR`: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+#' * `FMd`: Frainman-Muniz depth of the data and its first order derivative
+#' * `RPDd`: Random projection depth of the data and its first order derivative
+#'
 #'
 #' The penalty is of the form \deqn{3.74 + k*\sqrt{n}} where \eqn{n} is the
 #' number of observations. In the case that there is potentially correlated
 #' observations, the parameter could be set to \eqn{k=1}. More information could
 #' be found in the reference.
+#'
 #'
 #' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
 #'   of Changepoints With a Linear Computational Cost.” Journal of the American
@@ -53,67 +33,71 @@ FMp <- function(data, derivs) {
 #'   Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection in the
 #'   variability of multivariate functional data. Journal of Nonparametric
 #'   Statistics. https://doi.org/10.1080/10485252.2025.2503891
-FKWC <- function(data, depth = "FM_depth", k = 0.25) {
+#' @examples
+#'
+#' set.seed(2)
+#' # Generating 80 observations, with a changepoint (in our case a change in
+#' # kernel) at observation 40
+#' n  <- 80
+#' k0 <- 40
+#' T  <- 30
+#' t  <- seq(0, 1, length.out = T)
+#'
+#'
+#' # Both kernels K1 and K2 are Gaussian (or squared exponential) kernels but
+#' # with different lengthscale values
+#' K_se <- function(s, t, ell) exp(- ( (s - t)^2 ) / (2 * ell^2))
+#' K1   <- outer(t, t, function(a,b) K_se(a,b, ell = 0.20))
+#' K2   <- outer(t, t, function(a,b) K_se(a,b, ell = 0.07))
+#'
+#' L1 <- chol(K1 + 1e-8 * diag(T))
+#' L2 <- chol(K2 + 1e-8 * diag(T))
+#'
+#' Z1 <- matrix(rnorm(k0 * T),      k0,      T)
+#' Z2 <- matrix(rnorm((n-k0) * T),  n - k0,  T)
+#'
+#' # We finally have an 80 x 30 matrix where the rows are the observations and
+#' # the columns are the grid points.
+#' X  <- rbind(Z1 %*% t(L1), Z2 %*% t(L2))
+#'
+#' fkwc(X)
+#'
+fkwc <- function(data,
+                 depth = c("FM", "RPD", "LTR", "FMd", "RPDd"),
+                 k = 0.25) {
+  depth = match.arg(depth)
+  if (!(k >= 0L && is.numeric(k))){
+    stop("`k` should be a nonnegative number. See function documentation for more information.", call. = FALSE)
+  }
   if (!is.matrix(data) & !is.data.frame(data)) {
     stop("Data must be in matrix or data frame form.")
   }
-
-  # if (!fda.usc::is.fdata(funcdata)) {
-  #   stop("Data must be in fdata form.")
-  # }
-  # if (!depth %in% c("FM_depth", "RPD_depth", "LTR_depth", "FM_depth_d")) {
-  #   stop("Invalid depth function. Please choose 'FM_depth', 'RPD_depth', 'LTR_depth', or
-  #        'FM_depth_d'")
-  # }
-  if (!depth %in% c("FM_depth", "RPD_depth", "LTR_depth")) {
-    stop("Invalid depth function. Please choose 'FM_depth', 'RPD_depth', or 'LTR_depth'")
+  if(tibble::is_tibble(data)) {
+    data <- as.data.frame(data)
   }
 
-  rownames(data$data) <- as.character(1:(nrow(data$data)))
-
-  if (depth == "FM_depth") {
+  if (depth == "FM") {
     depths <- fda.usc::depth.FM(data)$dep
-  } else if (depth == "RPD_depth") {
-    depths <- RPD(data$data)
-  } else if (depth == "LTR_depth") {
-    depths <- c(fda.usc::norm.fdata(data))
-  # } else if (depth == "FM_depth_d") {
-  #   derivs <- MFHD::derivcurves(data$data)
-  #   depths <- FMp(data$data, derivs)
-  # } else if (depth == "RPD_depth_d") {
-  #   derivs <- MFHD::derivcurves(data$data)
-  #   depths <- RPDd(data$data, derivs)
+  } else if (depth == "RPD") {
+    depths <- RPD(data)
+  } else if (depth == "LTR") {
+    depths <- fda.usc::norm.fdata(fda.usc::fdata(data))
+  } else if (depth == "FMd") {
+    derivs <- fda.usc::fdata.deriv(fda.usc::fdata(t(data))$data)$data
+    depths <- FMp(data, t(derivs))
+  } else if (depth == "RPDd") {
+    derivs <- fda.usc::fdata.deriv(fda.usc::fdata(t(data))$data)$data
+    depths <- RPDd(data, t(derivs))
   }
   ranks <- rank(depths)
   beta <- 3.74 + k * sqrt(length(ranks))
-  cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1 # includes the changepoint 0
+  cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1
 
-  if (length(cp) == 1) { # Since first value in cp is 0
+  if (length(cp) == 1) {
     return("No changepoint detected")
   } else {
     return(cp[-c(1)])
   }
-}
-
-#' @keywords internal
-#' @noRd
-RPDd <- function(data, derivs, p = 20,
-                 depth_fun = ddalpha::depth.simplicial) {
-  X <- as.matrix(data)
-  D <- as.matrix(derivs)
-  n <- nrow(X)
-  m <- ncol(X)
-  # Generate p random directions
-  U <- replicate(p, stats::rnorm(m))
-  U <- apply(U, 2, function(v) v / sqrt(sum(v^2)))
-  # For each direction u_k, compute 2D projections (x·u_k, x'·u_k),
-  # then take depth of the n points w.r.t. themselves
-  bd <- apply(U, 2, function(u) {
-    bdd <- cbind(as.vector(X %*% u), as.vector(D %*% u))
-    depth_fun(x = bdd, data = bdd)
-  })
-
-  drop(rowMeans(bd))
 }
 
 
@@ -135,7 +119,37 @@ RPDd <- function(data, derivs, p = 20,
 #'   hypothesis tests for differences in the covariance structure of functional
 #'   data. Canadian Journal of Statistics, 52 (1), 43–78.
 #'   https://doi.org/10.1002/cjs.11767
-FKWC_multisample <- function(data, derivs, g, p = 20) {
+#'
+#' @examples
+#' set.seed(111)
+#' t <- seq(0, 1, length.out = 200)
+#'
+#' ### Generating three sets of brownian curves with different kernels
+#' # Brownian process 1
+#' fd1 <- fda.usc::rproc2fdata(n = 20, t = t, sigma = "brownian",
+#'                            par.list = list(scale = 10, theta = 1))
+#' fd1_d <- fda.usc::fdata.deriv(fd1)
+#'
+#' # Brownian process 2
+#' fd2 <- fda.usc::rproc2fdata(n = 20, t = t, sigma = "brownian",
+#'                            par.list = list(scale = 1, theta = 1))
+#' fd2_d <- fda.usc::fdata.deriv(fd2)
+#'
+#' # Brownian process 3
+#' fd3 <- fda.usc::rproc2fdata(n = 20, t = t, sigma = "brownian",
+#'                            par.list = list(scale = 1, theta = 5))
+#' fd3_d <- fda.usc::fdata.deriv(fd3)
+#'
+#' # Functional data in one matrix and first order derivatives in another matrix
+#' funcdata <- rbind(fd1$data, fd2$data, fd3$data)
+#' funcderivs <- rbind(fd1_d$data, fd2_d$data, fd3_d$data)
+#'
+#' fkwc_multisample(data = funcdata,
+#'                  derivs = funcderivs,
+#'                  g = factor(rep(1:3, each = 20)),
+#'                  p = 1000)
+#'
+fkwc_multisample <- function(data, derivs, g, p = 20) {
   if (!(is.matrix(data) || is.data.frame(data))) {
     stop("Argument `data` must be a matrix or data frame.", call. = FALSE)
   }
@@ -174,7 +188,36 @@ FKWC_multisample <- function(data, derivs, g, p = 20) {
 #'   hypothesis tests for differences in the covariance structure of functional
 #'   data. Canadian Journal of Statistics, 52 (1), 43–78.
 #'   https://doi.org/10.1002/cjs.11767
-FKWC_posthoc <- function(data, derivs, g, p = 20) {
+#'
+#' @examples
+#' set.seed(111)
+#' t <- seq(0, 1, length.out = 200)
+#'
+#' ### Generating three sets of brownian curves with different kernels
+#' # Brownian process 1
+#' fd1 <- fda.usc::rproc2fdata(n = 20, t = t, sigma = "brownian",
+#'                            par.list = list(scale = 10, theta = 1))
+#' fd1_d <- fda.usc::fdata.deriv(fd1)
+#'
+#' # Brownian process 2
+#' fd2 <- fda.usc::rproc2fdata(n = 20, t = t, sigma = "brownian",
+#'                            par.list = list(scale = 1, theta = 1))
+#' fd2_d <- fda.usc::fdata.deriv(fd2)
+#'
+#' # Brownian process 3
+#' fd3 <- fda.usc::rproc2fdata(n = 20, t = t, sigma = "brownian",
+#'                            par.list = list(scale = 1, theta = 5))
+#' fd3_d <- fda.usc::fdata.deriv(fd3)
+#'
+#' # Functional data in one matrix and first order derivatives in another matrix
+#' funcdata <- rbind(fd1$data, fd2$data, fd3$data)
+#' funcderivs <- rbind(fd1_d$data, fd2_d$data, fd3_d$data)
+#'
+#' fkwc_posthoc(data = funcdata,
+#'              derivs = funcderivs,
+#'              g = factor(rep(1:3, each = 20)),
+#'              p = 1000)
+fkwc_posthoc <- function(data, derivs, g, p = 20) {
   if (!(is.matrix(data) || is.data.frame(data))) {
     stop("Argument `data` must be a matrix or data frame.", call. = FALSE)
   }
@@ -190,7 +233,7 @@ FKWC_posthoc <- function(data, derivs, g, p = 20) {
   if (!is.factor(g)) {
     stop("Argument 'g' must be a factor.", call. = FALSE)
   }
-  all_pairs <- utils::combn(levels(g), m = 2) # Get all possible pairs
+  all_pairs <- utils::combn(levels(g), m = 2)
   result_matrix <- diag(NA_real_, nrow = nlevels(g))
   rownames(result_matrix) <- levels(g)
   colnames(result_matrix) <- levels(g)
@@ -201,7 +244,7 @@ FKWC_posthoc <- function(data, derivs, g, p = 20) {
       new_data <- data[index, ]
       new_derivs <- derivs[index, ]
       new_g <- droplevels(g[index])
-      pair_results <- FKWC_multisample(
+      pair_results <- fkwc_multisample(
         data = new_data,
         derivs = new_derivs,
         g = new_g,

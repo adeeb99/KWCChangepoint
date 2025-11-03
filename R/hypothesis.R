@@ -1,102 +1,47 @@
-#' Rank multivariate data according to depth values
-#'
-#' @param data A matrix or dataframe, where each row is an observation and each
-#'   column is a dimension.
-#' @param depth Depth function of choice. It is 'spat' for spatial depth by
-#'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
-#'   Mahalanobis MCD, or 'hs' for halfspace depth.
-#'
-#' @returns A list of ranks for each observation.
-#' @export
-#'
-#' @examples
-getRanks <- function(data, depth = "spat") {
-  if (depth == "spat") {
-    ranks <- rank(ddalpha::depth.spatial(data, data))
-  } else if (depth == "hs") {
-    ranks <- rank(ddalpha::depth.halfspace(data, data))
-  } else if (depth == "mahal") {
-    ranks <- rank(ddalpha::depth.Mahalanobis(data, data))
-  } else if (depth == "mahal75") {
-    ranks <- rank(ddalpha::depth.Mahalanobis(data, data), "MCD")
-  } else {
-    ranks <- NULL
-    stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal75' for Mahalanobis MCD, 'spat' for Spatial, or 'hs' for Halfspace")
-  }
-
-  return(ranks)
-}
-
-
 #' Conduct an AMOC (at most one changepoint) hypothesis test
 #'
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
 #' @param ranks Optional if data is already ranked
-#' @param useRank FALSE by defalut, set to TRUE to use your ranks
 #' @param depth Depth function of choice. It is 'spat' for spatial depth by
 #'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 #'   Mahalanobis MCD, or 'hs' for halfspace depth.
-#' @param boundary
 #'
 #' @returns An estimated changepoint with a p-value.
 #' @export
 #'
 #' @examples
-AMOC_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat", boundary = 1) {
-  if (useRank) {
-    if (is.null(ranks)) {
-      stop("Must provide ranks.")
-    } else {
-      n <- length(ranks)
-      Znk <- function(kk) {
-        abs((((n) * (n^2 - 1) / 12)^(-1 / 2)) * sum(ranks[1:kk] - (n + 1) / 2))
-      }
-
-      Zns <- sapply(boundary:(n - boundary), Znk)
-      k1 <- which.max(Zns)
-      k <- (boundary:(n - boundary))[k1]
-      Znt <- Zns[k1]
-      # return(c(Znt,k))
-      ll <- -1000:1000
-      cdf <- function(q) {
-        sum(((-1)^ll) * exp(-2 * ll^2 * q^2))
-      }
-      print(paste0(
-        "Estimated changepoint is ", k,
-        " with a p-value: ", round(1 - cdf(Znt), 5)
-      ))
-      return(k)
-    }
+#' test_data <- rbind(replicate(3,rnorm(200,1,1)), #before changepoint
+#'                    replicate(3,rnorm(200,1,5))) #after changepoint
+#'
+#' amoc_test(test_data)
+amoc_test <- function(data,
+                      ranks = NULL,
+                      depth = c("spat", "hs", "mahal", "mahal75")) {
+  depth = match.arg(depth)
+  if (!is.null(ranks)) {
+    ranks <- as.numeric(ranks)
   } else {
-    if (is.null(data)) {
-      stop("Must provide data.")
-    } else {
-      ranks <- getRanks(data, depth = depth)
-      n <- length(ranks)
-      Znk <- function(kk) {
-        abs((((n) * (n^2 - 1) / 12)^(-1 / 2)) * sum(ranks[1:kk] - (n + 1) / 2))
-      }
-
-      Zns <- sapply(boundary:(n - boundary), Znk)
-      k1 <- which.max(Zns)
-      k <- (boundary:(n - boundary))[k1]
-      Znt <- Zns[k1]
-      # return(c(Znt,k))
-      ll <- -1000:1000
-      cdf <- function(q) {
-        sum(((-1)^ll) * exp(-2 * ll^2 * q^2))
-      }
-      # print(paste0(
-      #   "Estimated changepoint is ", k,
-      #   " with a p-value: ", round(1 - cdf(Znt), 5)
-      # ))
-      # return(k)
-      list(changepoint = as.integer(k),
-           p.value = as.numeric(round(1 - cdf(Znt), 5)),
-           method = "AMOC test (KWCChangepoint)")
+    if (missing(data) || is.null(data)) {
+      stop("Provide `data` or `ranks`.", call. = FALSE)
     }
+    ranks <- getRanks(data = data, depth = depth)
   }
+  n <- length(ranks)
+  Znk <- function(kk) {
+    abs((((n) * (n^2 - 1) / 12)^(-1 / 2)) * sum(ranks[1:kk] - (n + 1) / 2))
+  }
+  Zns <- sapply(1:(n - 1), Znk)
+  k1 <- which.max(Zns)
+  k <- (1:(n - 1))[k1]
+  Znt <- Zns[k1]
+  ll <- -1000:1000
+  cdf <- function(q) {
+    sum(((-1)^ll) * exp(-2 * ll^2 * q^2))
+  }
+  list(changepoint = as.integer(k),
+       p.value = as.numeric(round(1 - cdf(Znt), 5)),
+       method = "AMOC test (KWCChangepoint)")
 }
 
 
@@ -105,7 +50,6 @@ AMOC_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat", bound
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
 #' @param ranks Optional if data is already ranked.
-#' @param useRank FALSE by defalut, set to TRUE to use your ranks
 #' @param depth Depth function of choice. It is 'spat' for spatial depth by
 #'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
 #'   Mahalanobis MCD, or 'hs' for halfspace depth.
@@ -114,75 +58,60 @@ AMOC_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat", bound
 #' @export
 #'
 #' @examples
-Epidemic_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat") {
-  if (useRank) {
-    if (is.null(ranks)) {
-      stop("Must provide ranks.")
-    } else {
-      n <- length(ranks)
-      sign <- 12 / ((n) * (n + 1))
-      mn <- 3 * (n + 1)
-
-      Wk <- function(k) {
-        k1 <- k[1]
-        k2 <- k[2]
-
-        -sign * (cost_cpp(0, n - k2 + k1 - 1, ranks[c(1:(k1 - 1), k2:n)]) + cost_cpp(0, k2 - k1 - 1, ranks[k1:(k2 - 1)])) - mn
-      }
-
-      pairs <- apply(utils::combn(n, 2), 2, sort)
-
-      Zns <- apply(pairs, 2, Wk)
-      ks <- which.max(Zns)
-      k <- pairs[, ks]
-      Znt <- Zns[ks]
-
-
-      print(paste(
-        "The estimated changepoint pair is ", k[1], " and ", k[2],
-        " with a p-value: ", mean(maxes >= Znt)
-      ))
-      return(k)
-    }
+#' epi_test <- rbind(replicate(3,rnorm(200)),
+#'                   replicate(3,rnorm(200,10)),
+#'                   replicate(3,rnorm(200,0.2)))
+#'
+#' epidemic_test(epi_test)
+#'
+epidemic_test <- function(data,
+                          ranks = NULL,
+                          depth = c("spat", "hs", "mahal", "mahal75")) {
+  depth = match.arg(depth)
+  if (!is.null(ranks)) {
+    ranks <- as.numeric(ranks)
   } else {
-    if (is.null(data)) {
-      stop("Must provide data.")
-    } else {
-      ranks <- getRanks(data, depth = depth)
-      n <- length(ranks)
-      sign <- 12 / ((n) * (n + 1))
-      mn <- 3 * (n + 1)
+    if (missing(data) || is.null(data)) {
+      stop("Provide `data` or `ranks`.", call. = FALSE)
+    }
+    ranks <- getRanks(data = data, depth = depth)
+  }
+  n <- length(ranks)
+  sign <- 12 / ((n) * (n + 1))
+  mn <- 3 * (n + 1)
 
-      Wk <- function(k) {
-        k1 <- k[1]
-        k2 <- k[2]
+  rank_cumsum <- c(0, cumsum(ranks))
+  total <- rank_cumsum[n + 1]
 
-        -sign * (cost_cpp(0, n - k2 + k1 - 1, ranks[c(1:(k1 - 1), k2:n)]) + cost_cpp(0, k2 - k1 - 1, ranks[k1:(k2 - 1)])) - mn
-      }
+  best <- -Inf
+  best_k1 <- 1L
+  best_k2 <- 2L
 
-      pairs <- apply(utils::combn(n, 2), 2, sort)
+  for (k1 in 1:(n - 1L)) {
+    k2_cadidates <- (k1 + 1L):n
+    len_mid  <- k2_cadidates - k1
+    sum_mid  <- rank_cumsum[k2_cadidates] - rank_cumsum[k1]
+    len_out  <- n - len_mid
+    sum_out  <- total - sum_mid
 
-      Zns <- apply(pairs, 2, Wk)
-      ks <- which.max(Zns)
-      k <- pairs[, ks]
-      Znt <- Zns[ks]
+    val_vec <-  sign * ((sum_out * sum_out) / len_out + (sum_mid * sum_mid) / len_mid) - mn
 
-
-      # print(paste(
-      #   "Estimated changepoint pair is ", k[1], " and ", k[2],
-      #   " with a p-value: ", round(mean(maxes >= Znt), 5)
-      # ))
-      # return(k)
-      list(changepoints = as.integer(k),
-           p.value = as.numeric(round(mean(maxes >= Znt), 5)),
-           method = "Epidemic test (KWCChangepoint)")
+    i_local <- which.max(val_vec)
+    v_local <- val_vec[i_local]
+    if (v_local > best) {
+      best   <- v_local
+      best_k1 <- k1
+      best_k2 <- k2_cadidates[i_local]
     }
   }
+  list(changepoints = as.integer(c(best_k1, best_k2)),
+       p.value = as.numeric(round(mean(maxes >= best), 5)),
+       method = "Epidemic test (KWCChangepoint)")
 }
 
 #' Find changepoint in univariate data based on mean
 #'
-#' @param data Univariate data.
+#' @param data A vector or one-dimensional array.
 #' @param beta Numeric penalty constant passed to pruned exact linear time
 #'   algorithm.
 #'
@@ -195,10 +124,15 @@ Epidemic_test <- function(data, ranks = NULL, useRank = FALSE, depth = "spat") {
 #'   https://doi.org/10.1080/01621459.2012.737745.
 #'
 #' @examples
-uniMean <- function(data, beta = 10) {
+#' mean_test <- c(rnorm(100, mean = 0), # before change in mean
+#'                rnorm(100, mean = 5)) # after change in mean
+#' uni_mean(mean_test)
+#'
+#'
+uni_mean <- function(data, beta = 10) {
   ranks <- rank(data)
-  cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1 # includes the changepoint 0
-  if (length(cp) == 1) { # Since first value in cp is 0
+  cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1
+  if (length(cp) == 1) {
     return("No changepoint detected")
   } else {
     return(cp[-c(1)])
@@ -208,7 +142,7 @@ uniMean <- function(data, beta = 10) {
 
 #' Find changepoints in univariate data based on scale
 #'
-#' @param data Univariate data.
+#' @param data A vector or one-dimensional array.
 #' @param beta Numeric penalty constant passed to pruned exact linear time
 #'   algorithm, 10 by default.
 #'
@@ -216,10 +150,15 @@ uniMean <- function(data, beta = 10) {
 #' @export
 #'
 #' @examples
-uniScale <- function(data, beta = 10) {
+#' scale_test <- c(rnorm(100, sd=5), # before change in sale
+#'                 rnorm(100, sd=1)) # after change in scale
+#' uni_scale(scale_test)
+#'
+#'
+uni_scale <- function(data, beta = 10) {
   ranks <- rank(abs(data - mean(data)))
-  cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1 # includes the changepoint 0
-  if (length(cp) == 1) { # Since first value in cp is 0
+  cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1
+  if (length(cp) == 1) {
     return("No changepoint detected")
   } else {
     return(cp[-c(1)])
