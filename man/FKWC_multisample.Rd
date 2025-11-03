@@ -54,11 +54,13 @@ fkwc_multisample(data = funcdata,
                  derivs = funcderivs,
                  g = factor(rep(1:3, each = 20)),
                  p = 1000)
-
 }
 \references{
 Ramsay, K., & Chenouri, S. (2024). Robust nonparametric
 hypothesis tests for differences in the covariance structure of functional
 data. Canadian Journal of Statistics, 52 (1), 43–78.
 https://doi.org/10.1002/cjs.11767
+}
+\seealso{
+\code{\link[=fkwc_posthoc]{fkwc_posthoc()}}
 }

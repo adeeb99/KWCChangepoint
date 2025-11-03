@@ -2,10 +2,16 @@
 #'
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
-#' @param ranks Optional if data is already ranked
-#' @param depth Depth function of choice. It is 'spat' for spatial depth by
-#'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
-#'   Mahalanobis MCD, or 'hs' for halfspace depth.
+#' @param ranks Optional if data is already ranked.
+#' @param depth Depth function of choice.
+#' @note
+#' The `depth` arguments are as follows:
+#'
+#' * `FM`: Frainman-Muniz depth
+#' * `RPD`: Random projection depth
+#' * `LTR`: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+#' * `FMd`: Frainman-Muniz depth of the data and its first order derivative
+#' * `RPDd`: Random projection depth of the data and its first order derivative
 #'
 #' @returns An estimated changepoint with a p-value.
 #' @export
@@ -17,7 +23,7 @@
 #' amoc_test(test_data)
 amoc_test <- function(data,
                       ranks = NULL,
-                      depth = c("spat", "hs", "mahal", "mahal75")) {
+                      depth = c("FM", "RPD", "LTR", "FMd", "RPDd")) {
   depth = match.arg(depth)
   if (!is.null(ranks)) {
     ranks <- as.numeric(ranks)
@@ -25,7 +31,20 @@ amoc_test <- function(data,
     if (missing(data) || is.null(data)) {
       stop("Provide `data` or `ranks`.", call. = FALSE)
     }
-    ranks <- getRanks(data = data, depth = depth)
+    if (depth == "FM") {
+      depths <- fda.usc::depth.FM(data)$dep
+    } else if (depth == "RPD") {
+      depths <- RPD(data)
+    } else if (depth == "LTR") {
+      depths <- fda.usc::norm.fdata(fda.usc::fdata(data))
+    } else if (depth == "FMd") {
+      derivs <- fda.usc::fdata.deriv(fda.usc::fdata(t(data))$data)$data
+      depths <- FMp(data, t(derivs))
+    } else if (depth == "RPDd") {
+      derivs <- fda.usc::fdata.deriv(fda.usc::fdata(t(data))$data)$data
+      depths <- RPDd(data, t(derivs))
+    }
+    ranks <- rank(depths)
   }
   n <- length(ranks)
   Znk <- function(kk) {
@@ -50,9 +69,15 @@ amoc_test <- function(data,
 #' @param data A matrix or dataframe, where each row is an observation and each
 #'   column is a dimension.
 #' @param ranks Optional if data is already ranked.
-#' @param depth Depth function of choice. It is 'spat' for spatial depth by
-#'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
-#'   Mahalanobis MCD, or 'hs' for halfspace depth.
+#' @param depth Depth function of choice.
+#' @note
+#' The `depth` arguments are as follows:
+#'
+#' * `FM`: Frainman-Muniz depth
+#' * `RPD`: Random projection depth
+#' * `LTR`: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+#' * `FMd`: Frainman-Muniz depth of the data and its first order derivative
+#' * `RPDd`: Random projection depth of the data and its first order derivative
 #'
 #' @returns Estimated start and end of epidemic period with p-value.
 #' @export
@@ -66,7 +91,7 @@ amoc_test <- function(data,
 #'
 epidemic_test <- function(data,
                           ranks = NULL,
-                          depth = c("spat", "hs", "mahal", "mahal75")) {
+                          depth = c("FM", "RPD", "LTR", "FMd", "RPDd")) {
   depth = match.arg(depth)
   if (!is.null(ranks)) {
     ranks <- as.numeric(ranks)
@@ -74,7 +99,20 @@ epidemic_test <- function(data,
     if (missing(data) || is.null(data)) {
       stop("Provide `data` or `ranks`.", call. = FALSE)
     }
-    ranks <- getRanks(data = data, depth = depth)
+    if (depth == "FM") {
+      depths <- fda.usc::depth.FM(data)$dep
+    } else if (depth == "RPD") {
+      depths <- RPD(data)
+    } else if (depth == "LTR") {
+      depths <- fda.usc::norm.fdata(fda.usc::fdata(data))
+    } else if (depth == "FMd") {
+      derivs <- fda.usc::fdata.deriv(fda.usc::fdata(t(data))$data)$data
+      depths <- FMp(data, t(derivs))
+    } else if (depth == "RPDd") {
+      derivs <- fda.usc::fdata.deriv(fda.usc::fdata(t(data))$data)$data
+      depths <- RPDd(data, t(derivs))
+    }
+    ranks <- rank(depths)
   }
   n <- length(ranks)
   sign <- 12 / ((n) * (n + 1))

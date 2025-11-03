@@ -4,23 +4,31 @@
 \alias{amoc_test}
 \title{Conduct an AMOC (at most one changepoint) hypothesis test}
 \usage{
-amoc_test(data, ranks = NULL, depth = c("spat", "hs", "mahal", "mahal75"))
+amoc_test(data, ranks = NULL, depth = c("FM", "RPD", "LTR", "FMd", "RPDd"))
 }
 \arguments{
 \item{data}{A matrix or dataframe, where each row is an observation and each
 column is a dimension.}
 
-\item{ranks}{Optional if data is already ranked}
+\item{ranks}{Optional if data is already ranked.}
 
-\item{depth}{Depth function of choice. It is 'spat' for spatial depth by
-default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
-Mahalanobis MCD, or 'hs' for halfspace depth.}
+\item{depth}{Depth function of choice.}
 }
 \value{
 An estimated changepoint with a p-value.
 }
 \description{
 Conduct an AMOC (at most one changepoint) hypothesis test
+}
+\note{
+The \code{depth} arguments are as follows:
+\itemize{
+\item \code{FM}: Frainman-Muniz depth
+\item \code{RPD}: Random projection depth
+\item \code{LTR}: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+\item \code{FMd}: Frainman-Muniz depth of the data and its first order derivative
+\item \code{RPDd}: Random projection depth of the data and its first order derivative
+}
 }
 \examples{
 test_data <- rbind(replicate(3,rnorm(200,1,1)), #before changepoint

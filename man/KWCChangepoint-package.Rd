@@ -20,6 +20,7 @@ A group of functions that detect and test for changes in covariance structures o
 Useful links:
 \itemize{
   \item \url{https://github.com/adeeb99/KWCChangepoint}
+  \item \url{https://adeeb99.github.io/KWCChangepoint/}
   \item Report bugs at \url{https://github.com/adeeb99/KWCChangepoint/issues}
 }
 

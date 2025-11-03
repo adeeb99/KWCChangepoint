@@ -148,6 +148,7 @@ fkwc <- function(data,
 #'                  derivs = funcderivs,
 #'                  g = factor(rep(1:3, each = 20)),
 #'                  p = 1000)
+#' @seealso [fkwc_posthoc()]
 #'
 fkwc_multisample <- function(data, derivs, g, p = 20) {
   if (!(is.matrix(data) || is.data.frame(data))) {
@@ -217,6 +218,7 @@ fkwc_multisample <- function(data, derivs, g, p = 20) {
 #'              derivs = funcderivs,
 #'              g = factor(rep(1:3, each = 20)),
 #'              p = 1000)
+#' @seealso [fkwc_multisample()]
 fkwc_posthoc <- function(data, derivs, g, p = 20) {
   if (!(is.matrix(data) || is.data.frame(data))) {
     stop("Argument `data` must be a matrix or data frame.", call. = FALSE)

@@ -285,12 +285,15 @@ RPD <- function(data, p = 20,
 
 #' @keywords internal
 #' @noRd
-FMp <- function(data, derivs) {
-  dp <- sapply(1:100, function(x) {
-    ddalpha::depth.halfspace(cbind(data[, x], derivs[, x]), cbind(data[, x], derivs[, x]), num.directions = 100)
+FMp <- function(data, derivs, pmax = 10000L) {
+  p <- min(pmax, ncol(data), ncol(derivs))
+  dp <- sapply(seq_len(p), function(j) {
+    X <- cbind(data[, j], derivs[, j])
+    ddalpha::depth.halfspace(X, X, num.directions = 100)
   })
-  return(rowMeans(dp))
+  rowMeans(dp)
 }
+
 
 
 #' @keywords internal
