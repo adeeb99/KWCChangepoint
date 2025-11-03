@@ -1,4 +1,4 @@
-#' KWCChangepoint: User-friendly Functional and Multivariate Changepoint Detection
+#' KWCChangepoint: Robust Changepoint Detection for Functional and Multivariate Data
 #' @section Links:
 #' \itemize{
 #'   \item GitHub: <https://github.com/adeeb99/KWCChangepoint>

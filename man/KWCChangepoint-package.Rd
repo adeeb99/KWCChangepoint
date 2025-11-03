@@ -4,7 +4,7 @@
 \name{KWCChangepoint-package}
 \alias{KWCChangepoint}
 \alias{KWCChangepoint-package}
-\title{KWCChangepoint: User-friendly Functional and Multivariate Changepoint Detection}
+\title{KWCChangepoint: Robust Changepoint Detection for Functional and Multivariate Data}
 \description{
 A group of functions that detect and test for changes in covariance structures of functional data, as well as changepoint detection for multivariate data more generally. Method for detecting non-stationarity in resting state fMRI scans as seen in Ramsay, K., & Chenouri, S. (2025) \doi{10.1080/10485252.2025.2503891} is implemented in 'fmri_changepoints()'. Also includes depth- and rank-based implementation of the WBS algorithm for detecting multiple changepoints in multivariate data.
 }
