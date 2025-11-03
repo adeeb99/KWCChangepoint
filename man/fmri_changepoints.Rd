@@ -21,7 +21,7 @@ A list of changepoints.
 Detect changepoints in a resting state fMRI scan
 }
 \note{
-The penalty is of the form \deqn{3.74 + k*\sqrt{n}} where \eqn{n} is the
+The penalty is of the form \deqn{3.74 + k\sqrt{n}} where \eqn{n} is the
 number of observations. In the case that there is potentially correlated
 observations, the parameter could be set to \eqn{k=1}. More information could
 be found in the reference.
