@@ -5,7 +5,11 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Detect changepoints in a resting state fMRI scan — fmri_changepoints"><meta name="description" content="Detect changepoints in a resting state fMRI scan"><meta property="og:description" content="Detect changepoints in a resting state fMRI scan"></head><body>
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Detect changepoints in a resting state fMRI scan — fmri_changepoints"><meta name="description" content="Functional magnetic resonance imaging scans are expected to be
+stationary after being pre-processed. This function attempts to find
+potential changepoints using the findings of Ramsay and Chenouri (2025)."><meta property="og:description" content="Functional magnetic resonance imaging scans are expected to be
+stationary after being pre-processed. This function attempts to find
+potential changepoints using the findings of Ramsay and Chenouri (2025)."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -40,7 +44,9 @@
     </div>
 
     <div class="ref-description section level2">
-    <p>Detect changepoints in a resting state fMRI scan</p>
+    <p>Functional magnetic resonance imaging scans are expected to be
+stationary after being pre-processed. This function attempts to find
+potential changepoints using the findings of Ramsay and Chenouri (2025).</p>
     </div>
 
     <div class="section level2">
@@ -53,8 +59,7 @@
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A four dimensional array, where the fourth dimension is each time
-stamp.</p></dd>
+<dd><p>A four dimensional array, where the fourth dimension is time.</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
@@ -67,8 +72,9 @@ stamp.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list of changepoints.</p>
-    </div>
+    <p>A list consisting of:</p><ul><li><p><code>$changepoints</code> : Indices of the change-points detected; will return <code>integer(0)</code> if no changepoints are detected.</p></li>
+<li><p><code>$method</code> : A <code>string</code> <code>"fMRI changepoints (KWCChangepoint)"</code></p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>The penalty is of the form $$3.74 + k\sqrt{n}$$ where \(n\) is the
@@ -126,7 +132,12 @@ Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891</p>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu">fmri_changepoints</span><span class="op">(</span><span class="va">image_array</span>, k <span class="op">=</span> <span class="fl">0.1</span>, p <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>executing %dopar% sequentially: no parallel backend registered</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $changepoints</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fMRI changepoints (KWCChangepoint)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -139,7 +150,7 @@ Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
