@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{uni_scale}
 \alias{uni_scale}
-\title{Find changepoints in univariate data based on scale}
+\title{Find scale changes in a univariate sequence}
 \usage{
 uni_scale(data, beta = 10)
 }
@@ -13,15 +13,28 @@ uni_scale(data, beta = 10)
 algorithm, 10 by default.}
 }
 \value{
-List of changepoints.
+A list consisting of:
+\itemize{
+\item \verb{$changepoints} : Indices of the changepoints detected; will return \code{integer(0)} if no changepoints are detected.
+\item \verb{$method} : A \code{string} \code{"Univariate Changepoint in Scale (KWCChangepoint)"}
+}
 }
 \description{
-Find changepoints in univariate data based on scale
+The \code{uni_scale()} function ranks the observations based on their distance
+from the mean, then applies the pruned exact linear time algorithm with the
+penalty parameter \code{beta} to detect changepoints.
 }
 \examples{
+set.seed(11)
 scale_test <- c(rnorm(100, sd=5), # before change in sale
                 rnorm(100, sd=1)) # after change in scale
 uni_scale(scale_test)
 
 
+}
+\references{
+Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+of Changepoints With a Linear Computational Cost.” Journal of the American
+Statistical Association 107, no. 500 (2012): 1590–98.
+https://doi.org/10.1080/01621459.2012.737745.
 }

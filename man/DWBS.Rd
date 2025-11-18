@@ -2,21 +2,21 @@
 % Please edit documentation in R/DWBS.R
 \name{dwbs}
 \alias{dwbs}
-\title{Find changepoints using data-driven depth-based wild binary segmentation}
+\title{Find changepoints using depth-based wild binary segmentation}
 \usage{
 dwbs(
   data,
   numInt = 10,
   thresh = 1.3584,
   alpha = 1,
-  depth = c("hs", "spat", "mahal", "mahal75")
+  depth = c("spat", "hs", "mahal", "mahal75")
 )
 }
 \arguments{
-\item{data}{A matrix or dataframe, where each row is an observation and each
-column is a dimension.}
+\item{data}{Data in \code{matrix} or \code{data.frame} form, where each row is an
+observation and each column is a dimension.}
 
-\item{numInt}{Number of subintervals to be generated.}
+\item{numInt}{Number of intervals to be generated.}
 
 \item{thresh}{Numeric scalar; detection threshold. Larger values make
 detection more conservative.}
@@ -24,17 +24,30 @@ detection more conservative.}
 \item{alpha}{Set as 1 by default, applying a standard SIC penalty. Set to a
 number larger than 1 for a strengthened SIC.}
 
-\item{depth}{Depth function of choice, 'hs' for halfspace depth by
-default. Users can also choose 'mahal' for Mahalanobis, 'mahal75' for
-Mahalanobis MCD, 'spat' for spatial depth.}
+\item{depth}{Depth function.}
 }
 \value{
-A list of changepoints.
+A list consisting of:
+\itemize{
+\item \verb{$changepoints} : Indicies of the change-points detected; will return \code{integer(0)} if no change-points are detected.
+\item \verb{$method} : A \code{string} \code{"DWBS"}
+}
 }
 \description{
-Find changepoints using data-driven depth-based wild binary segmentation
+Detect multiple changepoints in multivariate data using the
+depth-based wild binary segmentation algorithm (Ramsay and Chenouri, 2023).
+}
+\note{
+The options for the \code{depth} argument are as follows:
+\itemize{
+\item \code{spat}: Spatial depth
+\item \code{hs}: Halfspace depth
+\item \code{mahal}: Mahalanobis depth
+\item \code{mahal75}: Mahalanobis depth based on re-weighted Minimum Covariance Determinant with 25\% breakdown.
+}
 }
 \examples{
+set.seed(11)
 exdata <- rbind(replicate(3,rnorm(200)),
                 replicate(3,rnorm(200,10)),
                 replicate(3,rnorm(200,0.2)))
@@ -45,12 +58,16 @@ dwbs(data = exdata, numInt = 100)
 
 }
 \references{
-Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
-of Changepoints With a Linear Computational Cost.” Journal of the American
+Fryzlewicz, Piotr. “Wild Binary Segmentation for Multiple
+Change-Point Detection.” The Annals of Statistics 42, no. 6 (2014).
+https://doi.org/10.1214/14-AOS1245.
+
+Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection of
+Changepoints With a Linear Computational Cost.” Journal of the American
 Statistical Association 107, no. 500 (2012): 1590–98.
 https://doi.org/10.1080/01621459.2012.737745.
 
-Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple
-changepoint detection for multivariate variability. Econometrics and
-Statistics. https://doi.org/10.1016/j.ecosta.2023.09.001
+Ramsay, K., & Chenouri, S. (2023). Robust nonparametric multiple changepoint
+detection for multivariate variability. Econometrics and Statistics.
+https://doi.org/10.1016/j.ecosta.2023.09.001
 }

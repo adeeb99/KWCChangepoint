@@ -2,19 +2,19 @@
 % Please edit documentation in R/FKWC.R
 \name{fkwc_posthoc}
 \alias{fkwc_posthoc}
-\title{Pairwise comparison post-hoc hypothesis test for differences in covariance
-operators using Functional Kruskal–Wallis Tests for Covariance.}
+\title{Post-hoc hypothesis test for difference in covariance operators.}
 \usage{
 fkwc_posthoc(data, derivs, g, p = 20)
 }
 \arguments{
-\item{data}{Functional data in fdata form, where each row is an observation
-and each column is a dimension.}
+\item{data}{Functional data in \code{matrix} or \code{data.frame} form, where each row
+is an observation/function and the columns are the grid.}
 
-\item{derivs}{First order derivative of the functional data in fdata form.}
+\item{derivs}{First order derivative of the functional data in \code{matrix} or
+\code{data.frame} form.}
 
-\item{g}{Factor object that indicates which sample each row of data belongs
-to.}
+\item{g}{A \code{factor} object that indicates which sample each row of data
+belongs to.}
 
 \item{p}{Number of random projections to be generated in order to compute
 random projection depths of the data.}
@@ -24,8 +24,7 @@ A matrix of p-values for each pairwise comparison with a Šidák
 correction applied.
 }
 \description{
-Pairwise comparison post-hoc hypothesis test for differences in covariance
-operators using Functional Kruskal–Wallis Tests for Covariance.
+This function is post-hoc, pairwise test version of \code{\link[=fkwc_multisample]{fkwc_multisample()}}
 }
 \examples{
 set.seed(111)
@@ -63,5 +62,5 @@ data. Canadian Journal of Statistics, 52 (1), 43–78.
 https://doi.org/10.1002/cjs.11767
 }
 \seealso{
-\code{\link[=fkwc_multisample]{fkwc_multisample()}}
+\link[fda.usc:fdata.deriv]{fda.usc::fdata.deriv}: for approximating the first order derivative if unavailable.
 }

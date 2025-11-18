@@ -1,29 +1,45 @@
-#' Conduct an AMOC (at most one changepoint) hypothesis test
+#' Conduct an AMOC hypothesis test
 #'
-#' @param data A matrix or dataframe, where each row is an observation and each
-#'   column is a dimension.
+#' @description Conduct an at-most one changepoint hypothesis test for changes
+#'   in the covariance operator of functional data based on the FKWC (functional
+#'   Kruskal–Wallis covariance changepoint) procedures outlined by Ramsay
+#'   and Chenouri (2025).
+#'
+#'
+#' @param data Data in `matrix` or `data.frame` form, where each row is an
+#'   observation and each column is a dimension.
 #' @param ranks Optional if data is already ranked.
 #' @param depth Depth function of choice.
-#' @note
-#' The `depth` arguments are as follows:
+#' @note The options for the `depth` argument are as follows:
 #'
-#' * `FM`: Frainman-Muniz depth
 #' * `RPD`: Random projection depth
-#' * `LTR`: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+#' * `FM`: Frainman-Muniz depth
+#' * `LTR`: \eqn{L^2}-root depth, most suitable for detecting changes in the norm
 #' * `FMd`: Frainman-Muniz depth of the data and its first order derivative
 #' * `RPDd`: Random projection depth of the data and its first order derivative
 #'
-#' @returns An estimated changepoint with a p-value.
-#' @export
+#'   The depth arguments that incorporate the first order derivative (which is
+#'   approximated using [fda.usc::fdata.deriv]) result in a more robust
+#'   detection of changes in the covariance structure (Ramsay and Chenouri,
+#'   2025).
 #'
+#' @returns A list consisting of:
+#'  * `$changepoint` : Index of the estimated changepoint.
+#'  * `$pvalue` : The p-value based on the null distribution.
+#'  * `$method` : A `string` `"AMOC test (KWCChangepoint)"`
+#' @export
+#' @references Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
+#'   in the variability of multivariate functional data. Journal of
+#'   Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 #' @examples
+#' set.seed(11)
 #' test_data <- rbind(replicate(3,rnorm(200,1,1)), #before changepoint
 #'                    replicate(3,rnorm(200,1,5))) #after changepoint
 #'
 #' amoc_test(test_data)
 amoc_test <- function(data,
                       ranks = NULL,
-                      depth = c("FM", "RPD", "LTR", "FMd", "RPDd")) {
+                      depth = c("RPD", "FM", "LTR", "FMd", "RPDd")) {
   depth = match.arg(depth)
   if (!is.null(ranks)) {
     ranks <- as.numeric(ranks)
@@ -59,30 +75,45 @@ amoc_test <- function(data,
     sum(((-1)^ll) * exp(-2 * ll^2 * q^2))
   }
   list(changepoint = as.integer(k),
-       p.value = as.numeric(round(1 - cdf(Znt), 5)),
+       pvalue = as.numeric(round(1 - cdf(Znt), 5)),
        method = "AMOC test (KWCChangepoint)")
 }
 
 
 #' Test for an epidemic period in data
 #'
-#' @param data A matrix or dataframe, where each row is an observation and each
-#'   column is a dimension.
+#' @description Test for a temporary change in the covariance operator of
+#'   functional data using the FKWC (functional Kruskal–Wallis covariance
+#'   changepoint) procedures outlined by Ramsay and Chenouri (2025).
+#'
+#'
+#' @param data Data in `matrix` or `data.frame` form, where each row is an
+#'   observation and each column is a dimension.
 #' @param ranks Optional if data is already ranked.
 #' @param depth Depth function of choice.
-#' @note
-#' The `depth` arguments are as follows:
+#' @note The options for the `depth` argument are as follows:
 #'
-#' * `FM`: Frainman-Muniz depth
 #' * `RPD`: Random projection depth
-#' * `LTR`: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+#' * `FM`: Frainman-Muniz depth
+#' * `LTR`: \eqn{L^2}-root depth, most suitable for detecting changes in the norm
 #' * `FMd`: Frainman-Muniz depth of the data and its first order derivative
 #' * `RPDd`: Random projection depth of the data and its first order derivative
 #'
-#' @returns Estimated start and end of epidemic period with p-value.
-#' @export
+#'   The depth arguments that incorporate the first order derivative (which is
+#'   approximated using [fda.usc::fdata.deriv]) result in a more robust
+#'   detection of changes in the covariance structure (Ramsay and Chenouri,
+#'   2025).
 #'
+#' @returns A list consisting of:
+#'  * `$changepoints` : Indices of the estimated start and end points for the epidemic period.
+#'  * `$pvalue` : The p-value based on the null distribution.
+#'  * `$method` : A `string` `"Epidemic test (KWCChangepoint)"`
+#' @export
+#' @references Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
+#'   in the variability of multivariate functional data. Journal of
+#'   Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 #' @examples
+#' set.seed(11)
 #' epi_test <- rbind(replicate(3,rnorm(200)),
 #'                   replicate(3,rnorm(200,10)),
 #'                   replicate(3,rnorm(200,0.2)))
@@ -91,7 +122,7 @@ amoc_test <- function(data,
 #'
 epidemic_test <- function(data,
                           ranks = NULL,
-                          depth = c("FM", "RPD", "LTR", "FMd", "RPDd")) {
+                          depth = c("RPD", "FM", "LTR", "FMd", "RPDd")) {
   depth = match.arg(depth)
   if (!is.null(ranks)) {
     ranks <- as.numeric(ranks)
@@ -147,13 +178,19 @@ epidemic_test <- function(data,
        method = "Epidemic test (KWCChangepoint)")
 }
 
-#' Find changepoint in univariate data based on mean
+#' Find mean changes in a univariate sequence
+#'
+#' The `uni_mean()` function ranks the observations from smallest to largest,
+#' then applies the pruned exact linear time algorithm with the penalty
+#' parameter `beta` to detect changepoints.
 #'
 #' @param data A vector or one-dimensional array.
 #' @param beta Numeric penalty constant passed to pruned exact linear time
 #'   algorithm.
 #'
-#' @returns List of changepoints.
+#' @returns A list consisting of:
+#'  * `$changepoints` : Indices of the changepoints detected; will return `integer(0)` if no changepoints are detected.
+#'  * `$method` : A `string` `"Univariate Changepoint in Mean (FKWC)"`
 #' @export
 #'
 #' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
@@ -162,6 +199,7 @@ epidemic_test <- function(data,
 #'   https://doi.org/10.1080/01621459.2012.737745.
 #'
 #' @examples
+#' set.seed(11)
 #' mean_test <- c(rnorm(100, mean = 0), # before change in mean
 #'                rnorm(100, mean = 5)) # after change in mean
 #' uni_mean(mean_test)
@@ -170,24 +208,33 @@ epidemic_test <- function(data,
 uni_mean <- function(data, beta = 10) {
   ranks <- rank(data)
   cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1
-  if (length(cp) == 1) {
-    return("No changepoint detected")
-  } else {
-    return(cp[-c(1)])
-  }
+  list(changepoints = as.integer(cp[-c(1)]),
+       method = "Univariate Changepoint in Mean (KWCChangepoint)")
 }
 
 
-#' Find changepoints in univariate data based on scale
+#' Find scale changes in a univariate sequence
+#'
+#' The `uni_scale()` function ranks the observations based on their distance
+#' from the mean, then applies the pruned exact linear time algorithm with the
+#' penalty parameter `beta` to detect changepoints.
 #'
 #' @param data A vector or one-dimensional array.
 #' @param beta Numeric penalty constant passed to pruned exact linear time
 #'   algorithm, 10 by default.
 #'
-#' @returns List of changepoints.
+#' @returns A list consisting of:
+#'  * `$changepoints` : Indices of the changepoints detected; will return `integer(0)` if no changepoints are detected.
+#'  * `$method` : A `string` `"Univariate Changepoint in Scale (KWCChangepoint)"`
 #' @export
 #'
+#' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
+#'   of Changepoints With a Linear Computational Cost.” Journal of the American
+#'   Statistical Association 107, no. 500 (2012): 1590–98.
+#'   https://doi.org/10.1080/01621459.2012.737745.
+#'
 #' @examples
+#' set.seed(11)
 #' scale_test <- c(rnorm(100, sd=5), # before change in sale
 #'                 rnorm(100, sd=1)) # after change in scale
 #' uni_scale(scale_test)
@@ -196,9 +243,6 @@ uni_mean <- function(data, beta = 10) {
 uni_scale <- function(data, beta = 10) {
   ranks <- rank(abs(data - mean(data)))
   cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1
-  if (length(cp) == 1) {
-    return("No changepoint detected")
-  } else {
-    return(cp[-c(1)])
-  }
+  list(changepoints = as.integer(cp[-c(1)]),
+       method = "Univariate Changepoint in Scale (KWCChangepoint)")
 }

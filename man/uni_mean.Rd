@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{uni_mean}
 \alias{uni_mean}
-\title{Find changepoint in univariate data based on mean}
+\title{Find mean changes in a univariate sequence}
 \usage{
 uni_mean(data, beta = 10)
 }
@@ -13,12 +13,19 @@ uni_mean(data, beta = 10)
 algorithm.}
 }
 \value{
-List of changepoints.
+A list consisting of:
+\itemize{
+\item \verb{$changepoints} : Indices of the changepoints detected; will return \code{integer(0)} if no changepoints are detected.
+\item \verb{$method} : A \code{string} \code{"Univariate Changepoint in Mean (FKWC)"}
+}
 }
 \description{
-Find changepoint in univariate data based on mean
+The \code{uni_mean()} function ranks the observations from smallest to largest,
+then applies the pruned exact linear time algorithm with the penalty
+parameter \code{beta} to detect changepoints.
 }
 \examples{
+set.seed(11)
 mean_test <- c(rnorm(100, mean = 0), # before change in mean
                rnorm(100, mean = 5)) # after change in mean
 uni_mean(mean_test)

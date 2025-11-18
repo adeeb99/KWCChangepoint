@@ -7,18 +7,23 @@
 fmri_changepoints(data, p = 100, k = 0.3)
 }
 \arguments{
-\item{data}{A four dimensional array, where the fourth dimension is each time
-stamp.}
+\item{data}{A four dimensional array, where the fourth dimension is time.}
 
 \item{p}{Number of random vector projections, set to 100 by default.}
 
 \item{k}{Penalty constant passed to pruned exact linear time algorithm.}
 }
 \value{
-A list of changepoints.
+A list consisting of:
+\itemize{
+\item \verb{$changepoints} : Indices of the change-points detected; will return \code{integer(0)} if no changepoints are detected.
+\item \verb{$method} : A \code{string} \code{"fMRI changepoints (KWCChangepoint)"}
+}
 }
 \description{
-Detect changepoints in a resting state fMRI scan
+Functional magnetic resonance imaging scans are expected to be
+stationary after being pre-processed. This function attempts to find
+potential changepoints using the findings of Ramsay and Chenouri (2025).
 }
 \note{
 The penalty is of the form \deqn{3.74 + k\sqrt{n}} where \eqn{n} is the

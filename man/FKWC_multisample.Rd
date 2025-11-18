@@ -2,35 +2,43 @@
 % Please edit documentation in R/FKWC.R
 \name{fkwc_multisample}
 \alias{fkwc_multisample}
-\title{Multisample hypothesis test for differences in covariance operators using
-Functional Kruskal–Wallis Tests for Covariance}
+\title{Multisample hypothesis test for difference in covariance operators}
 \usage{
 fkwc_multisample(data, derivs, g, p = 20)
 }
 \arguments{
-\item{data}{Functional data in fdata form, where each row is an observation
-and each column is a dimension.}
+\item{data}{Functional data in \code{matrix} or \code{data.frame} form, where each row
+is an observation/function and the columns are the grid.}
 
-\item{derivs}{First order derivative of the functional data in fdata form.}
+\item{derivs}{First order derivative of the functional data in \code{matrix} or
+\code{data.frame} form.}
 
-\item{g}{Factor object that indicates which sample each row of data belongs
-to.}
+\item{g}{A \code{factor} object that indicates which sample each row of data
+belongs to.}
 
 \item{p}{Number of random projections to be generated in order to compute
 random projection depths of the data.}
 }
 \value{
-A list containing the test statistic and the p-value.
+A list consisting of:
+\itemize{
+\item \verb{$statistic} : The observed test statistic.
+\item \verb{$pvalue} : The p-value based on the null distribution.
+\item \verb{$method} : A \code{string} \code{"FKWC"}
+}
 }
 \description{
-Multisample hypothesis test for differences in covariance operators using
-Functional Kruskal–Wallis Tests for Covariance
+Executes a multisample hypothesis test for differences in covariance
+operators using functional Kruskal–Wallis tests for covariance (FKWC) as
+outlined by Ramsay and Chenouri (2024). The function requires the first order
+derivative of the functional data in order to better detect changes.
 }
 \examples{
 set.seed(111)
 t <- seq(0, 1, length.out = 200)
 
-### Generating three sets of brownian curves with different kernels
+### Generating three sets of Brownian curves with different kernels, each
+### kernel generating 20 observations
 # Brownian process 1
 fd1 <- fda.usc::rproc2fdata(n = 20, t = t, sigma = "brownian",
                            par.list = list(scale = 10, theta = 1))
@@ -62,5 +70,8 @@ data. Canadian Journal of Statistics, 52 (1), 43–78.
 https://doi.org/10.1002/cjs.11767
 }
 \seealso{
-\code{\link[=fkwc_posthoc]{fkwc_posthoc()}}
+\code{\link[fda.usc:fdata.deriv]{fda.usc::fdata.deriv()}}: for approximating the first order
+derivative if unavailable.
+
+\code{\link[=fkwc_posthoc]{fkwc_posthoc()}}: for a post-hoc version of this test
 }

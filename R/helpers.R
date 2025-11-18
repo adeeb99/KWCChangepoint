@@ -4,89 +4,72 @@
 # returns all the different models which are the selected change-points and the sigmahatsquared value
 # (see paper, section on choosing threshold)
 #' @noRd
-getScwartzCriterias <- function(cp, data, depth) {
-  # get indidvidual criteria for a set of cp
-  sqhat <- getsqhat(NULL, data, depth)
-
-  abc <- list("cp" = NULL, "sigSq" = sqhat)
-
-  models <- list(abc)
-
-  for (i in 1:length(cp)) {
-    sqhat <- getsqhat(cp[1:i], data, depth)
-
-    abc$cp <- cp[1:i]
-    abc$sigSq <- sqhat
-
-    models <- append(models, list(abc))
+#' @keywords internal
+getScwartzCriterias <- function(cp, depths) {
+  models <- list(list(cp = integer(0), sigSq = getsqhat(integer(0), depths)))
+  if (length(cp)) {
+    for (i in seq_along(cp)) {
+      cp_i <- sort(cp[1:i])
+      models[[length(models) + 1L]] <- list(cp = cp_i, sigSq = getsqhat(cp_i, depths))
+    }
   }
-
-  return(models)
+  models
 }
+
 
 #' @keywords internal
 #' @noRd
-getsqhat <- function(cp, data, depth) {
-  depths <- rank(getDepths(data, depth), ties.method = "random")
-  # depths<-getDepths(data,depth)
-
-  # if at least 1 cp
-  if (length(cp) >= 1) {
-    N <- length(depths)
-    indicies <- cbind(c(1, sort(cp)), c(sort(cp), N + 1))
-
-    getGroups <- function(vec, dat) {
-      return(dat[vec[1]:(vec[2] - 1)])
+getsqhat <- function(cp, depths) {
+  N <- length(depths)
+  if (length(cp)) {
+    idx <- cbind(c(1L, sort(cp)), c(sort(cp), N + 1L))    # segments [a, b)
+    ss <- 0
+    for (r in seq_len(nrow(idx))) {
+      seg <- depths[idx[r, 1]:(idx[r, 2] - 1L)]
+      m   <- mean(seg)
+      ss  <- ss + sum((seg - m)^2)
     }
-
-    breaks <- apply(indicies, 1, getGroups, dat = depths)
-
-    absSum <- lapply(breaks, function(x) {
-      sum((x - mean(x))^2)
-    })
-    sighatSq <- sum(unlist(absSum)) / N
-
-
-    return(sighatSq)
+    ss / N
   } else {
-    N <- length(depths)
-    sighatSq <- mean((depths - mean(depths))^2)
-    return(sighatSq)
+    mean((depths - mean(depths))^2)
   }
 }
 
 # get indidvidual criteria for a set of cp
 #' @keywords internal
 #' @noRd
-getsSic2 <- function(cp, sighatSq, alpha, N) {
-  # if at least 1 cp
-  if (length(cp) >= 1) {
-    sSic <- (N / 2) * log(sighatSq) + length(cp) * (log(N))^alpha
-  } else {
-    sSic <- (N / 2) * log(sighatSq)
-  }
-
-  return(sSic)
+getsSic2 <- function(cp, lambda, depths) {
+# getsSic2 <- function(cp, sighatSq, alpha, N) {
+  # # if at least 1 cp
+  # if (length(cp) >= 1) {
+  #   sSic <- (N / 2) * log(sighatSq) + length(cp) * (log(N))^alpha
+  # } else {
+  #   sSic <- (N / 2) * log(sighatSq)
+  # }
+  #
+  # return(sSic)
+  N <- length(depths)
+  N * log(getsqhat(cp, depths)) + (length(cp) + 1L) * lambda
 }
 
 
 #' @keywords internal
 #' @noRd
-applySCH <- function(models, alpha, N) {
-  # get SIC for all amounts of cp
-  sSic <- getsSic2(models[[1]]$cp, models[[1]]$sigSq, alpha, N)
-
-
-  if (length(models) > 1) {
-    for (j in 2:length(models)) {
-      SIC_j <- getsSic2(models[[j]]$cp, models[[j]]$sigSq, alpha, N)
-      sSic <- c(sSic, SIC_j)
+applySCH <- function(candidate_cps, lambda, depths) {
+  cps  <- list(integer(0))
+  sics <- getsSic2(integer(0), lambda, depths)
+  if (length(candidate_cps)) {
+    for (i in seq_along(candidate_cps)) {
+      cp_i <- sort(candidate_cps[1:i])
+      cps[[i + 1L]]  <- cp_i
+      sics[i + 1L]   <- getsSic2(cp_i, lambda, depths)
     }
   }
-  minVal <- which.min(sSic)
-
-  return(models[[minVal]]$cp)
+  best <- which.min(sics)
+  list(cp = cps[[best]], sic = sics[best])
 }
+
+
 #' @keywords internal
 #' @noRd
 WBS <- function(intervals, s, e, threshold, data, depth, Xtilde) {
@@ -159,9 +142,10 @@ testStat <- function(range, data, depth) {
 
 # test cusum from depth values
 #' @noRd
+#' @keywords internal
 getStatFromDepths <- function(depths, N) {
   ranks <- rank(depths, ties.method = "random")
-  expected.val <- (N - 1) / 2
+  expected.val <- (N + 1) / 2
   std.dev <- sqrt((N^2 - 1) / 12)
   cusum <- cumsum(N^(-0.5) * (ranks - expected.val) / std.dev)
   return(abs(cusum)[1:(length(cusum) - 1)])
@@ -246,7 +230,7 @@ checkIfSubInterval <- function(sub, super) {
 }
 
 
-
+#' @keywords internal
 #' @noRd
 getDepths <- function(data, depth) {
   if (depth == "spat") {
@@ -318,7 +302,7 @@ RPDd <- function(data, derivs, p = 20,
 }
 #' Rank multivariate data according to depth values
 #'
-#' @param data A matrix or dataframe, where each row is an observation and each
+#' @param data A matrix or data frame, where each row is an observation and each
 #'   column is a dimension.
 #' @param depth Depth function of choice. It is 'spat' for spatial depth by
 #'   default. User can also choose 'mahal' for Mahalanobis, 'mahal75' for
@@ -340,4 +324,27 @@ getRanks <- function(data, depth = "spat") {
     stop("Invalid depth function. Please choose 'mahal' for Mahalanobis, 'mahal75' for Mahalanobis MCD, 'spat' for Spatial, or 'hs' for Halfspace")
   }
   return(ranks)
+}
+
+# Approximating voxel gradients for fMRI function
+#' @keywords internal
+#' @noRd
+voxel_gradients <- function(data) {
+  stopifnot(length(dim(data)) == 4L)
+  I <- dim(data)[1]; J <- dim(data)[2]; K <- dim(data)[3]
+  dx <- array(0, dim(data)); dy <- dx; dz <- dx
+
+  dx[2:(I-1),,,] <- (data[3:I,,,] - data[1:(I-2),,,]) / 2
+  dx[1,,,] <- data[2,,,] - data[1,,,]
+  dx[I,,,] <- data[I,,,] - data[I-1,,,]
+
+  if (J >= 3) dy[,2:(J-1),,] <- (data[,3:J,,] - data[,1:(J-2),,]) / 2
+  dy[,1,,] <- data[,2,,] - data[,1,,]
+  dy[,J,,] <- data[,J,,] - data[,J-1,,]
+
+  if (K >= 3) dz[,,2:(K-1),] <- (data[,,3:K,] - data[,,1:(K-2),]) / 2
+  dz[,,1,] <- data[,,2,] - data[,,1,]
+  dz[,,K,] <- data[,,K,] - data[,,K-1,]
+
+  list(dx = dx, dy = dy, dz = dz)
 }

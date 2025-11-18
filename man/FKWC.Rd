@@ -2,40 +2,49 @@
 % Please edit documentation in R/FKWC.R
 \name{fkwc}
 \alias{fkwc}
-\title{Find changepoints using functional Kruskall-Wallis tests for covariance
-algorithm}
+\title{Detect changepoints in functional data}
 \usage{
-fkwc(data, depth = c("FM", "RPD", "LTR", "FMd", "RPDd"), k = 0.25)
+fkwc(data, depth = c("RPD", "FM", "LTR", "FMd", "RPDd"), k = 0.25)
 }
 \arguments{
-\item{data}{Functional data in fdata form, where each row is an
-observation and each column is a dimension.}
+\item{data}{Functional data in \code{matrix} or \code{data.frame} form, where each row
+is an observation/function and the columns are the grid.}
 
 \item{depth}{Depth function of choice.}
 
 \item{k}{Penalty constant passed to pruned exact linear time algorithm.}
 }
 \value{
-A list of changepoints.
+A list consisting of:
+\itemize{
+\item \verb{$changepoints} : Indices of the changepoints detected; will return \code{integer(0)} if no changepoints are detected.
+\item \verb{$method} : A \code{string} \code{"FKWC"}
+}
 }
 \description{
-Find changepoints using functional Kruskall-Wallis tests for covariance
-algorithm
+More specifically, \code{fkwc()} uses the functional Kruskal-Wallis tests for
+covariance changepoint algorithm (FKWC) to detect changes in the covariance
+operator.
 }
 \note{
-The \code{depth} arguments are as follows:
+The options for the \code{depth} argument are as follows:
 \itemize{
+\item \code{RPD}: Random projection depth, which generally performs best
 \item \code{FM}: Frainman-Muniz depth
-\item \code{RPD}: Random projection depth
-\item \code{LTR}: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+\item \code{LTR}: \eqn{L^2}-root depth, most suitable for detecting changes in the norm
 \item \code{FMd}: Frainman-Muniz depth of the data and its first order derivative
 \item \code{RPDd}: Random projection depth of the data and its first order derivative
+
+The depth arguments that incorporate the first order derivative (which is
+approximated using \link[fda.usc:fdata.deriv]{fda.usc::fdata.deriv}) result in a more robust
+detection of changes in the covariance structure (Ramsay and Chenouri,
+2025).
 }
 
 The penalty is of the form \deqn{3.74 + k\sqrt{n}} where \eqn{n} is the
 number of observations. In the case that there is potentially correlated
-observations, the parameter could be set to \eqn{k=1}. More information could
-be found in the reference.
+observations, the parameter could be set to \eqn{k=1}. More information
+could be found in the reference.
 }
 \examples{
 
@@ -49,7 +58,7 @@ t  <- seq(0, 1, length.out = T)
 
 
 # Both kernels K1 and K2 are Gaussian (or squared exponential) kernels but
-# with different lengthscale values
+# with different lengthscale values, and thus we hope to detect it.
 K_se <- function(s, t, ell) exp(- ( (s - t)^2 ) / (2 * ell^2))
 K1   <- outer(t, t, function(a,b) K_se(a,b, ell = 0.20))
 K2   <- outer(t, t, function(a,b) K_se(a,b, ell = 0.07))

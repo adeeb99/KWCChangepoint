@@ -4,37 +4,55 @@
 \alias{epidemic_test}
 \title{Test for an epidemic period in data}
 \usage{
-epidemic_test(data, ranks = NULL, depth = c("FM", "RPD", "LTR", "FMd", "RPDd"))
+epidemic_test(data, ranks = NULL, depth = c("RPD", "FM", "LTR", "FMd", "RPDd"))
 }
 \arguments{
-\item{data}{A matrix or dataframe, where each row is an observation and each
-column is a dimension.}
+\item{data}{Data in \code{matrix} or \code{data.frame} form, where each row is an
+observation and each column is a dimension.}
 
 \item{ranks}{Optional if data is already ranked.}
 
 \item{depth}{Depth function of choice.}
 }
 \value{
-Estimated start and end of epidemic period with p-value.
+A list consisting of:
+\itemize{
+\item \verb{$changepoints} : Indices of the estimated start and end points for the epidemic period.
+\item \verb{$pvalue} : The p-value based on the null distribution.
+\item \verb{$method} : A \code{string} \code{"Epidemic test (KWCChangepoint)"}
+}
 }
 \description{
-Test for an epidemic period in data
+Test for a temporary change in the covariance operator of
+functional data using the FKWC (functional Kruskal–Wallis covariance
+changepoint) procedures outlined by Ramsay and Chenouri (2025).
 }
 \note{
-The \code{depth} arguments are as follows:
+The options for the \code{depth} argument are as follows:
 \itemize{
-\item \code{FM}: Frainman-Muniz depth
 \item \code{RPD}: Random projection depth
-\item \code{LTR}: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+\item \code{FM}: Frainman-Muniz depth
+\item \code{LTR}: \eqn{L^2}-root depth, most suitable for detecting changes in the norm
 \item \code{FMd}: Frainman-Muniz depth of the data and its first order derivative
 \item \code{RPDd}: Random projection depth of the data and its first order derivative
+
+The depth arguments that incorporate the first order derivative (which is
+approximated using \link[fda.usc:fdata.deriv]{fda.usc::fdata.deriv}) result in a more robust
+detection of changes in the covariance structure (Ramsay and Chenouri,
+2025).
 }
 }
 \examples{
+set.seed(11)
 epi_test <- rbind(replicate(3,rnorm(200)),
                   replicate(3,rnorm(200,10)),
                   replicate(3,rnorm(200,0.2)))
 
 epidemic_test(epi_test)
 
+}
+\references{
+Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
+in the variability of multivariate functional data. Journal of
+Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891
 }

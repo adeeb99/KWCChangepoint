@@ -1,28 +1,36 @@
-#' Find changepoints using functional Kruskall-Wallis tests for covariance
-#' algorithm
+#' Detect changepoints in functional data
 #'
-#' @param data Functional data in fdata form, where each row is an
-#'   observation and each column is a dimension.
+#' More specifically, `fkwc()` uses the functional Kruskal-Wallis tests for
+#' covariance changepoint algorithm (FKWC) to detect changes in the covariance
+#' operator.
+#'
+#' @param data Functional data in `matrix` or `data.frame` form, where each row
+#'   is an observation/function and the columns are the grid.
 #' @param depth Depth function of choice.
 #' @param k Penalty constant passed to pruned exact linear time algorithm.
 #'
-#' @returns A list of changepoints.
+#' @returns A list consisting of:
+#'  * `$changepoints` : Indices of the changepoints detected; will return `integer(0)` if no changepoints are detected.
+#'  * `$method` : A `string` `"FKWC"`
 #' @export
 #'
-#' @note
-#' The `depth` arguments are as follows:
+#' @note The options for the `depth` argument are as follows:
 #'
+#' * `RPD`: Random projection depth, which generally performs best
 #' * `FM`: Frainman-Muniz depth
-#' * `RPD`: Random projection depth
-#' * `LTR`: \eqn{L^2} norm depth, most suitable for detecting changes in the norm
+#' * `LTR`: \eqn{L^2}-root depth, most suitable for detecting changes in the norm
 #' * `FMd`: Frainman-Muniz depth of the data and its first order derivative
 #' * `RPDd`: Random projection depth of the data and its first order derivative
 #'
+#'   The depth arguments that incorporate the first order derivative (which is
+#'   approximated using [fda.usc::fdata.deriv]) result in a more robust
+#'   detection of changes in the covariance structure (Ramsay and Chenouri,
+#'   2025).
 #'
-#' The penalty is of the form \deqn{3.74 + k\sqrt{n}} where \eqn{n} is the
-#' number of observations. In the case that there is potentially correlated
-#' observations, the parameter could be set to \eqn{k=1}. More information could
-#' be found in the reference.
+#'  The penalty is of the form \deqn{3.74 + k\sqrt{n}} where \eqn{n} is the
+#'   number of observations. In the case that there is potentially correlated
+#'   observations, the parameter could be set to \eqn{k=1}. More information
+#'   could be found in the reference.
 #'
 #'
 #' @references Killick, R., P. Fearnhead, and I. A. Eckley. “Optimal Detection
@@ -45,7 +53,7 @@
 #'
 #'
 #' # Both kernels K1 and K2 are Gaussian (or squared exponential) kernels but
-#' # with different lengthscale values
+#' # with different lengthscale values, and thus we hope to detect it.
 #' K_se <- function(s, t, ell) exp(- ( (s - t)^2 ) / (2 * ell^2))
 #' K1   <- outer(t, t, function(a,b) K_se(a,b, ell = 0.20))
 #' K2   <- outer(t, t, function(a,b) K_se(a,b, ell = 0.07))
@@ -63,7 +71,7 @@
 #' fkwc(X)
 #'
 fkwc <- function(data,
-                 depth = c("FM", "RPD", "LTR", "FMd", "RPDd"),
+                 depth = c("RPD", "FM", "LTR", "FMd", "RPDd"),
                  k = 0.25) {
   depth = match.arg(depth)
   if (!(k >= 0L && is.numeric(k))){
@@ -92,27 +100,31 @@ fkwc <- function(data,
   ranks <- rank(depths)
   beta <- 3.74 + k * sqrt(length(ranks))
   cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1
-
-  if (length(cp) == 1) {
-    return("No changepoint detected")
-  } else {
-    return(cp[-c(1)])
-  }
+  list(changepoints = as.integer(cp[-c(1)]),
+       method = "FKWC")
 }
 
 
-#' Multisample hypothesis test for differences in covariance operators using
-#' Functional Kruskal–Wallis Tests for Covariance
+#' Multisample hypothesis test for difference in covariance operators
 #'
-#' @param data Functional data in fdata form, where each row is an observation
-#'   and each column is a dimension.
-#' @param derivs First order derivative of the functional data in fdata form.
-#' @param g Factor object that indicates which sample each row of data belongs
-#'   to.
+#' Executes a multisample hypothesis test for differences in covariance
+#' operators using functional Kruskal–Wallis tests for covariance (FKWC) as
+#' outlined by Ramsay and Chenouri (2024). The function requires the first order
+#' derivative of the functional data in order to better detect changes.
+#'
+#' @param data Functional data in `matrix` or `data.frame` form, where each row
+#'   is an observation/function and the columns are the grid.
+#' @param derivs First order derivative of the functional data in `matrix` or
+#'   `data.frame` form.
+#' @param g A `factor` object that indicates which sample each row of data
+#'   belongs to.
 #' @param p Number of random projections to be generated in order to compute
 #'   random projection depths of the data.
 #'
-#' @returns A list containing the test statistic and the p-value.
+#' @returns A list consisting of:
+#'  * `$statistic` : The observed test statistic.
+#'  * `$pvalue` : The p-value based on the null distribution.
+#'  * `$method` : A `string` `"FKWC"`
 #' @export
 #'
 #' @references Ramsay, K., & Chenouri, S. (2024). Robust nonparametric
@@ -124,7 +136,8 @@ fkwc <- function(data,
 #' set.seed(111)
 #' t <- seq(0, 1, length.out = 200)
 #'
-#' ### Generating three sets of brownian curves with different kernels
+#' ### Generating three sets of Brownian curves with different kernels, each
+#' ### kernel generating 20 observations
 #' # Brownian process 1
 #' fd1 <- fda.usc::rproc2fdata(n = 20, t = t, sigma = "brownian",
 #'                            par.list = list(scale = 10, theta = 1))
@@ -148,8 +161,10 @@ fkwc <- function(data,
 #'                  derivs = funcderivs,
 #'                  g = factor(rep(1:3, each = 20)),
 #'                  p = 1000)
-#' @seealso [fkwc_posthoc()]
+#' @seealso [fda.usc::fdata.deriv()]: for approximating the first order
+#'   derivative if unavailable.
 #'
+#'   [fkwc_posthoc()]: for a post-hoc version of this test
 fkwc_multisample <- function(data, derivs, g, p = 20) {
   if (!(is.matrix(data) || is.data.frame(data))) {
     stop("Argument `data` must be a matrix or data frame.", call. = FALSE)
@@ -166,18 +181,22 @@ fkwc_multisample <- function(data, derivs, g, p = 20) {
   depths <- RPDd(data = data, derivs = derivs, p = p)
   ranks <- rank(depths)
   kw <- stats::kruskal.test(ranks, g = g)
-  list(statistic = as.numeric(kw$statistic), p.value = kw$p.value)
+  list(statistic = as.numeric(kw$statistic),
+       pvalue = kw$p.value,
+       method = "FKWC multi-sample hypothesis test")
 }
 
 
-#' Pairwise comparison post-hoc hypothesis test for differences in covariance
-#' operators using Functional Kruskal–Wallis Tests for Covariance.
+#' Post-hoc hypothesis test for difference in covariance operators.
 #'
-#' @param data Functional data in fdata form, where each row is an observation
-#'   and each column is a dimension.
-#' @param derivs First order derivative of the functional data in fdata form.
-#' @param g Factor object that indicates which sample each row of data belongs
-#'   to.
+#' This function is post-hoc, pairwise test version of [fkwc_multisample()]
+#'
+#' @param data Functional data in `matrix` or `data.frame` form, where each row
+#'   is an observation/function and the columns are the grid.
+#' @param derivs First order derivative of the functional data in `matrix` or
+#'   `data.frame` form.
+#' @param g A `factor` object that indicates which sample each row of data
+#'   belongs to.
 #' @param p Number of random projections to be generated in order to compute
 #'   random projection depths of the data.
 #'
@@ -218,7 +237,10 @@ fkwc_multisample <- function(data, derivs, g, p = 20) {
 #'              derivs = funcderivs,
 #'              g = factor(rep(1:3, each = 20)),
 #'              p = 1000)
-#' @seealso [fkwc_multisample()]
+#' @seealso
+#' [fda.usc::fdata.deriv]: for approximating the first order derivative if unavailable.
+#'
+#'
 fkwc_posthoc <- function(data, derivs, g, p = 20) {
   if (!(is.matrix(data) || is.data.frame(data))) {
     stop("Argument `data` must be a matrix or data frame.", call. = FALSE)
@@ -252,14 +274,14 @@ fkwc_posthoc <- function(data, derivs, g, p = 20) {
         g = new_g,
         p = p
       )
-      result_matrix[pair[1], pair[2]] <<- pair_results$p.value
-      result_matrix[pair[2], pair[1]] <<- pair_results$p.value
+      result_matrix[pair[1], pair[2]] <<- pair_results$pvalue
+      result_matrix[pair[2], pair[1]] <<- pair_results$pvalue
       invisible(NULL)
     }
   )
   m <- ncol(all_pairs)
   upper <- upper.tri(result_matrix)
-  result_matrix[upper] <- pmin(1, 1 - (1 - result_matrix[upper])^m)
+  result_matrix[upper] <- pmin(1, 1 - (1 - result_matrix[upper])^m) #Sidak correction
   result_matrix[lower.tri(result_matrix)] <- t(result_matrix)[lower.tri(result_matrix)]
   return(result_matrix)
 }
