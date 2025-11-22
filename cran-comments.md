@@ -1,5 +1,3 @@
-## R CMD check results
+## Resubmission
 
-0 errors | 0 warnings | 1 note
-
-Resubmitting after examples took too long during the automated tests.
+Made corrections to DESCRIPTION as requested by Konstanze.
