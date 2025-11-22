@@ -1,7 +1,7 @@
 Package: KWCChangepoint
 Type: Package
 Title: Robust Changepoint Detection for Functional and Multivariate Data
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: 
     c(
       person("Adeeb", "Rouhani", email = "adeeb.rouhani@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0009-0007-5294-2226")),
