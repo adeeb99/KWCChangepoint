@@ -1,3 +1,5 @@
+# KWCChangepoint 0.2.3
+
 # KWCChangepoint 0.2.2
 
 # KWCChangepoint 0.2.1
