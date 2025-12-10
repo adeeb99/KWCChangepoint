@@ -19,6 +19,7 @@ A list consisting of:
 \itemize{
 \item \verb{$changepoints} : Indices of the estimated start and end points for the epidemic period.
 \item \verb{$pvalue} : The p-value based on the null distribution.
+\item \verb{$ranks} : A \code{vector} of depth-based ranks for each observation.
 \item \verb{$method} : A \code{string} \code{"Epidemic test (KWCChangepoint)"}
 }
 }

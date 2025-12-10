@@ -11,6 +11,7 @@
 #'
 #' @returns A list consisting of:
 #'  * `$changepoints` : Indices of the changepoints detected; will return `integer(0)` if no changepoints are detected.
+#'  * `$ranks` : A `vector` of depth-based ranks for each observation.
 #'  * `$method` : A `string` `"FKWC"`
 #' @export
 #'
@@ -101,6 +102,7 @@ fkwc <- function(data,
   beta <- 3.74 + k * sqrt(length(ranks))
   cp <- which(PELT(ranks, length(ranks), beta) == 1) - 1
   list(changepoints = as.integer(cp[-c(1)]),
+       ranks = ranks,
        method = "FKWC")
 }
 

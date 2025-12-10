@@ -17,6 +17,7 @@ fmri_changepoints(data, p = 100, k = 0.3)
 A list consisting of:
 \itemize{
 \item \verb{$changepoints} : Indices of the change-points detected; will return \code{integer(0)} if no changepoints are detected.
+\item \verb{$ranks} : A \code{vector} of depth-based ranks for each time stamp.
 \item \verb{$method} : A \code{string} \code{"fMRI changepoints (KWCChangepoint)"}
 }
 }

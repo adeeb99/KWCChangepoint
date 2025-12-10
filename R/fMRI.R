@@ -11,6 +11,7 @@
 #'
 #' @returns A list consisting of:
 #'  * `$changepoints` : Indices of the change-points detected; will return `integer(0)` if no changepoints are detected.
+#'  * `$ranks` : A `vector` of depth-based ranks for each time stamp.
 #'  * `$method` : A `string` `"fMRI changepoints (KWCChangepoint)"`
 #' @export
 #'
@@ -139,8 +140,9 @@ fmri_changepoints <- function(data, p = 100, k = 0.3) {
       cbind(projections[, x], projections_derivative_x[, x], projections_derivative_y[, x], projections_derivative_z[, x])
     )
   })
-  ranks <- rank(rowMeans(d_vals))
+  ranks <- rank(rowMeans(d_vals), ties.method = "random")
   cp <- which(PELT(ranks, length(ranks), beta = k * sqrt(length(ranks)) + 3.74) == 1) - 1
   list(changepoints = as.integer(cp[-c(1)]),
+       ranks = ranks,
        method = "fMRI changepoints (KWCChangepoint)")
 }

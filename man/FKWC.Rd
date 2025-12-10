@@ -18,6 +18,7 @@ is an observation/function and the columns are the grid.}
 A list consisting of:
 \itemize{
 \item \verb{$changepoints} : Indices of the changepoints detected; will return \code{integer(0)} if no changepoints are detected.
+\item \verb{$ranks} : A \code{vector} of depth-based ranks for each observation.
 \item \verb{$method} : A \code{string} \code{"FKWC"}
 }
 }

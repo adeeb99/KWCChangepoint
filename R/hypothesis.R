@@ -26,6 +26,7 @@
 #' @returns A list consisting of:
 #'  * `$changepoint` : Index of the estimated changepoint.
 #'  * `$pvalue` : The p-value based on the null distribution.
+#'  * `$ranks` : A `vector` of depth-based ranks for each observation.
 #'  * `$method` : A `string` `"AMOC test (KWCChangepoint)"`
 #' @export
 #' @references Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
@@ -76,6 +77,7 @@ amoc_test <- function(data,
   }
   list(changepoint = as.integer(k),
        pvalue = as.numeric(round(1 - cdf(Znt), 5)),
+       ranks = ranks,
        method = "AMOC test (KWCChangepoint)")
 }
 
@@ -107,6 +109,7 @@ amoc_test <- function(data,
 #' @returns A list consisting of:
 #'  * `$changepoints` : Indices of the estimated start and end points for the epidemic period.
 #'  * `$pvalue` : The p-value based on the null distribution.
+#'  * `$ranks` : A `vector` of depth-based ranks for each observation.
 #'  * `$method` : A `string` `"Epidemic test (KWCChangepoint)"`
 #' @export
 #' @references Ramsay, K., & Chenouri, S. (2025). Robust changepoint detection
@@ -175,6 +178,7 @@ epidemic_test <- function(data,
   }
   list(changepoints = as.integer(c(best_k1, best_k2)),
        p.value = as.numeric(round(mean(maxes >= best), 5)),
+       ranks = ranks,
        method = "Epidemic test (KWCChangepoint)")
 }
 

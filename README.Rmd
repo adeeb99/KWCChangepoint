@@ -18,13 +18,20 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/adeeb99/KWCChangepoint/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/adeeb99/KWCChangepoint/actions/workflows/R-CMD-check.yaml)
 [![R-CMD-check (noSuggests)](https://github.com/adeeb99/KWCChangepoint/actions/workflows/check-no-suggests.yaml/badge.svg)](https://github.com/adeeb99/KWCChangepoint/actions/workflows/check-no-suggests.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/KWCChangepoint)](https://CRAN.R-project.org/package=KWCChangepoint)
 <!-- badges: end -->
 
-A user-friendly R package for functional and multivariate changepoint detection. This package is in the process of being submitted to [CRAN](https://cran.r-project.org/). This page will be filled with more information regarding the package, its functionalities, and the theory underlying it all. Stay tuned!
+A user-friendly R package for functional and multivariate changepoint detection. This package is now available [CRAN](https://cran.r-project.org/). This page will be filled with more information regarding the package, its functionalities, and the theory underlying it all. Stay tuned!
 
 ## Installation
 
-To install the developmental version of this package on your device, run the following two lines in your Rstudio.
+The CRAN version of this package can be installed by running:
+
+```{r, eval=FALSE}
+install.packages("KWCChangepoint")
+```
+
+To install the developmental version of this package on your device, run the following two lines in your Rstudio:
 
 ``` {r, eval=FALSE}
 install.packages("devtools") #if devtools is not already installed
