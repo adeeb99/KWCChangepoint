@@ -32,6 +32,8 @@ A list consisting of:
 - `$changepoints` : Indices of the changepoints detected; will return
   `integer(0)` if no changepoints are detected.
 
+- `$ranks` : A `vector` of depth-based ranks for each observation.
+
 - `$method` : A `string` `"FKWC"`
 
 ## Note
@@ -103,6 +105,12 @@ X  <- rbind(Z1 %*% t(L1), Z2 %*% t(L2))
 fkwc(X)
 #> $changepoints
 #> [1] 19 40
+#> 
+#> $ranks
+#>  [1] 50 19 10 14 56 21 76 47 80 35 62 17 53 18 15  6  2 43 26 67 58 64 66 61 48
+#> [26] 60 72 39 75 22 65  8 68  1 74 70 77 59 78 51 13 38 24 27 63 55  4 12 42 79
+#> [51]  3 29 34 52 37 11  7 31 32 23 25 57 28 71 36 40 46 54 73 44 33  9  5 16 69
+#> [76] 45 30 41 49 20
 #> 
 #> $method
 #> [1] "FKWC"

@@ -31,6 +31,8 @@ A list consisting of:
 - `$changepoints` : Indices of the change-points detected; will return
   `integer(0)` if no changepoints are detected.
 
+- `$ranks` : A `vector` of depth-based ranks for each time stamp.
+
 - `$method` : A `string` `"fMRI changepoints (KWCChangepoint)"`
 
 ## Note
@@ -93,6 +95,9 @@ fmri_changepoints(image_array, k = 0.1, p = 10)
 #> Warning: executing %dopar% sequentially: no parallel backend registered
 #> $changepoints
 #> [1] 6
+#> 
+#> $ranks
+#>  [1]  7 12  8  9 10 11  4  3  5  6  2  1
 #> 
 #> $method
 #> [1] "fMRI changepoints (KWCChangepoint)"

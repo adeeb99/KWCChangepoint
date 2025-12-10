@@ -17,7 +17,7 @@ potential changepoints using the findings of Ramsay and Chenouri (2025)."></head
 
     <a class="navbar-brand me-2" href="../index.html">KWCChangepoint</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ potential changepoints using the findings of Ramsay and Chenouri (2025)."></head
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Detect changepoints in a resting state fMRI scan</h1>
-      <small class="dont-index">Source: <a href="https://github.com/adeeb99/KWCChangepoint/blob/v0.2.3/R/fMRI.R" class="external-link"><code>R/fMRI.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/adeeb99/KWCChangepoint/blob/master/R/fMRI.R" class="external-link"><code>R/fMRI.R</code></a></small>
       <div class="d-none name"><code>fmri_changepoints.Rd</code></div>
     </div>
 
@@ -73,6 +73,7 @@ potential changepoints using the findings of Ramsay and Chenouri (2025).</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list consisting of:</p><ul><li><p><code>$changepoints</code> : Indices of the change-points detected; will return <code>integer(0)</code> if no changepoints are detected.</p></li>
+<li><p><code>$ranks</code> : A <code>vector</code> of depth-based ranks for each time stamp.</p></li>
 <li><p><code>$method</code> : A <code>string</code> <code>"fMRI changepoints (KWCChangepoint)"</code></p></li>
 </ul></div>
     <div class="section level2">
@@ -134,6 +135,9 @@ Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>executing %dopar% sequentially: no parallel backend registered</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $changepoints</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ranks</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  7 12  8  9 10 11  4  3  5  6  2  1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fMRI changepoints (KWCChangepoint)"</span>

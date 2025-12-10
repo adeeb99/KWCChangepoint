@@ -1,15 +1,21 @@
 # KWCChangepoint
 
 A user-friendly R package for functional and multivariate changepoint
-detection. This package is in the process of being submitted to
+detection. This package is now available
 [CRAN](https://cran.r-project.org/). This page will be filled with more
 information regarding the package, its functionalities, and the theory
 underlying it all. Stay tuned!
 
 ## Installation
 
+The CRAN version of this package can be installed by running:
+
+``` r
+install.packages("KWCChangepoint")
+```
+
 To install the developmental version of this package on your device, run
-the following two lines in your Rstudio.
+the following two lines in your Rstudio:
 
 ``` r
 install.packages("devtools") #if devtools is not already installed

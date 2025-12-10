@@ -19,7 +19,7 @@ and Chenouri (2025)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">KWCChangepoint</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@ and Chenouri (2025)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Conduct an AMOC hypothesis test</h1>
-      <small class="dont-index">Source: <a href="https://github.com/adeeb99/KWCChangepoint/blob/v0.2.3/R/hypothesis.R" class="external-link"><code>R/hypothesis.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/adeeb99/KWCChangepoint/blob/master/R/hypothesis.R" class="external-link"><code>R/hypothesis.R</code></a></small>
       <div class="d-none name"><code>AMOC_test.Rd</code></div>
     </div>
 
@@ -78,6 +78,7 @@ observation and each column is a dimension.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list consisting of:</p><ul><li><p><code>$changepoint</code> : Index of the estimated changepoint.</p></li>
 <li><p><code>$pvalue</code> : The p-value based on the null distribution.</p></li>
+<li><p><code>$ranks</code> : A <code>vector</code> of depth-based ranks for each observation.</p></li>
 <li><p><code>$method</code> : A <code>string</code> <code>"AMOC test (KWCChangepoint)"</code></p></li>
 </ul></div>
     <div class="section level2">
@@ -111,6 +112,31 @@ Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pvalue</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ranks</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 261 259 232 186 308 349 350 318 237 202 294 337 220 324 249 364 360 299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 339 357 272 372 387 380 356 321 395 325 289 334 309 330 238 258 231 394</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 280 263 329 348 270 317 239 298 254 286 248 312 234 375 274 260 296 226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 326 389 365 366 221 253 307 195 400 228 320 290 215 303 384 292 371 247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 191 362 345 379 310 262 283 391 397 276 315 359 236 227 206 268 354 205</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 331 347 374 244 243 266 314 291 222 201 265 279 370 218 198 346 355 332</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 264 242 287 328 376 233 323 378 295 383 340 393 194 327 187 277 368 240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 358 197 319 363 361 316 219 342 382 386 257 208 217 229 216 336 304 388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145] 353 390 306 302 293 275 301 385 300 190 284 373 267 196 224 333 311 281</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 273 367 245 399 271 255 396 250 377 297 278 209 210 351 200 241 252 230</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 344 343 235 341 282 352 269 313 392 305 223 213 381 214 369 251 288 225</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 398 338 199  53 145  63  61 147  44  69 175 166 180 161 207  25   4 116</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 162  23  55  38  36  96  58 137  79 104 109 179  81  21 131 193 164 119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [235]  50   7 103  78  16 121 155 335 154 125  20  48  89  97  60  54  35   8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [253]  26 105  86  92 152 120  34 163  11 138  72 141  87 113  77   1 112  68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [271]  18 177 181 159   2  90 178 107 140  99  93  94  39  73  31 174 142  85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [289]  46  13 150 184  51 108 158 160 183  84  70 149 167 171 246 144 101  80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [307]  28  88 139  91 127  42 156 129  66 165  43  59 111  74  40  75  12 151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [325] 168  95  83 146   3  64  14 134 153 172 122  57 212 143 188 157 133 169</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [343]  45 211  15 204 170  47  30 118  19  71 136 106 135  17   9   5 110 123</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [361]  82 203  32 256  29  24 114 115 322  33 185  37 126  27 117 176 102  62</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [379]  65 189 148  98 124   6  67  76  10 132 128  56 285  49  22  52 100 182</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [397] 192 173  41 130</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "AMOC test (KWCChangepoint)"</span>

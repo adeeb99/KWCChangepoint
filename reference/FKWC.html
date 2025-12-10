@@ -17,7 +17,7 @@ operator."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">KWCChangepoint</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ operator."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Detect changepoints in functional data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/adeeb99/KWCChangepoint/blob/v0.2.3/R/FKWC.R" class="external-link"><code>R/FKWC.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/adeeb99/KWCChangepoint/blob/master/R/FKWC.R" class="external-link"><code>R/FKWC.R</code></a></small>
       <div class="d-none name"><code>FKWC.Rd</code></div>
     </div>
 
@@ -74,6 +74,7 @@ is an observation/function and the columns are the grid.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list consisting of:</p><ul><li><p><code>$changepoints</code> : Indices of the changepoints detected; will return <code>integer(0)</code> if no changepoints are detected.</p></li>
+<li><p><code>$ranks</code> : A <code>vector</code> of depth-based ranks for each observation.</p></li>
 <li><p><code>$method</code> : A <code>string</code> <code>"FKWC"</code></p></li>
 </ul></div>
     <div class="section level2">
@@ -134,6 +135,12 @@ Statistics. https://doi.org/10.1080/10485252.2025.2503891</p>
 <span class="r-in"><span><span class="fu">fkwc</span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $changepoints</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 19 40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ranks</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 50 19 10 14 56 21 76 47 80 35 62 17 53 18 15  6  2 43 26 67 58 64 66 61 48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26] 60 72 39 75 22 65  8 68  1 74 70 77 59 78 51 13 38 24 27 63 55  4 12 42 79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51]  3 29 34 52 37 11  7 31 32 23 25 57 28 71 36 40 46 54 73 44 33  9  5 16 69</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76] 45 30 41 49 20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "FKWC"</span>

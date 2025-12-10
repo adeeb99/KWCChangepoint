@@ -17,7 +17,7 @@ changepoint) procedures outlined by Ramsay and Chenouri (2025)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">KWCChangepoint</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ changepoint) procedures outlined by Ramsay and Chenouri (2025)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Test for an epidemic period in data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/adeeb99/KWCChangepoint/blob/v0.2.3/R/hypothesis.R" class="external-link"><code>R/hypothesis.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/adeeb99/KWCChangepoint/blob/master/R/hypothesis.R" class="external-link"><code>R/hypothesis.R</code></a></small>
       <div class="d-none name"><code>Epidemic_test.Rd</code></div>
     </div>
 
@@ -75,6 +75,7 @@ observation and each column is a dimension.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list consisting of:</p><ul><li><p><code>$changepoints</code> : Indices of the estimated start and end points for the epidemic period.</p></li>
 <li><p><code>$pvalue</code> : The p-value based on the null distribution.</p></li>
+<li><p><code>$ranks</code> : A <code>vector</code> of depth-based ranks for each observation.</p></li>
 <li><p><code>$method</code> : A <code>string</code> <code>"Epidemic test (KWCChangepoint)"</code></p></li>
 </ul></div>
     <div class="section level2">
@@ -109,6 +110,58 @@ Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ranks</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 460.0 434.0 105.0  85.0 589.0 382.0 458.0 252.0  72.0 160.0 286.0 534.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 149.0 394.0 357.0 273.0 219.0 467.0 207.0 419.0 210.0 564.0 520.0 474.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 313.0 292.0 465.0 330.0  73.0 246.0 370.0 396.0 104.0 135.0  59.0 526.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 214.0 490.0 133.0 542.0 218.0 555.0 572.0 443.0 585.0 197.0 147.0 570.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49]  62.0 276.0 241.0 426.0 317.0 538.0 514.0 404.0 549.0 328.0 180.0 179.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 430.0  81.0 471.0  60.0 162.0 453.0  15.0 224.0 334.0 500.0 304.0 144.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 354.0 594.0 325.0 401.0 209.0 225.0 412.0 403.0 436.0 297.0 220.0 377.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 433.0 456.0  96.0 535.0 442.0  17.0 271.0 336.0 524.0 230.0 217.0 487.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 530.0 254.0 314.0 365.0 126.0 150.0 359.0 483.0 168.0 600.0 450.0 221.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 544.0 279.0 185.0 515.0 326.0  76.0 566.0 409.0 454.0 597.0 270.0 573.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [121] 170.0 140.0 266.0 236.0 525.0 267.0 493.0 492.0 405.0 390.0 232.0 158.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [133]  22.0 350.0 480.0 569.0  31.0  48.0 392.0  55.0  24.0 591.0 239.0 353.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145] 550.0 349.0 107.0 340.0 447.0 468.0 203.0 445.0 581.0 108.0 146.0 582.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [157] 407.0 422.0 288.0 363.0 134.0 498.0 517.0 590.0  50.0 420.0 268.0 481.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [169] 402.0  32.0 559.0 510.0 189.0  13.0 376.0 399.0 368.0  99.0 198.0 208.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 192.0 289.0 360.0 478.0 472.0 521.0 502.0 551.0 440.0 584.0 501.0 427.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [193] 452.0 495.0 593.0 408.0 508.0  23.0 528.0 341.0 223.0  44.0 335.0  57.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [205] 259.0  34.0 177.0 322.0 308.0 119.0 155.0 132.0 302.0   9.0 437.0 312.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 129.0 151.0 127.0 110.0   3.0  83.0 439.0 169.0  66.0  35.0  79.0 120.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [229]  27.0   5.0  46.0 293.0 200.0  52.0 400.0  67.0 275.0  49.0 154.0 352.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [241] 283.0 194.0 247.0 320.0  92.0   4.0 157.0 106.0 463.0  90.0 213.0  20.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [253] 251.0  29.0  10.0 112.0 389.0  45.0   1.0 181.0 338.0 128.0 229.0  61.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [265] 316.0 100.0 193.0  91.0 256.0  95.0 428.0 117.0 121.0  75.0 101.0 205.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [277] 191.0  41.0 130.0 245.0  63.0  56.0  40.0 343.0 432.0  98.0 163.0 175.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 269.0  71.0  74.0 306.0  12.0  36.0 113.0  53.0 184.0  58.0 196.0 324.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [301] 173.0 265.0 176.0 138.0 139.0 386.0 300.0 153.0  86.0  33.0  94.0 310.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [313] 299.0 199.0 137.0 186.0 159.0  30.0  38.0  47.0 156.0  82.0 122.0  68.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [325] 116.0 381.0 167.0  43.0   2.0 323.0 174.0 142.0 143.0 125.0 260.0 201.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [337] 202.0 380.0 187.0 114.0 285.0 290.0 295.0 255.0 287.0 228.0 118.0 238.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [349] 378.0 231.0 190.0  19.0  65.0  37.0  51.0 497.0 136.0 244.0  42.0 347.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [361] 124.0 131.0 305.0 233.0 375.0  21.0 109.0 262.0 243.0  87.0 240.0 369.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [373]  93.0  77.0  54.0  78.0  16.0 344.0  11.0 253.0  64.0 204.0 416.0   6.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [385]  14.0 351.0 307.0 379.0 274.0 388.0 178.0   7.0   8.0 411.0  18.0 311.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [397] 261.0 294.0 115.0 284.0 172.0 441.0 301.0 415.0 599.0 152.0 558.0 315.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [409] 362.0  88.0 531.0 561.0 556.0 227.0 562.0 366.0 358.0 431.0 554.0 484.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [421] 226.0 560.0 385.0 282.0 455.0 397.0 264.0 298.0 424.0  80.0 543.0 476.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [433]  26.0 485.0 188.0 576.0 446.0 346.0 111.0 280.0 488.0 595.0 464.0 406.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [445] 565.0 303.0 423.0 583.0 164.0 182.0 579.0 321.0 171.0 371.0 574.0 580.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [457] 332.5 319.0 211.0 541.0 506.0 578.0 183.0 355.0 345.0 575.0 417.0  39.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [469] 166.0 222.0 296.0 479.0 387.0 364.0 451.0 421.0 215.0  69.0 522.0 486.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [481] 504.0 491.0 513.0 250.0 393.0 511.0 384.0 161.0 145.0 413.0 536.0  84.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [493] 356.0 448.0 216.0 523.0 234.0 249.0 278.0 462.0 449.0 332.5 519.0 342.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [505] 586.0 489.0 571.0 374.0 527.0 235.0 281.0 331.0 272.0 367.0 391.0 348.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [517] 206.0 588.0 457.0 459.0 102.0 552.0 529.0 410.0 165.0 372.0 539.0 518.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [529] 383.0 568.0  70.0 482.0 512.0 547.0 537.0 395.0 263.0 277.0 507.0 373.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [541] 577.0 327.0 466.0 503.0 494.0 242.0 557.0 496.0 596.0  28.0 141.0 339.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [553] 567.0 533.0 532.0 337.0 425.0 598.0 592.0 473.0 499.0 438.0  97.0 291.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [565] 435.0 398.0 212.0 475.0 505.0 553.0 257.0 329.0 418.0 123.0 444.0 548.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [577] 587.0 469.0 546.0 545.0 470.0 237.0  89.0 540.0 248.0 563.0 509.0  25.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [589] 318.0 429.0 414.0 148.0 258.0 516.0 309.0 103.0 477.0 361.0 195.0 461.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Epidemic test (KWCChangepoint)"</span>
