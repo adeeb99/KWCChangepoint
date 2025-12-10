@@ -10,7 +10,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/adeeb99/KWCChangepoint/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/adeeb99/KWCChangepoint/blob/v0.2.3/DESCRIPTION)
 
 Rouhani A, Ramsay K (2025). *KWCChangepoint: Robust Changepoint
 Detection for Functional and Multivariate Data*. R package version
