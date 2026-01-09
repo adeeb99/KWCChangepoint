@@ -12,14 +12,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/adeeb99/KWCChangepoint/blob/master/DESCRIPTION)
 
-Rouhani A, Ramsay K (2025). *KWCChangepoint: Robust Changepoint
+Rouhani A, Ramsay K (2026). *KWCChangepoint: Robust Changepoint
 Detection for Functional and Multivariate Data*. R package version
 0.2.3.9000, <https://github.com/adeeb99/KWCChangepoint>.
 
     @Manual{,
       title = {KWCChangepoint: Robust Changepoint Detection for Functional and Multivariate Data},
       author = {Adeeb Rouhani and Kelly Ramsay},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.2.3.9000},
       url = {https://github.com/adeeb99/KWCChangepoint},
     }

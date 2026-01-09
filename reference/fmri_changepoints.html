@@ -51,7 +51,7 @@ potential changepoints using the findings of Ramsay and Chenouri (2025).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fmri_changepoints</span><span class="op">(</span><span class="va">data</span>, p <span class="op">=</span> <span class="fl">100</span>, k <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fmri_changepoints</span><span class="op">(</span><span class="va">data</span>, p <span class="op">=</span> <span class="fl">100</span>, k <span class="op">=</span> <span class="fl">0.3</span>, gradient <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"estimate"</span>, <span class="st">"exact"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -69,6 +69,11 @@ potential changepoints using the findings of Ramsay and Chenouri (2025).</p>
 <dt id="arg-k">k<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
 <dd><p>Penalty constant passed to pruned exact linear time algorithm.</p></dd>
 
+
+<dt id="arg-gradient">gradient<a class="anchor" aria-label="anchor" href="#arg-gradient"></a></dt>
+<dd><p>How the gradients are calculated; "exact" is precise but
+computationally expensive and will require parallelization.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -78,7 +83,10 @@ potential changepoints using the findings of Ramsay and Chenouri (2025).</p>
 </ul></div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>The penalty is of the form $$3.74 + k\sqrt{n}$$ where \(n\) is the
+    <p>The gradient is, by default, calculated using a simple but imprecise method.
+If accuracy is important, the argument "exact" will calculate the gradients
+using <code><a href="https://rdrr.io/pkg/numDeriv/man/grad.html" class="external-link">numDeriv::grad()</a></code>, which will increase the run time significantly.</p>
+<p>The penalty is of the form $$3.74 + k\sqrt{n}$$ where \(n\) is the
 number of observations. In the case that there is potentially correlated
 observations, the parameter could be set to \(k=1\). More information could
 be found in the reference.</p>
@@ -137,7 +145,7 @@ Nonparametric Statistics. https://doi.org/10.1080/10485252.2025.2503891</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ranks</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  7 12  8  9 10 11  4  3  5  6  2  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  8 12 11  9 10  7  3  2  4  5  6  1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fMRI changepoints (KWCChangepoint)"</span>

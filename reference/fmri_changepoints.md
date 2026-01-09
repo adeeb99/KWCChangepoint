@@ -7,7 +7,7 @@ potential changepoints using the findings of Ramsay and Chenouri (2025).
 ## Usage
 
 ``` r
-fmri_changepoints(data, p = 100, k = 0.3)
+fmri_changepoints(data, p = 100, k = 0.3, gradient = c("estimate", "exact"))
 ```
 
 ## Arguments
@@ -24,6 +24,11 @@ fmri_changepoints(data, p = 100, k = 0.3)
 
   Penalty constant passed to pruned exact linear time algorithm.
 
+- gradient:
+
+  How the gradients are calculated; "exact" is precise but
+  computationally expensive and will require parallelization.
+
 ## Value
 
 A list consisting of:
@@ -36,6 +41,12 @@ A list consisting of:
 - `$method` : A `string` `"fMRI changepoints (KWCChangepoint)"`
 
 ## Note
+
+The gradient is, by default, calculated using a simple but imprecise
+method. If accuracy is important, the argument "exact" will calculate
+the gradients using
+[`numDeriv::grad()`](https://rdrr.io/pkg/numDeriv/man/grad.html), which
+will increase the run time significantly.
 
 The penalty is of the form \$\$3.74 + k\sqrt{n}\$\$ where \\n\\ is the
 number of observations. In the case that there is potentially correlated
@@ -97,7 +108,7 @@ fmri_changepoints(image_array, k = 0.1, p = 10)
 #> [1] 6
 #> 
 #> $ranks
-#>  [1]  7 12  8  9 10 11  4  3  5  6  2  1
+#>  [1]  8 12 11  9 10  7  3  2  4  5  6  1
 #> 
 #> $method
 #> [1] "fMRI changepoints (KWCChangepoint)"
