@@ -4,7 +4,7 @@
 \alias{fmri_changepoints}
 \title{Detect changepoints in a resting state fMRI scan}
 \usage{
-fmri_changepoints(data, p = 100, k = 0.3)
+fmri_changepoints(data, p = 100, k = 0.3, gradient = c("estimate", "exact"))
 }
 \arguments{
 \item{data}{A four dimensional array, where the fourth dimension is time.}
@@ -12,6 +12,9 @@ fmri_changepoints(data, p = 100, k = 0.3)
 \item{p}{Number of random vector projections, set to 100 by default.}
 
 \item{k}{Penalty constant passed to pruned exact linear time algorithm.}
+
+\item{gradient}{How the gradients are calculated; "exact" is precise but
+computationally expensive and will require parallelization.}
 }
 \value{
 A list consisting of:
@@ -27,6 +30,10 @@ stationary after being pre-processed. This function attempts to find
 potential changepoints using the findings of Ramsay and Chenouri (2025).
 }
 \note{
+The gradient is, by default, calculated using a simple but imprecise method.
+If accuracy is important, the argument "exact" will calculate the gradients
+using \code{\link[numDeriv:grad]{numDeriv::grad()}}, which will increase the run time significantly.
+
 The penalty is of the form \deqn{3.74 + k\sqrt{n}} where \eqn{n} is the
 number of observations. In the case that there is potentially correlated
 observations, the parameter could be set to \eqn{k=1}. More information could

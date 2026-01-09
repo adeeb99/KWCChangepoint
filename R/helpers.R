@@ -334,17 +334,83 @@ voxel_gradients <- function(data) {
   I <- dim(data)[1]; J <- dim(data)[2]; K <- dim(data)[3]
   dx <- array(0, dim(data)); dy <- dx; dz <- dx
 
-  dx[2:(I-1),,,] <- (data[3:I,,,] - data[1:(I-2),,,]) / 2
-  dx[1,,,] <- data[2,,,] - data[1,,,]
-  dx[I,,,] <- data[I,,,] - data[I-1,,,]
+  sx <- 1 / I
+  sy <- 1 / J
+  sz <- 1 / K
 
-  if (J >= 3) dy[,2:(J-1),,] <- (data[,3:J,,] - data[,1:(J-2),,]) / 2
-  dy[,1,,] <- data[,2,,] - data[,1,,]
-  dy[,J,,] <- data[,J,,] - data[,J-1,,]
+  dx[2:(I-1),,,] <- (data[3:I,,,] - data[1:(I-2),,,]) / (2 * sx)
+  dx[1,,,]       <- (data[2,,,]   - data[1,,,])       / sx
+  dx[I,,,]       <- (data[I,,,]   - data[I-1,,,])     / sx
 
-  if (K >= 3) dz[,,2:(K-1),] <- (data[,,3:K,] - data[,,1:(K-2),]) / 2
-  dz[,,1,] <- data[,,2,] - data[,,1,]
-  dz[,,K,] <- data[,,K,] - data[,,K-1,]
+  dy[,2:(J-1),,] <- (data[,3:J,,] - data[,1:(J-2),,]) / (2 * sy)
+  dy[,1,,]       <- (data[,2,,]   - data[,1,,])       / sy
+  dy[,J,,]       <- (data[,J,,]   - data[,J-1,,])     / sy
 
+  dz[,,2:(K-1),] <- (data[,,3:K,] - data[,,1:(K-2),]) / (2 * sz)
+  dz[,,1,]       <- (data[,,2,]   - data[,,1,])       / sz
+  dz[,,K,]       <- (data[,,K,]   - data[,,K-1,])     / sz
+
+  list(dx = dx, dy = dy, dz = dz)
+}
+
+# Accurate voxel gradients for fMRI function
+#' @keywords internal
+#' @importFrom numDeriv grad
+#' @noRd
+numDeriv_gradients <- function(data, eps = 0.01, d = 0.1, cores = NULL) {
+  stopifnot(length(dim(data)) == 4L)
+
+  if (is.null(cores)) {
+    cores <- max(1L, parallel::detectCores(logical = TRUE) - 1L)
+  }
+
+  I <- dim(data)[1]; J <- dim(data)[2]; K <- dim(data)[3]; T <- dim(data)[4]
+  all_pnts <- as.matrix(expand.grid((1:I)/I, (1:J)/J, (1:K)/K))
+
+  scan_worker <- function(t) {
+    img3d <- data[,,,t]
+
+    pic <- function(x) {
+      xx <- floor(x[1] * I); yy <- floor(x[2] * J); zz <- floor(x[3] * K)
+      xx <- max(1L, min(I, xx))
+      yy <- max(1L, min(J, yy))
+      zz <- max(1L, min(K, zz))
+      img3d[xx, yy, zz]
+    }
+
+    g <- vapply(
+      seq_len(nrow(all_pnts)),
+      function(i) numDeriv::grad(
+        pic, all_pnts[i, ],
+        method = "Richardson",
+        method.args = list(eps = eps, d = d)
+        # method = "simple"
+      ),
+      numeric(3)
+    )
+
+    list(
+      dx = array(g[1, ], dim = c(I, J, K)),
+      dy = array(g[2, ], dim = c(I, J, K)),
+      dz = array(g[3, ], dim = c(I, J, K))
+    )
+  }
+
+  if (cores <= 1L) {
+    out <- lapply(seq_len(T), scan_worker)
+  } else {
+    cl <- parallel::makeCluster(cores)
+    on.exit(parallel::stopCluster(cl), add = TRUE)
+    parallel::clusterEvalQ(cl, library(numDeriv))
+    parallel::clusterExport(cl, c("data", "I", "J", "K", "all_pnts", "eps", "d"), envir = environment())
+    out <- parallel::parLapplyLB(cl, seq_len(T), scan_worker)
+  }
+
+  dx <- array(0, dim(data)); dy <- dx; dz <- dx
+  for (t in seq_len(T)) {
+    dx[,,,t] <- out[[t]]$dx
+    dy[,,,t] <- out[[t]]$dy
+    dz[,,,t] <- out[[t]]$dz
+  }
   list(dx = dx, dy = dy, dz = dz)
 }

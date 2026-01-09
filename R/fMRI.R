@@ -1,13 +1,15 @@
 #' Detect changepoints in a resting state fMRI scan
 #'
 #' @description Functional magnetic resonance imaging scans are expected to be
-#' stationary after being pre-processed. This function attempts to find
-#' potential changepoints using the findings of Ramsay and Chenouri (2025).
+#'   stationary after being pre-processed. This function attempts to find
+#'   potential changepoints using the findings of Ramsay and Chenouri (2025).
 #'
 #'
 #' @param data A four dimensional array, where the fourth dimension is time.
 #' @param p Number of random vector projections, set to 100 by default.
 #' @param k Penalty constant passed to pruned exact linear time algorithm.
+#' @param gradient How the gradients are calculated; "exact" is precise but
+#'   computationally expensive and will require parallelization.
 #'
 #' @returns A list consisting of:
 #'  * `$changepoints` : Indices of the change-points detected; will return `integer(0)` if no changepoints are detected.
@@ -16,6 +18,10 @@
 #' @export
 #'
 #' @note
+#'
+#' The gradient is, by default, calculated using a simple but imprecise method.
+#' If accuracy is important, the argument "exact" will calculate the gradients
+#' using [numDeriv::grad()], which will increase the run time significantly.
 #'
 #' The penalty is of the form \deqn{3.74 + k\sqrt{n}} where \eqn{n} is the
 #' number of observations. In the case that there is potentially correlated
@@ -69,10 +75,11 @@
 #' }
 #' fmri_changepoints(image_array, k = 0.1, p = 10)
 #'
-fmri_changepoints <- function(data, p = 100, k = 0.3) {
+fmri_changepoints <- function(data, p = 100, k = 0.3, gradient = c("estimate","exact")) {
   if (k < 0 || !is.numeric(k)){
     stop("Argument `k` must be a non-negative number")
   }
+  gradient = match.arg(gradient)
   DIM1 <- dim(data)[1]
   DIM2 <- dim(data)[2]
   DIM3 <- dim(data)[3]
@@ -113,7 +120,12 @@ fmri_changepoints <- function(data, p = 100, k = 0.3) {
   projections
 
   # Calculate first order derivatives
-  grads <- voxel_gradients(data = data)
+  if (gradient == "estimate"){
+    grads <- voxel_gradients(data = data)
+  } else {
+    grads <- numDeriv_gradients(data = data)
+  }
+
   derivsx2 <- grads$dx
   derivsy2 <- grads$dy
   derivsz2 <- grads$dz

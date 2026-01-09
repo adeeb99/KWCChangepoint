@@ -149,6 +149,15 @@ epidemic_test <- function(data,
     ranks <- rank(depths)
   }
   n <- length(ranks)
+  min_sep <- max(1L, ceiling(0.10 * n))   # at least 10% apart
+  edge    <- max(0L, ceiling(0.05 * n))   # at least 5% from start/end
+
+  k1_min <- 1L + edge
+  k2_max <- n  - edge
+
+  if (k2_max - k1_min < min_sep) {
+    stop("Not enough observations to enforce the 5% edge and 10% separation rules.", call. = FALSE)
+  }
   sign <- 12 / ((n) * (n + 1))
   mn <- 3 * (n + 1)
 
@@ -159,21 +168,21 @@ epidemic_test <- function(data,
   best_k1 <- 1L
   best_k2 <- 2L
 
-  for (k1 in 1:(n - 1L)) {
-    k2_cadidates <- (k1 + 1L):n
-    len_mid  <- k2_cadidates - k1
-    sum_mid  <- rank_cumsum[k2_cadidates] - rank_cumsum[k1]
+  for (k1 in k1_min:(k2_max - min_sep)) {
+    k2_candidates <- (k1 + min_sep):k2_max
+    len_mid  <- k2_candidates - k1
+    sum_mid  <- rank_cumsum[k2_candidates] - rank_cumsum[k1]
     len_out  <- n - len_mid
     sum_out  <- total - sum_mid
 
-    val_vec <-  sign * ((sum_out * sum_out) / len_out + (sum_mid * sum_mid) / len_mid) - mn
+    val_vec <- sign * ((sum_out * sum_out) / len_out + (sum_mid * sum_mid) / len_mid) - mn
 
     i_local <- which.max(val_vec)
     v_local <- val_vec[i_local]
     if (v_local > best) {
-      best   <- v_local
+      best    <- v_local
       best_k1 <- k1
-      best_k2 <- k2_cadidates[i_local]
+      best_k2 <- k2_candidates[i_local]
     }
   }
   list(changepoints = as.integer(c(best_k1, best_k2)),
